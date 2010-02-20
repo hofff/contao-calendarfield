@@ -19,9 +19,10 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009
+ * @copyright  Andreas Schempp 2009-2010
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
+ * @version    $Id$
  */
 
 
@@ -45,8 +46,16 @@ class FormCalendarField extends FormTextField
 		if ($this->readonly || $this->disabled)
 			return $strBuffer;
 		
-		$GLOBALS['TL_CSS'][] = 'plugins/calendar/calendar.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/calendar.js';
+		if (version_compare(VERSION.'.'.BUILD, '2.7.6', '>'))
+		{
+			$GLOBALS['TL_CSS'][] = 'plugins/calendar/css/calendar.css';
+			$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/js/calendar.js';
+		}
+		else
+		{
+			$GLOBALS['TL_CSS'][] = 'plugins/calendar/calendar.css';
+			$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/calendar.js';
+		}
 		
 		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG']['dateFormat'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';

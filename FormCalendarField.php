@@ -1,13 +1,15 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
 
 /**
- * TYPOlight webCMS
- * Copyright (C) 2005 Leo Feyer
+ * Contao Open Source CMS
+ * Copyright (C) 2005-2011 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
- * version 2.1 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,10 +18,10 @@
  * 
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
- * Software Foundation website at http://www.gnu.org/licenses/.
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2010
+ * @copyright  Andreas Schempp 2009-2011
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  * @version    $Id$
@@ -41,6 +43,15 @@ class FormCalendarField extends FormTextField
 	
 	public function generate()
 	{
+		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG']['dateFormat'];
+		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+		$jsEvent = $this->jsevent ? $this->jsevent : 'domready';
+		
+		if ($this->dateParseValue && $this->varValue != '')
+		{
+			$this->varValue = $this->parseDate($dateFormat, strtotime($this->varValue));
+		}
+		
 		$strBuffer = parent::generate();
 		
 		if ($this->readonly || $this->disabled)
@@ -57,12 +68,9 @@ class FormCalendarField extends FormTextField
 			$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/calendar.js';
 		}
 		
-		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG']['dateFormat'];
-		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
-		
-		$strBuffer .= "<script type=\"text/javascript\"><!--//--><![CDATA[//><!--
-  window.addEvent('" . (strlen($this->jsevent) ? $this->jsevent : 'domready') . "', function() { new Calendar({ ctrl_" . $this->strId . ": '" . $dateFormat . "' }, { navigation: 2, days: ['" . implode("','", $GLOBALS['TL_LANG']['DAYS']) . "'], months: ['" . implode("','", $GLOBALS['TL_LANG']['MONTHS']) . "'], offset: ". intval($GLOBALS['TL_LANG']['MSC']['weekOffset']) . ", titleFormat: '" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "', direction: " . $dateDirection . " }); });
-  //--><!]]></script>";
+		$strBuffer .= "<script type=\"text/javascript\">" . ($jsEvent == 'domready' ? '<!--//--><![CDATA[//><!--' : '') . "
+  window.addEvent('" . $jsEvent . "', function() { new Calendar({ ctrl_" . $this->strId . ": '" . $dateFormat . "' }, { navigation: 2, days: ['" . implode("','", $GLOBALS['TL_LANG']['DAYS']) . "'], months: ['" . implode("','", $GLOBALS['TL_LANG']['MONTHS']) . "'], offset: ". intval($GLOBALS['TL_LANG']['MSC']['weekOffset']) . ", titleFormat: '" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "', direction: " . $dateDirection . " }); });
+  " . ($jsEvent == 'domready' ? '//--><!]]>' : '') . "</script>";
   
   		return $strBuffer;
 	}

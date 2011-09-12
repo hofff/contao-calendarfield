@@ -36,14 +36,14 @@ class FormCalendarField extends FormTextField
 	{
 		parent::__construct($arrAttributes);
 		
-		$this->rgxp = 'date';
-		$this->maxlength = '10';
+		if ($this->rgxp != 'datim' && $this->rgxp != 'time')
+			$this->rgxp = 'date';
 	}
 	
 	
 	public function generate()
 	{
-		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG']['dateFormat'];
+		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
 		$jsEvent = $this->jsevent ? $this->jsevent : 'domready';
 		
@@ -57,16 +57,85 @@ class FormCalendarField extends FormTextField
 		if ($this->readonly || $this->disabled)
 			return $strBuffer;
 		
-		if (version_compare(VERSION.'.'.BUILD, '2.7.6', '>'))
+		if (version_compare(VERSION, '2.10', '<'))
 		{
-			$GLOBALS['TL_CSS'][] = 'plugins/calendar/css/calendar.css';
-			$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/js/calendar.js';
+			return $this->generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent);
 		}
 		else
 		{
-			$GLOBALS['TL_CSS'][] = 'plugins/calendar/calendar.css';
-			$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/calendar.js';
+			return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent);
 		}
+	}
+	
+	
+	/**
+	 * Generate for datepicker script since Contao 2.10
+	 */
+	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent)
+	{
+		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
+
+		switch ($this->rgxp)
+		{
+			case 'datim':
+				$time = ",\n      timePicker:true";
+				break;
+
+			case 'time':
+				$time = ",\n      timePickerOnly:true";
+				break;
+
+			default:
+				$time = '';
+				break;
+		}
+		
+		switch( $dateDirection )
+		{
+			case '+1':
+				$dateDirection = ",\n	minDate: {date:'" . $this->parseDate($dateFormat, strtotime('+1 day')) . "', format: '" . $dateFormat . "'}";
+				break;
+
+			case '-1':
+				$dateDirection = ",\n	maxDate: {date:'" . $this->parseDate($dateFormat, strtotime('-1 day')) . "', format: '" . $dateFormat . "'}";
+				break;
+
+			default:
+				$dateDirection = '';
+				break;
+		}
+
+		$strBuffer .= ' <img src="plugins/datepicker/icon.gif" width="20" height="20" alt="" id="toggle_' . $this->strId . '" style="vertical-align:-6px;">
+  <script>
+  window.addEvent(\'' . $jsEvent . '\', function() {
+    new DatePicker(\'#ctrl_' . $this->strId . '\', {
+      allowEmpty:true,
+      toggleElements:\'#toggle_' . $this->strId . '\',
+      pickerClass:\'datepicker_dashboard\',
+      format:\'' . $dateFormat . '\',
+      inputOutputFormat:\'' . $dateFormat . '\',
+      positionOffset:{x:130,y:-185}' . $time . ',
+      startDay:' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
+      days:[\''. implode("','", $GLOBALS['TL_LANG']['DAYS']) . '\'],
+      dayShort:' . $GLOBALS['TL_LANG']['MSC']['dayShortLength'] . ',
+      months:[\''. implode("','", $GLOBALS['TL_LANG']['MONTHS']) . '\'],
+      monthShort:' . $GLOBALS['TL_LANG']['MSC']['monthShortLength'] . $dateDirection . '
+    });
+  });
+  </script>';
+		
+		return $strBuffer;
+	}
+	
+	
+	/**
+	 * Generate for calendar script prior to Contao 2.10
+	 */
+	protected function generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent)
+	{
+		$GLOBALS['TL_CSS'][] = 'plugins/calendar/css/calendar.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/js/calendar.js';
 		
 		$strBuffer .= "<script type=\"text/javascript\">" . ($jsEvent == 'domready' ? '<!--//--><![CDATA[//><!--' : '') . "
   window.addEvent('" . $jsEvent . "', function() { new Calendar({ ctrl_" . $this->strId . ": '" . $dateFormat . "' }, { navigation: 2, days: ['" . implode("','", $GLOBALS['TL_LANG']['DAYS']) . "'], months: ['" . implode("','", $GLOBALS['TL_LANG']['MONTHS']) . "'], offset: ". intval($GLOBALS['TL_LANG']['MSC']['weekOffset']) . ", titleFormat: '" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "', direction: " . $dateDirection . " }); });

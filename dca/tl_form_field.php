@@ -37,7 +37,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_f
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,dateFormat,dateDirection;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,rgxp,maxlength,dateFormat,dateDirection;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
 
 
 /**
@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateFormat'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateFormat'],
 	'exclude'                 => true,
 	'inputType'               => 'text',
-	'eval'                    => array('helpwizard'=>true, 'tl_class'=>'w50'),
+	'eval'                    => array('helpwizard'=>true, 'tl_class'=>'clr w50'),
 	'explanation'             => 'dateFormat',
 );
 

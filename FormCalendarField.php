@@ -115,6 +115,10 @@ class FormCalendarField extends FormTextField
 		
 		// correctly style the date format
 		$dateFormat = Date::formatToJs($dateFormat);
+		
+		// make offsets configurable (useful for the front end but can be used in the back end as well)
+		$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
+		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
 
 		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" id="toggle_' . $this->strId . '"' . $style . '>
   <script>
@@ -123,7 +127,7 @@ class FormCalendarField extends FormTextField
       draggable:' . (($this->draggable) ? 'true' : 'false' ) . ',
       toggle:$$("#toggle_' . $this->strId . '"),
       format:"' . $dateFormat . '",
-      positionOffset:{x:-197,y:-182}' . $time . ',
+      positionOffset:{x:' . $intOffsetX . ',y:' . $intOffsetY . '}' . $time . ',
       pickerClass:"datepicker_dashboard",
       useFadeInOut:!Browser.ie,
       startDay:' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',

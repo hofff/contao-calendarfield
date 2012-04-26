@@ -120,7 +120,7 @@ class FormCalendarField extends FormTextField
   <script>
   window.addEvent(\'' . $jsEvent . '\', function() {
     new Picker.Date($$("#ctrl_' . $this->strId . '"), {
-      draggable:false,
+      draggable:' . (($this->draggable) ? 'true' : 'false' ) . ',
       toggle:$$("#toggle_' . $this->strId . '"),
       format:"' . $dateFormat . '",
       positionOffset:{x:-197,y:-182}' . $time . ',

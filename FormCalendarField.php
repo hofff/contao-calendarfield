@@ -105,8 +105,15 @@ class FormCalendarField extends FormTextField
 				$dateDirection = '';
 				break;
 		}
+		
+		// icon
+		$strIcon = ($this->icon) ? $this->icon : 'plugins/datepicker/icon.gif';
+		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
+		
+		// seems to be necessary for the backend but does only hurt in the FE
+		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
 
-		$strBuffer .= ' <img src="plugins/datepicker/icon.gif" width="20" height="20" alt="" id="toggle_' . $this->strId . '" style="vertical-align:-6px;">
+		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" id="toggle_' . $this->strId . '"' . $style . '>
   <script>
   window.addEvent(\'' . $jsEvent . '\', function() {
     new DatePicker(\'#ctrl_' . $this->strId . '\', {

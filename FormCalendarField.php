@@ -83,7 +83,7 @@ class FormCalendarField extends FormTextField
 				break;
 
 			case 'time':
-				$time = ",\n      timePickerOnly:true";
+				$time = ",\n      pickOnly:\"time\"";
 				break;
 
 			default:
@@ -112,26 +112,26 @@ class FormCalendarField extends FormTextField
 		
 		// seems to be necessary for the backend but does only hurt in the FE
 		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
+		
+		// correctly style the date format
+		$dateFormat = Date::formatToJs($dateFormat);
 
 		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" id="toggle_' . $this->strId . '"' . $style . '>
   <script>
   window.addEvent(\'' . $jsEvent . '\', function() {
-    new DatePicker(\'#ctrl_' . $this->strId . '\', {
-      allowEmpty:true,
-      toggleElements:\'#toggle_' . $this->strId . '\',
-      pickerClass:\'datepicker_dashboard\',
-      format:\'' . $dateFormat . '\',
-      inputOutputFormat:\'' . $dateFormat . '\',
-      positionOffset:{x:130,y:-185}' . $time . ',
+    new Picker.Date($$("#ctrl_' . $this->strId . '"), {
+      draggable:false,
+      toggle:$$("#toggle_' . $this->strId . '"),
+      format:"' . $dateFormat . '",
+      positionOffset:{x:-197,y:-182}' . $time . ',
+      pickerClass:"datepicker_dashboard",
+      useFadeInOut:!Browser.ie,
       startDay:' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-      days:[\''. implode("','", $GLOBALS['TL_LANG']['DAYS']) . '\'],
-      dayShort:' . $GLOBALS['TL_LANG']['MSC']['dayShortLength'] . ',
-      months:[\''. implode("','", $GLOBALS['TL_LANG']['MONTHS']) . '\'],
-      monthShort:' . $GLOBALS['TL_LANG']['MSC']['monthShortLength'] . $dateDirection . '
+      titleFormat:"' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
     });
   });
   </script>';
-		
+  
 		return $strBuffer;
 	}
 	

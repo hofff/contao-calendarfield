@@ -75,6 +75,12 @@ class FormCalendarField extends FormTextField
 	{
 		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
 		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
+		
+		// in the back end this is inlcuded automatically
+		if (TL_MODE == 'FE')
+		{
+			$GLOBALS['TL_HEAD'][] = $this->getDateString();
+		}
 
 		switch ($this->rgxp)
 		{
@@ -248,6 +254,41 @@ class FormCalendarField extends FormTextField
 		}
 
 		return $arrRegexp[$strFormat][$strRegexpSyntax];
+	}
+
+
+	/**
+	 * Return the datepicker string
+	 * 
+	 * Fix the MooTools more parsers which incorrectly parse ISO-8601 and do
+	 * not handle German date formats at all.
+	 * @return string
+	 */
+	protected function getDateString()
+	{
+		$script = '<script>';
+		global $objPage;
+		if ($objPage->outputFormat == 'xhtml')
+		{
+			$script = '<script ="text/javascript">';
+		}
+		
+		return $script .'window.addEvent("domready",function(){'
+			. 'Locale.define("en-US","Date",{'
+				. 'months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],'
+				. 'days:["' . implode('","', $GLOBALS['TL_LANG']['DAYS']) . '"],'
+				. 'months_abbr:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS_SHORT']) . '"],'
+				. 'days_abbr:["' . implode('","', $GLOBALS['TL_LANG']['DAYS_SHORT']) . '"]'
+			. '});'
+			. 'Locale.define("en-US","DatePicker",{'
+				. 'select_a_time:"' . $GLOBALS['TL_LANG']['DP']['select_a_time'] . '",'
+				. 'use_mouse_wheel:"' . $GLOBALS['TL_LANG']['DP']['use_mouse_wheel'] . '",'
+				. 'time_confirm_button:"' . $GLOBALS['TL_LANG']['DP']['time_confirm_button'] . '",'
+				. 'apply_range:"' . $GLOBALS['TL_LANG']['DP']['apply_range'] . '",'
+				. 'cancel:"' . $GLOBALS['TL_LANG']['DP']['cancel'] . '",'
+				. 'week:"' . $GLOBALS['TL_LANG']['DP']['week'] . '"'
+			. '});'
+		. '});</script>';
 	}
 }
 

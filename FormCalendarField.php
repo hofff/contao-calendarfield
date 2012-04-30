@@ -270,7 +270,7 @@ class FormCalendarField extends FormTextField
 		global $objPage;
 		if ($objPage->outputFormat == 'xhtml')
 		{
-			$script = '<script ="text/javascript">';
+			$script = '<script type="text/javascript">';
 		}
 		
 		return $script .'window.addEvent("domready",function(){'

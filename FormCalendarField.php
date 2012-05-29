@@ -21,10 +21,9 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2011
+ * @copyright  Andreas Schempp 2009-2012
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
  */
 
 
@@ -37,7 +36,9 @@ class FormCalendarField extends FormTextField
 		parent::__construct($arrAttributes);
 		
 		if ($this->rgxp != 'datim' && $this->rgxp != 'time')
+		{
 			$this->rgxp = 'date';
+		}
 	}
 	
 	
@@ -55,7 +56,9 @@ class FormCalendarField extends FormTextField
 		$strBuffer = parent::generate();
 		
 		if ($this->readonly || $this->disabled)
+		{
 			return $strBuffer;
+		}
 		
 		if (version_compare(VERSION, '2.10', '<'))
 		{

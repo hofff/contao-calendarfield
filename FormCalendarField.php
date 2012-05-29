@@ -60,14 +60,7 @@ class FormCalendarField extends FormTextField
 			return $strBuffer;
 		}
 		
-		if (version_compare(VERSION, '2.10', '<'))
-		{
-			return $this->generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent);
-		}
-		else
-		{
-			return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent);
-		}
+		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent);
 	}
 	
 	
@@ -88,15 +81,15 @@ class FormCalendarField extends FormTextField
 		switch ($this->rgxp)
 		{
 			case 'datim':
-				$time = ",\n      timePicker:true";
+				$rgxp = ",\n      timePicker:true";
 				break;
 
 			case 'time':
-				$time = ",\n      pickOnly:\"time\"";
+				$rgxp = ",\n      pickOnly:\"time\"";
 				break;
 
 			default:
-				$time = '';
+				$rgxp = '';
 				break;
 		}
 		
@@ -130,38 +123,22 @@ class FormCalendarField extends FormTextField
 		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
 
 		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" id="toggle_' . $this->strId . '"' . $style . '>
-  <script>
-  window.addEvent(\'' . $jsEvent . '\', function() {
-    new Picker.Date($$("#ctrl_' . $this->strId . '"), {
-      draggable:' . (($this->draggable) ? 'true' : 'false' ) . ',
-      toggle:$$("#toggle_' . $this->strId . '"),
-      format:"' . $dateFormat . '",
-      positionOffset:{x:' . $intOffsetX . ',y:' . $intOffsetY . '}' . $time . ',
-      pickerClass:"datepicker_dashboard",
-      useFadeInOut:!Browser.ie,
-      startDay:' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-      titleFormat:"' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
-    });
+' . $this->getScriptTag() . "
+window.addEvent('" . $jsEvent . "', function() {
+  new Picker.Date($$('#ctrl_" . $this->strId . "'), {
+    draggable:" . (($this->draggable) ? 'true' : 'false' ) . ",
+    toggle:$$('#toggle_" . $this->strId . "'),
+    format:'" . $dateFormat . "',
+    positionOffset:{x:" . $intOffsetX . ",y:" . $intOffsetY . "}" . $rgxp . ",
+    pickerClass:'datepicker_dashboard',
+    useFadeInOut:!Browser.ie,
+    startDay:" . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ",
+    titleFormat:'" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "'
   });
-  </script>';
+});
+</script>";
   
 		return $strBuffer;
-	}
-	
-	
-	/**
-	 * Generate for calendar script prior to Contao 2.10
-	 */
-	protected function generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent)
-	{
-		$GLOBALS['TL_CSS'][] = 'plugins/calendar/css/calendar.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/js/calendar.js';
-		
-		$strBuffer .= "<script type=\"text/javascript\">" . ($jsEvent == 'domready' ? '<!--//--><![CDATA[//><!--' : '') . "
-  window.addEvent('" . $jsEvent . "', function() { new Calendar({ ctrl_" . $this->strId . ": '" . $dateFormat . "' }, { navigation: 2, days: ['" . implode("','", $GLOBALS['TL_LANG']['DAYS']) . "'], months: ['" . implode("','", $GLOBALS['TL_LANG']['MONTHS']) . "'], offset: ". intval($GLOBALS['TL_LANG']['MSC']['weekOffset']) . ", titleFormat: '" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "', direction: " . $dateDirection . " }); });
-  " . ($jsEvent == 'domready' ? '//--><!]]>' : '') . "</script>";
-  
-  		return $strBuffer;
 	}
 	
 	
@@ -269,29 +246,37 @@ class FormCalendarField extends FormTextField
 	 */
 	protected function getDateString()
 	{
-		$script = '<script>';
-		global $objPage;
-		if ($objPage->outputFormat == 'xhtml')
+		return $this->getScriptTag() . '
+window.addEvent("domready",function(){
+  Locale.define("en-US","Date",{
+    months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],
+    days:["' . implode('","', $GLOBALS['TL_LANG']['DAYS']) . '"],
+    months_abbr:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS_SHORT']) . '"],
+    days_abbr:["' . implode('","', $GLOBALS['TL_LANG']['DAYS_SHORT']) . '"]
+  });
+  Locale.define("en-US","DatePicker",{
+    select_a_time:"' . $GLOBALS['TL_LANG']['DP']['select_a_time'] . '",
+    use_mouse_wheel:"' . $GLOBALS['TL_LANG']['DP']['use_mouse_wheel'] . '",
+    time_confirm_button:"' . $GLOBALS['TL_LANG']['DP']['time_confirm_button'] . '",
+    apply_range:"' . $GLOBALS['TL_LANG']['DP']['apply_range'] . '",
+    cancel:"' . $GLOBALS['TL_LANG']['DP']['cancel'] . '",
+    week:"' . $GLOBALS['TL_LANG']['DP']['week'] . '"
+  });
+});
+</script>';
+	}
+	
+	
+	protected function getScriptTag()
+	{
+		if (TL_MODE == 'BE')
 		{
-			$script = '<script type="text/javascript">';
+			return '<script>';
 		}
 		
-		return $script .'window.addEvent("domready",function(){'
-			. 'Locale.define("en-US","Date",{'
-				. 'months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],'
-				. 'days:["' . implode('","', $GLOBALS['TL_LANG']['DAYS']) . '"],'
-				. 'months_abbr:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS_SHORT']) . '"],'
-				. 'days_abbr:["' . implode('","', $GLOBALS['TL_LANG']['DAYS_SHORT']) . '"]'
-			. '});'
-			. 'Locale.define("en-US","DatePicker",{'
-				. 'select_a_time:"' . $GLOBALS['TL_LANG']['DP']['select_a_time'] . '",'
-				. 'use_mouse_wheel:"' . $GLOBALS['TL_LANG']['DP']['use_mouse_wheel'] . '",'
-				. 'time_confirm_button:"' . $GLOBALS['TL_LANG']['DP']['time_confirm_button'] . '",'
-				. 'apply_range:"' . $GLOBALS['TL_LANG']['DP']['apply_range'] . '",'
-				. 'cancel:"' . $GLOBALS['TL_LANG']['DP']['cancel'] . '",'
-				. 'week:"' . $GLOBALS['TL_LANG']['DP']['week'] . '"'
-			. '});'
-		. '});</script>';
+		global $objPage;
+
+		return $objPage->outputFormat == 'html' ? '<script>' : '<script type="text/javascript">';
 	}
 }
 

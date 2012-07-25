@@ -15,5 +15,5 @@ CREATE TABLE `tl_form_field` (
   `dateDirection` varchar(2) NOT NULL default '',
   `dateFormat` varchar(32) NOT NULL default '',
   `dateParseValue` char(1) NOT NULL default '',
+  `dataClick` char(1) NOT NULL default '1',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-

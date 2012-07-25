@@ -46,6 +46,7 @@ class FormCalendarField extends FormTextField
 	{
 		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+		$dataClick = $this->dataClick;
 		$jsEvent = $this->jsevent ? $this->jsevent : 'domready';
 		
 		if ($this->dateParseValue && $this->varValue != '')
@@ -60,14 +61,14 @@ class FormCalendarField extends FormTextField
 			return $strBuffer;
 		}
 		
-		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent);
+		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dataClick, $jsEvent);
 	}
 	
 	
 	/**
 	 * Generate for datepicker script since Contao 2.10
 	 */
-	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent)
+	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dataClick, $jsEvent)
 	{
 		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
 		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
@@ -107,27 +108,37 @@ class FormCalendarField extends FormTextField
 				$dateDirection = '';
 				break;
 		}
-		
+
+		// default Offset
+		$intOffsetX = 0;
+		$intOffsetY = 0;
+
 		// icon
 		$strIcon = ($this->icon) ? $this->icon : 'plugins/datepicker/icon.gif';
 		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
-		
+			
 		// seems to be necessary for the backend but does only hurt in the FE
 		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
-		
+				
+		if ($dataClick == 1) 
+		{
+			$dateImage = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon " id="toggle_' . $this->strId . '"' . $style . '>';
+			$dataToggle = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
+			
+			// make offsets configurable (useful for the front end but can be used in the back end as well)
+			$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
+			$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
+		}
+				
 		// correctly style the date format
 		$dateFormat = Date::formatToJs($dateFormat);
-		
-		// make offsets configurable (useful for the front end but can be used in the back end as well)
-		$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
-		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
 
-		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" class="datepicker" alt="" id="toggle_' . $this->strId . '"' . $style . '>
+		$strBuffer .= $dateImage.'
+				
 ' . $this->getScriptTag() . "
 window.addEvent('" . $jsEvent . "', function() {
   new Picker.Date($$('#ctrl_" . $this->strId . "'), {
-    draggable:" . (($this->draggable) ? 'true' : 'false' ) . ",
-    toggle:$$('#toggle_" . $this->strId . "'),
+    draggable:" . (($this->draggable) ? 'true' : 'false' ) . ",".$dataToggle."
     format:'" . $dateFormat . "',
     positionOffset:{x:" . $intOffsetX . ",y:" . $intOffsetY . "}" . $rgxp . ",
     pickerClass:'datepicker_dashboard',

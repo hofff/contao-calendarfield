@@ -1,4 +1,3 @@
-
 Contao Extension "calendarfield"
 --------------------------------
 
@@ -8,7 +7,8 @@ Contao Extension "calendarfield"
 - draggable can now be defined using eval->draggable
 - offsets can now also be configured using eval->offsetX and eval->offsetY
 - applied the Locale so labels get translated
-- 
+- allow to hiding the calendar icon
+-
 
 
 ### Version 1.3.0 (2011-09-22) ###

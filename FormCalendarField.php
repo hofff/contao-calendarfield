@@ -122,7 +122,7 @@ class FormCalendarField extends FormTextField
 		$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
 		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
 
-		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" id="toggle_' . $this->strId . '"' . $style . '>
+		$strBuffer .= ' <img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" class="datepicker" alt="" id="toggle_' . $this->strId . '"' . $style . '>
 ' . $this->getScriptTag() . "
 window.addEvent('" . $jsEvent . "', function() {
   new Picker.Date($$('#ctrl_" . $this->strId . "'), {

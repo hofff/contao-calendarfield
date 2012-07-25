@@ -30,8 +30,9 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']			= array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']  		= array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection']		= array('Datumsrichtung', 'Wählen Sie ob die Datumsauswahl eingeschränkt werden soll.');
+$GLOBALS['TL_LANG']['tl_form_field']['dataClick']		= array('Kalender Icon', 'Blendet das Kalender Icon aus.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']		= array('Standard-Wert konvertieren', 'Den Standard-Wert mittels PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a> analysieren.');
 
 
@@ -41,4 +42,3 @@ $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']		= array('Standard-Wert k
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['0']	= 'Alle Daten erlaubt';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['+1']	= 'Nur Datum in der Zukunft';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['-1']	= 'Nur Datum in der Vergangenheit';
-

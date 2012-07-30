@@ -123,7 +123,7 @@ class FormCalendarField extends FormTextField
 				
 		if ($dateImage == 1) 
 		{
-			$dateImagePost = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon " id="toggle_' . $this->strId . '"' . $style . '>';
+			$dateImagePost = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
 			$dataToggle = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
 			
 			// make offsets configurable (useful for the front end but can be used in the back end as well)

@@ -46,7 +46,8 @@ class FormCalendarField extends FormTextField
 	{
 		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
-		$dataClick = $this->dataClick;
+		$dateImage = $this->dateImage;
+		$dateImageURL = $this->dateImageURL;
 		$jsEvent = $this->jsevent ? $this->jsevent : 'domready';
 		
 		if ($this->dateParseValue && $this->varValue != '')
@@ -61,14 +62,14 @@ class FormCalendarField extends FormTextField
 			return $strBuffer;
 		}
 		
-		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dataClick, $jsEvent);
+		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dateImage, $dateImageURL, $jsEvent);
 	}
 	
 	
 	/**
 	 * Generate for datepicker script since Contao 2.10
 	 */
-	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dataClick, $jsEvent)
+	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dateImage, $dateImageURL, $jsEvent)
 	{
 		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
 		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
@@ -114,15 +115,15 @@ class FormCalendarField extends FormTextField
 		$intOffsetY = 0;
 
 		// icon
-		$strIcon = ($this->icon) ? $this->icon : 'plugins/datepicker/icon.gif';
+		$strIcon = ($dateImageURL) ? $dateImageURL : 'plugins/datepicker/icon.gif';
 		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 			
 		// seems to be necessary for the backend but does only hurt in the FE
 		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
 				
-		if ($dataClick == 1) 
+		if ($dateImage == 1) 
 		{
-			$dateImage = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon " id="toggle_' . $this->strId . '"' . $style . '>';
+			$dateImagePost = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon " id="toggle_' . $this->strId . '"' . $style . '>';
 			$dataToggle = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
 			
 			// make offsets configurable (useful for the front end but can be used in the back end as well)
@@ -130,10 +131,11 @@ class FormCalendarField extends FormTextField
 			$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
 		}
 				
+
 		// correctly style the date format
 		$dateFormat = Date::formatToJs($dateFormat);
 
-		$strBuffer .= $dateImage.'
+		$strBuffer .= $dateImagePost.'
 				
 ' . $this->getScriptTag() . "
 window.addEvent('" . $jsEvent . "', function() {

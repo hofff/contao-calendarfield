@@ -21,18 +21,18 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2011
+ * @copyright  Andreas Schempp 2009-2012
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
  */
 
 
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']			= array('Date format', 'The date format string will be parsed with the PHP date() function.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']  		= array('Date format', 'The date format string will be parsed with the PHP date() function.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection']		= array('Date direction', 'Select if date selection is restricted.');
+$GLOBALS['TL_LANG']['tl_form_field']['dataClick']		= array('Calendar Icon', 'Hiding the calendar icon.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']		= array('Parse default value', 'Parse default value using PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a>.');
 
 

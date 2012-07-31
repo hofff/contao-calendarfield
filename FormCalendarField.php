@@ -21,10 +21,9 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2011
+ * @copyright  Andreas Schempp 2009-2012
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
  */
 
 
@@ -37,7 +36,9 @@ class FormCalendarField extends FormTextField
 		parent::__construct($arrAttributes);
 		
 		if ($this->rgxp != 'datim' && $this->rgxp != 'time')
+		{
 			$this->rgxp = 'date';
+		}
 	}
 	
 	
@@ -45,6 +46,8 @@ class FormCalendarField extends FormTextField
 	{
 		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+		$dateImage = $this->dateImage;
+		$dateImageURL = $this->dateImageURL;
 		$jsEvent = $this->jsevent ? $this->jsevent : 'domready';
 		
 		if ($this->dateParseValue && $this->varValue != '')
@@ -55,39 +58,40 @@ class FormCalendarField extends FormTextField
 		$strBuffer = parent::generate();
 		
 		if ($this->readonly || $this->disabled)
+		{
 			return $strBuffer;
+		}
 		
-		if (version_compare(VERSION, '2.10', '<'))
-		{
-			return $this->generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent);
-		}
-		else
-		{
-			return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent);
-		}
+		return $this->generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dateImage, $dateImageURL, $jsEvent);
 	}
 	
 	
 	/**
 	 * Generate for datepicker script since Contao 2.10
 	 */
-	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $jsEvent)
+	protected function generateWithDatepicker($strBuffer, $dateFormat, $dateDirection, $dateImage, $dateImageURL, $jsEvent)
 	{
 		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
 		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
+		
+		// in the back end this is inlcuded automatically
+		if (TL_MODE == 'FE')
+		{
+			$GLOBALS['TL_HEAD'][] = $this->getDateString();
+		}
 
 		switch ($this->rgxp)
 		{
 			case 'datim':
-				$time = ",\n      timePicker:true";
+				$rgxp = ",\n      timePicker:true";
 				break;
 
 			case 'time':
-				$time = ",\n      timePickerOnly:true";
+				$rgxp = ",\n      pickOnly:\"time\"";
 				break;
 
 			default:
-				$time = '';
+				$rgxp = '';
 				break;
 		}
 		
@@ -106,42 +110,48 @@ class FormCalendarField extends FormTextField
 				break;
 		}
 
-		$strBuffer .= ' <img src="plugins/datepicker/icon.gif" width="20" height="20" alt="" id="toggle_' . $this->strId . '" style="vertical-align:-6px;">
-  <script>
-  window.addEvent(\'' . $jsEvent . '\', function() {
-    new DatePicker(\'#ctrl_' . $this->strId . '\', {
-      allowEmpty:true,
-      toggleElements:\'#toggle_' . $this->strId . '\',
-      pickerClass:\'datepicker_dashboard\',
-      format:\'' . $dateFormat . '\',
-      inputOutputFormat:\'' . $dateFormat . '\',
-      positionOffset:{x:130,y:-185}' . $time . ',
-      startDay:' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
-      days:[\''. implode("','", $GLOBALS['TL_LANG']['DAYS']) . '\'],
-      dayShort:' . $GLOBALS['TL_LANG']['MSC']['dayShortLength'] . ',
-      months:[\''. implode("','", $GLOBALS['TL_LANG']['MONTHS']) . '\'],
-      monthShort:' . $GLOBALS['TL_LANG']['MSC']['monthShortLength'] . $dateDirection . '
-    });
+		// default Offset
+		$intOffsetX = 0;
+		$intOffsetY = 0;
+
+		// icon
+		$strIcon = ($dateImageURL) ? $dateImageURL : 'plugins/datepicker/icon.gif';
+		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
+			
+		// seems to be necessary for the backend but does only hurt in the FE
+		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
+				
+		if ($dateImage == 1) 
+		{
+			$dateImagePost = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
+			$dataToggle = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
+			
+			// make offsets configurable (useful for the front end but can be used in the back end as well)
+			$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
+			$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
+		}
+				
+
+		// correctly style the date format
+		$dateFormat = Date::formatToJs($dateFormat);
+
+		$strBuffer .= $dateImagePost.'
+				
+' . $this->getScriptTag() . "
+window.addEvent('" . $jsEvent . "', function() {
+  new Picker.Date($$('#ctrl_" . $this->strId . "'), {
+    draggable:" . (($this->draggable) ? 'true' : 'false' ) . ",".$dataToggle."
+    format:'" . $dateFormat . "',
+    positionOffset:{x:" . $intOffsetX . ",y:" . $intOffsetY . "}" . $rgxp . ",
+    pickerClass:'datepicker_dashboard',
+    useFadeInOut:!Browser.ie,
+    startDay:" . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ",
+    titleFormat:'" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "'
   });
-  </script>';
-		
-		return $strBuffer;
-	}
-	
-	
-	/**
-	 * Generate for calendar script prior to Contao 2.10
-	 */
-	protected function generateWithCalendar($strBuffer, $dateFormat, $dateDirection, $jsEvent)
-	{
-		$GLOBALS['TL_CSS'][] = 'plugins/calendar/css/calendar.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/calendar/js/calendar.js';
-		
-		$strBuffer .= "<script type=\"text/javascript\">" . ($jsEvent == 'domready' ? '<!--//--><![CDATA[//><!--' : '') . "
-  window.addEvent('" . $jsEvent . "', function() { new Calendar({ ctrl_" . $this->strId . ": '" . $dateFormat . "' }, { navigation: 2, days: ['" . implode("','", $GLOBALS['TL_LANG']['DAYS']) . "'], months: ['" . implode("','", $GLOBALS['TL_LANG']['MONTHS']) . "'], offset: ". intval($GLOBALS['TL_LANG']['MSC']['weekOffset']) . ", titleFormat: '" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "', direction: " . $dateDirection . " }); });
-  " . ($jsEvent == 'domready' ? '//--><!]]>' : '') . "</script>";
+});
+</script>";
   
-  		return $strBuffer;
+		return $strBuffer;
 	}
 	
 	
@@ -237,6 +247,49 @@ class FormCalendarField extends FormTextField
 		}
 
 		return $arrRegexp[$strFormat][$strRegexpSyntax];
+	}
+
+
+	/**
+	 * Return the datepicker string
+	 * 
+	 * Fix the MooTools more parsers which incorrectly parse ISO-8601 and do
+	 * not handle German date formats at all.
+	 * @return string
+	 */
+	protected function getDateString()
+	{
+		return $this->getScriptTag() . '
+window.addEvent("domready",function(){
+  Locale.define("en-US","Date",{
+    months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],
+    days:["' . implode('","', $GLOBALS['TL_LANG']['DAYS']) . '"],
+    months_abbr:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS_SHORT']) . '"],
+    days_abbr:["' . implode('","', $GLOBALS['TL_LANG']['DAYS_SHORT']) . '"]
+  });
+  Locale.define("en-US","DatePicker",{
+    select_a_time:"' . $GLOBALS['TL_LANG']['DP']['select_a_time'] . '",
+    use_mouse_wheel:"' . $GLOBALS['TL_LANG']['DP']['use_mouse_wheel'] . '",
+    time_confirm_button:"' . $GLOBALS['TL_LANG']['DP']['time_confirm_button'] . '",
+    apply_range:"' . $GLOBALS['TL_LANG']['DP']['apply_range'] . '",
+    cancel:"' . $GLOBALS['TL_LANG']['DP']['cancel'] . '",
+    week:"' . $GLOBALS['TL_LANG']['DP']['week'] . '"
+  });
+});
+</script>';
+	}
+	
+	
+	protected function getScriptTag()
+	{
+		if (TL_MODE == 'BE')
+		{
+			return '<script>';
+		}
+		
+		global $objPage;
+
+		return $objPage->outputFormat == 'html' ? '<script>' : '<script type="text/javascript">';
 	}
 }
 

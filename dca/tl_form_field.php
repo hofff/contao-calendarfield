@@ -21,10 +21,9 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2011
+ * @copyright  Andreas Schempp 2009-2012
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
  */
  
 
@@ -37,7 +36,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_f
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,rgxp,maxlength,dateFormat,dateDirection;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,rgxp,maxlength,dateFormat,dateDirection,dateImage,dateImageURL;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
 
 
 /**
@@ -68,6 +67,22 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50 m12'),
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImage'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'clr'),
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageURL'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImageURL'],
+	'exclude'                 => true,
+	'inputType'               => 'fileTree',
+	'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
 );
 
 

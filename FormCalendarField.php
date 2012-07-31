@@ -103,34 +103,37 @@ class FormCalendarField extends FormTextField
 		$intOffsetX = 0;
 		$intOffsetY = 0;
 
-		// icon
-		$this->dateImageSRC = $this->icon ? $this->icon : $this->dateImageSRC; // Backwards compatibility
-		$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : 'plugins/datepicker/icon.gif';
-		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
-
 		// seems to be necessary for the backend but does only hurt in the FE
 		$style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
 
-		if ($this->dateImage == 1)
+		if ($this->dateImage)
 		{
-			$dateImagePost = '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
-			$dataToggle = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
+			// icon
+			$this->dateImageSRC = $this->icon ? $this->icon : $this->dateImageSRC; // Backwards compatibility
+			$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : 'plugins/datepicker/icon.gif';
+			$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
+
+			$strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
+
+			$toggleJS = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
 
 			// make offsets configurable (useful for the front end but can be used in the back end as well)
-			$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : -197;
-			$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : -182;
+			$intOffsetX = -197;
+			$intOffsetY = -182;
 		}
 
+		// make offsets configurable (useful for the front end but can be used in the back end as well)
+		$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : $intOffsetX;
+		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : $intOffsetY;
 
 		// correctly style the date format
 		$dateFormat = Date::formatToJs($dateFormat);
 
-		$strBuffer .= $dateImagePost.'
-
+		$strBuffer .= '
 ' . $this->getScriptTag() . "
 window.addEvent('" . $jsEvent . "', function() {
   new Picker.Date($$('#ctrl_" . $this->strId . "'), {
-    draggable:" . (($this->draggable) ? 'true' : 'false' ) . ",".$dataToggle."
+    draggable:" . (($this->draggable) ? 'true' : 'false' ) . "," . $toggleJS . "
     format:'" . $dateFormat . "',
     positionOffset:{x:" . $intOffsetX . ",y:" . $intOffsetY . "}" . $rgxp . ",
     pickerClass:'datepicker_dashboard',

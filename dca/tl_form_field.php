@@ -75,6 +75,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImage'],
 	'exclude'                 => true,
+	'default'				  => '1',
 	'inputType'               => 'checkbox',
 	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr'),
 );

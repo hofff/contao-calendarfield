@@ -104,6 +104,7 @@ class FormCalendarField extends FormTextField
 		$intOffsetY = 0;
 
 		// icon
+		$this->dateImageSRC = $this->icon ? $this->icon : $this->dateImageSRC; // Backwards compatibility
 		$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : 'plugins/datepicker/icon.gif';
 		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 

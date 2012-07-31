@@ -104,7 +104,7 @@ class FormCalendarField extends FormTextField
 		$intOffsetY = 0;
 
 		// icon
-		$strIcon = ($this->dateImageURL) ? $this->dateImageURL : 'plugins/datepicker/icon.gif';
+		$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : 'plugins/datepicker/icon.gif';
 		$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
 		// seems to be necessary for the backend but does only hurt in the FE

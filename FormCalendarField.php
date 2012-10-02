@@ -30,7 +30,6 @@
 class FormCalendarField extends FormTextField
 {
 
-
 	public function __construct($arrAttributes=false)
 	{
 		parent::__construct($arrAttributes);
@@ -44,8 +43,10 @@ class FormCalendarField extends FormTextField
 
 	public function generate()
 	{
-		$GLOBALS['TL_CSS'][] = 'plugins/datepicker/dashboard.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/datepicker/datepicker.js';
+		$blnV3 = version_compare(VERSION, '3.0', '>=');
+
+		$GLOBALS['TL_CSS'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css' : 'plugins/datepicker/dashboard.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js' : 'plugins/datepicker/datepicker.js';
 
 		$dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 		$dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
@@ -110,7 +111,7 @@ class FormCalendarField extends FormTextField
 		{
 			// icon
 			$this->dateImageSRC = $this->icon ? $this->icon : $this->dateImageSRC; // Backwards compatibility
-			$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : 'plugins/datepicker/icon.gif';
+			$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : ($blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif');
 			$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
 			$strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';

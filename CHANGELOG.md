@@ -1,14 +1,15 @@
 Contao Extension "calendarfield"
 --------------------------------
 
-### Version 1.4.0 (2012-??-??) ###
-- removed official support for Contao 2.9 and 2.10
-- allow to set a custom icon using eval->icon
-- draggable can now be defined using eval->draggable
-- offsets can now also be configured using eval->offsetX and eval->offsetY
-- applied the Locale so labels get translated
-- allow to hiding the calendar icon
--
+### Version 1.4.0 RC1 (2012-10-02) ###
+- Removed support for Contao 2.9 and 2.10
+- Added support for Contao 3
+- Allow to set a custom icon using eval->icon
+- Draggable can now be defined using eval->draggable
+- Offsets can now also be configured using eval->offsetX and eval->offsetY
+- Applied the Locale so labels get translated
+- Allow to hiding the calendar icon
+- Added hook "formCalendarField" to add custom config
 
 
 ### Version 1.3.0 (2011-09-22) ###

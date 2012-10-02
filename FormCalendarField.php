@@ -70,18 +70,24 @@ class FormCalendarField extends FormTextField
 			$GLOBALS['TL_HEAD'][] = $this->getDateString();
 		}
 
+		// Initialize the default config
+		$arrConfig = array
+		(
+		    'draggable'			=> (($this->draggable) ? "'true'" : "'false'"),
+		    'pickerClass'		=> "'datepicker_dashboard'",
+		    'useFadeInOut'		=> "'!Browser.ie'",
+		    'startDay'			=> $GLOBALS['TL_LANG']['MSC']['weekOffset'],
+		    'titleFormat'		=> "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",
+		);
+
 		switch ($this->rgxp)
 		{
 			case 'datim':
-				$rgxp = ",\n      timePicker:true";
+				$arrConfig['timePicker'] = 'true';
 				break;
 
 			case 'time':
-				$rgxp = ",\n      pickOnly:\"time\"";
-				break;
-
-			default:
-				$rgxp = '';
+				$arrConfig['pickOnly'] = 'time';
 				break;
 		}
 
@@ -89,16 +95,12 @@ class FormCalendarField extends FormTextField
 		{
 			case '+1':
 				$time = strtotime('+1 day');
-				$dateDirection = ",\n	minDate: new Date(" . date('Y', $time) . ", " . (date('n', $time)-1) . ", " . date('j', $time) . ")";
+				$arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
 				break;
 
 			case '-1':
 				$time = strtotime('-1 day');
-				$dateDirection = ",\n	maxDate: new Date(" . date('Y', $time) . ", " . (date('n', $time)-1) . ", " . date('j', $time) . ")";
-				break;
-
-			default:
-				$dateDirection = '';
+				$arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
 				break;
 		}
 
@@ -112,13 +114,18 @@ class FormCalendarField extends FormTextField
 		if ($this->dateImage)
 		{
 			// icon
-			$this->dateImageSRC = $this->icon ? $this->icon : $this->dateImageSRC; // Backwards compatibility
-			$strIcon = ($this->dateImageSRC) ? $this->dateImageSRC : ($blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif');
+			$strIcon = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif';
+
+			if ($this->dateImageSRC && is_file(TL_ROOT . '/' . $this->dateImageSRC))
+			{
+				$strIcon = $this->dateImageSRC;
+			}
+
 			$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
 			$strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
 
-			$toggleJS = "\n	toggle:$$('#toggle_" . $this->strId . "'),";
+			$arrConfig['toggle'] = "$$('#toggle_" . $this->strId . "')";
 
 			// make offsets configurable (useful for the front end but can be used in the back end as well)
 			$intOffsetX = -197;
@@ -128,21 +135,34 @@ class FormCalendarField extends FormTextField
 		// make offsets configurable (useful for the front end but can be used in the back end as well)
 		$intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : $intOffsetX;
 		$intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : $intOffsetY;
+		$arrConfig['positionOffset'] = '{x:' . $intOffsetX . ',y:' . $intOffsetY . '}';
 
 		// correctly style the date format
-		$dateFormat = Date::formatToJs($dateFormat);
+		$arrConfig['format'] = "'" . Date::formatToJs($dateFormat) . "'";
+
+		// HOOK: allow to customize the date picker
+		if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField']))
+		{
+			foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback)
+			{
+				$objCallback = (method_exists('getInstance', $callback[0]) ? $callback[0]::getInstance() : new $callback[0]());
+				$arrConfig = $objCallback->$callback[1]($arrConfig, $this);
+			}
+		}
+
+
+		$arrCompiledConfig = array();
+		foreach ($arrConfig as $k => $v)
+		{
+			$arrCompiledConfig[] = "    '" . $k . "': " . $v;
+		}
+
 
 		$strBuffer .= '
 ' . $this->getScriptTag() . "
 window.addEvent('" . $jsEvent . "', function() {
   new Picker.Date($$('#ctrl_" . $this->strId . "'), {
-    draggable:" . (($this->draggable) ? 'true' : 'false' ) . "," . $toggleJS . "
-    format:'" . $dateFormat . "',
-    positionOffset:{x:" . $intOffsetX . ",y:" . $intOffsetY . "}" . $rgxp . ",
-    pickerClass:'datepicker_dashboard',
-    useFadeInOut:!Browser.ie,
-    startDay:" . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ",
-    titleFormat:'" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] ."'$dateDirection
+" . implode(",\n", $arrCompiledConfig) . "
   });
 });
 </script>";
@@ -175,7 +195,7 @@ window.addEvent('" . $jsEvent . "', function() {
 	 * @param  string
 	 * @return string
 	 */
-	private function getRegexp($strFormat=false, $strRegexpSyntax='perl')
+	public function getRegexp($strFormat=false, $strRegexpSyntax='perl')
 	{
 		if (!$strFormat)
 		{
@@ -253,7 +273,7 @@ window.addEvent('" . $jsEvent . "', function() {
 	 * not handle German date formats at all.
 	 * @return string
 	 */
-	protected function getDateString()
+	public function getDateString()
 	{
 		return $this->getScriptTag() . '
 window.addEvent("domready",function(){
@@ -276,7 +296,7 @@ window.addEvent("domready",function(){
 	}
 
 
-	protected function getScriptTag()
+	public function getScriptTag()
 	{
 		if (TL_MODE == 'BE')
 		{

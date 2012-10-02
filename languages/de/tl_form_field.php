@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -30,10 +30,11 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']			= array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']  		= array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection']		= array('Datumsrichtung', 'Wählen Sie ob die Datumsauswahl eingeschränkt werden soll.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']		= array('Standard-Wert konvertieren', 'Den Standard-Wert mittels PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a> analysieren.');
-
+$GLOBALS['TL_LANG']['tl_form_field']['dateImage']			= array('Kalender-Icon anzeigen', 'Klicken Sie hier um das Kalender-Icons anzuzeigen.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']		= array('Eigenes Icons', 'Wählen Sie ein Icons, welches anstelle dem Standardbild verwendet werden soll.');
 
 /**
  * References

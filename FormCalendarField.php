@@ -88,11 +88,13 @@ class FormCalendarField extends FormTextField
 		switch( $dateDirection )
 		{
 			case '+1':
-				$dateDirection = ",\n	minDate: {date:'" . $this->parseDate($dateFormat, strtotime('+1 day')) . "', format: '" . $dateFormat . "'}";
+				$time = strtotime('+1 day');
+				$dateDirection = ",\n	minDate: new Date(" . date('Y', $time) . ", " . (date('n', $time)-1) . ", " . date('j', $time) . ")";
 				break;
 
 			case '-1':
-				$dateDirection = ",\n	maxDate: {date:'" . $this->parseDate($dateFormat, strtotime('-1 day')) . "', format: '" . $dateFormat . "'}";
+				$time = strtotime('-1 day');
+				$dateDirection = ",\n	maxDate: new Date(" . date('Y', $time) . ", " . (date('n', $time)-1) . ", " . date('j', $time) . ")";
 				break;
 
 			default:
@@ -140,7 +142,7 @@ window.addEvent('" . $jsEvent . "', function() {
     pickerClass:'datepicker_dashboard',
     useFadeInOut:!Browser.ie,
     startDay:" . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ",
-    titleFormat:'" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . "'
+    titleFormat:'" . $GLOBALS['TL_LANG']['MSC']['titleFormat'] ."'$dateDirection
   });
 });
 </script>";

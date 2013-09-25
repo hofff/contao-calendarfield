@@ -1,6 +1,9 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.4.1 stable (2013-09-25) ###
+- Fixed custom icon not being considered (#7)
+
 ### Version 1.4.0 stable (2013-09-25) ###
 - Fixed call to method_exists (#6)
 - Fixed PHP version incompatibility

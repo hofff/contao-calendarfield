@@ -1,6 +1,10 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.4.0 stable (2013-09-25) ###
+- Fixed call to method_exists (#6)
+- Fixed PHP version incompatibility
+
 ### Version 1.4.0 RC1 (2012-10-02) ###
 - Removed support for Contao 2.9 and 2.10
 - Added support for Contao 3

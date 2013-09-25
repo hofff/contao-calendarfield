@@ -116,10 +116,17 @@ class FormCalendarField extends FormTextField
 			// icon
 			$strIcon = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif';
 
-			if ($this->dateImageSRC && is_file(TL_ROOT . '/' . $this->dateImageSRC))
-			{
-				$strIcon = $this->dateImageSRC;
-			}
+			if ($this->dateImageSRC) {
+                if (is_numeric($this->dateImageSRC)) {
+                    if (($objFile = \FilesModel::findByPk($this->dateImageSRC)) !== null) {
+                        $this->dateImageSRC = $objFile->path;
+                    }
+                }
+
+                if (is_file(TL_ROOT . '/' . $this->dateImageSRC)) {
+                    $strIcon = $this->dateImageSRC;
+                }
+            }
 
 			$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 

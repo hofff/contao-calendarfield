@@ -44,7 +44,10 @@ class FormCalendarField extends FormTextField
     {
         $blnV3 = version_compare(VERSION, '3.0', '>=');
 
-        $GLOBALS['TL_CSS'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css' : 'plugins/datepicker/dashboard.css';
+        if (!$this->dateExcludeCSS) {
+            $GLOBALS['TL_CSS'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css' : 'plugins/datepicker/dashboard.css';
+        }
+
         $GLOBALS['TL_JAVASCRIPT'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js' : 'plugins/datepicker/datepicker.js';
 
         $dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];

@@ -1,6 +1,11 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.5.0 stable (2014-01-14) ###
+- Added option to select date in the future including today
+- Added option to disable inclusion of style sheet (#10)
+- Added option to force use of the date picker
+
 ### Version 1.4.1 stable (2013-09-25) ###
 - Fixed custom icon not being considered (#7)
 

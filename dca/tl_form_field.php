@@ -37,8 +37,8 @@ $GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_f
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'][] = 'dateImage';
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,rgxp,maxlength,dateFormat,dateDirection,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
-$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage'] = 'dateImageSRC';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,rgxp,maxlength,dateFormat,dateDirection,dateExcludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage'] = 'dateImageSRC,dateImageOnly';
 
 
 /**
@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'				  => array('0', '-1', '+1'),
+	'options'				  => array('0', '-1', '+0', '+1'),
 	'reference'				  => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
 	'eval'                    => array('tl_class'=>'w50'),
 );
@@ -69,6 +69,14 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50 m12'),
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateExcludeCSS'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateExcludeCSS'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'w50'),
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
@@ -86,6 +94,14 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
 	'exclude'                 => true,
 	'inputType'               => 'fileTree',
 	'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageOnly'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImageOnly'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'w50'),
 );
 
 

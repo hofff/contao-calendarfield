@@ -36,6 +36,7 @@ $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']		= array('Standard-Wert k
 $GLOBALS['TL_LANG']['tl_form_field']['dateExcludeCSS']		= array('CSS-Datei nicht einbinden', 'Aktivieren Sie diese Option wenn Sie ein eigenes Stylesheet für das Popup einbinden wollen.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateImage']			= array('Kalender-Icon anzeigen', 'Klicken Sie hier um das Kalender-Icons anzuzeigen.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']		= array('Eigenes Icons', 'Wählen Sie ein Icons, welches anstelle dem Standardbild verwendet werden soll.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateImageOnly']		= array('Nur Datumsauswahl erlauben', 'Klicken Sie hier wenn das Datum nicht von Hand im Feld eingegeben werden darf.');
 
 /**
  * References

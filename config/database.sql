@@ -18,5 +18,6 @@ CREATE TABLE `tl_form_field` (
   `dateExcludeCSS` char(1) NOT NULL default '',
   `dateImage` char(1) NOT NULL default '1',
   `dateImageSRC` char(255) NOT NULL default '',
+  `dateImageOnly` char(1) NOT NULL default '',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

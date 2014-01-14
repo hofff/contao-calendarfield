@@ -135,6 +135,10 @@ class FormCalendarField extends FormTextField
 
             $arrConfig['toggle'] = "$$('#toggle_" . $this->strId . "')";
 
+            if ($this->dateImageOnly) {
+                $arrConfig['togglesOnly'] = 'false';
+            }
+
             // make offsets configurable (useful for the front end but can be used in the back end as well)
             $intOffsetX = -197;
             $intOffsetY = -182;

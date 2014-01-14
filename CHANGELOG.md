@@ -1,6 +1,9 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.5.0 stable (2014-01-14) ###
+- Added option to select date in the future including today
+
 ### Version 1.4.1 stable (2013-09-25) ###
 - Fixed custom icon not being considered (#7)
 

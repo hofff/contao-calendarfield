@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'				  => array('0', '-1', '+1'),
+	'options'				  => array('0', '-1', '+0', '+1'),
 	'reference'				  => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
 	'eval'                    => array('tl_class'=>'w50'),
 );

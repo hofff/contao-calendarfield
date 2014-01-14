@@ -41,6 +41,7 @@ $GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']		= array('Custom icon', 'Se
  * References
  */
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['0']	= 'Allow all dates';
-$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['+1']	= 'Only dates in the future';
+$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['+1']	= 'Only dates in the future (excluding today)';
+$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['+0']	= 'Only dates in the future (including today)';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['-1']	= 'Only dates in the past';
 

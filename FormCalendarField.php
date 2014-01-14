@@ -88,6 +88,10 @@ class FormCalendarField extends FormTextField
 
         switch ($dateDirection) {
 
+            case '+0':
+                $arrConfig['minDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+                break;
+
             case '+1':
                 $time = strtotime('+1 day');
                 $arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';

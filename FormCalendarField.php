@@ -29,6 +29,12 @@
 
 class FormCalendarField extends FormTextField
 {
+	/**
+	 * Template
+	 *
+	 * @var string
+	 */
+	protected $strTemplate = 'form_widget';
 
     public function __construct($arrAttributes=false)
     {
@@ -38,7 +44,6 @@ class FormCalendarField extends FormTextField
             $this->rgxp = 'date';
         }
     }
-
 
     public function generate()
     {

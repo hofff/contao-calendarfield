@@ -47,13 +47,11 @@ class FormCalendarField extends FormTextField
 
     public function generate()
     {
-        $blnV3 = version_compare(VERSION, '3.0', '>=');
-
         if (!$this->dateExcludeCSS) {
-            $GLOBALS['TL_CSS'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css' : 'plugins/datepicker/dashboard.css';
+            $GLOBALS['TL_CSS'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css';
         }
 
-        $GLOBALS['TL_JAVASCRIPT'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js' : 'plugins/datepicker/datepicker.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js';
 
         $dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
         $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
@@ -120,17 +118,13 @@ class FormCalendarField extends FormTextField
 
         if ($this->dateImage) {
             // icon
-            $strIcon = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif';
+            $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
 
-            if ($this->dateImageSRC) {
-                if (is_numeric($this->dateImageSRC)) {
-                    if (($objFile = \FilesModel::findByPk($this->dateImageSRC)) !== null) {
-                        $this->dateImageSRC = $objFile->path;
-                    }
-                }
+            if (\Validator::isUuid($this->dateImageSRC)) {
+                $objFile = \FilesModel::findByPk($this->dateImageSRC);
 
-                if (is_file(TL_ROOT . '/' . $this->dateImageSRC)) {
-                    $strIcon = $this->dateImageSRC;
+                if ($objFile !== null && is_file(TL_ROOT . '/' . $objFile->path)) {
+                    $strIcon = $objFile->path;
                 }
             }
 

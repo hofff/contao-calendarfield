@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -32,3 +32,9 @@
  */
 $GLOBALS['TL_LANG']['FFL']['calendar'] = array('Calendar field', 'a field that displays the TYPOlight-known calendar picker in frontend.');
 
+/**
+ * Errors
+ */
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0'] = 'Only dates in the future (including today) are allowed.';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1'] = 'Only dates in the future (excluding today) are allowed.';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1'] = 'Only dates in the past are allowed.';

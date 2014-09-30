@@ -184,18 +184,53 @@ window.addEvent('" . $jsEvent . "', function() {
         return $strBuffer;
     }
 
-
     public function validator($varInput)
     {
+        $objToday = new Date();
+
         if (strlen($this->dateFormat)) {
 
             // Disable regular date validation
             $this->rgxp = '';
 
             if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput)) {
-                $objDate = new Date();
-                $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objDate->getInputFormat($this->dateFormat)));
+                $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
             }
+        }
+
+        $intTstamp = 0;
+
+		// Convert timestamps
+		if ($varInput != '') {
+		    try {
+			    $objDate = new \Date($varInput, $this->dateFormat);
+    		    $intTstamp = $objDate->tstamp;
+		    } catch (\Exception $e) {
+    		    $this->addError($e->getMessage());
+		    }
+		}
+
+        $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+
+        // Validate date direction
+        switch ($dateDirection) {
+            case '+0':
+                if ($intTstamp < $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0']);
+                }
+                break;
+
+            case '+1':
+                if ($intTstamp <= $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+                }
+                break;
+
+            case '-1':
+                if ($intTstamp >= $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1']);
+                }
+                break;
         }
 
         return parent::validator($varInput);

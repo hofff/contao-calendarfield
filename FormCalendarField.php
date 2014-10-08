@@ -48,7 +48,7 @@ class FormCalendarField extends FormTextField
     public function generate()
     {
         if (!$this->dateExcludeCSS) {
-            $GLOBALS['TL_CSS'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css';
+            $GLOBALS['TL_CSS'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/' . (version_compare(VERSION, '3.3', '>=') ? 'datepicker.css' : 'dashboard.css');
         }
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js';
@@ -75,7 +75,7 @@ class FormCalendarField extends FormTextField
         // Initialize the default config
         $arrConfig = array(
             'draggable'            => (($this->draggable) ? "'true'" : "'false'"),
-            'pickerClass'        => "'datepicker_dashboard'",
+            'pickerClass'        => (version_compare(VERSION, '3.3', '>=') ? "'datepicker_bootstrap'" : "'datepicker_dashboard'"),
             'useFadeInOut'        => "'!Browser.ie'",
             'startDay'            => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
             'titleFormat'        => "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",

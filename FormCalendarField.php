@@ -29,6 +29,12 @@
 
 class FormCalendarField extends FormTextField
 {
+	/**
+	 * Template
+	 *
+	 * @var string
+	 */
+	protected $strTemplate = 'form_widget';
 
     public function __construct($arrAttributes=false)
     {
@@ -39,16 +45,13 @@ class FormCalendarField extends FormTextField
         }
     }
 
-
     public function generate()
     {
-        $blnV3 = version_compare(VERSION, '3.0', '>=');
-
         if (!$this->dateExcludeCSS) {
-            $GLOBALS['TL_CSS'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/dashboard.css' : 'plugins/datepicker/dashboard.css';
+            $GLOBALS['TL_CSS'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/' . (version_compare(VERSION, '3.3', '>=') ? 'datepicker.css' : 'dashboard.css');
         }
 
-        $GLOBALS['TL_JAVASCRIPT'][] = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js' : 'plugins/datepicker/datepicker.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js';
 
         $dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
         $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
@@ -72,7 +75,7 @@ class FormCalendarField extends FormTextField
         // Initialize the default config
         $arrConfig = array(
             'draggable'            => (($this->draggable) ? "'true'" : "'false'"),
-            'pickerClass'        => "'datepicker_dashboard'",
+            'pickerClass'        => (version_compare(VERSION, '3.3', '>=') ? "'datepicker_bootstrap'" : "'datepicker_dashboard'"),
             'useFadeInOut'        => "'!Browser.ie'",
             'startDay'            => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
             'titleFormat'        => "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",
@@ -115,17 +118,13 @@ class FormCalendarField extends FormTextField
 
         if ($this->dateImage) {
             // icon
-            $strIcon = $blnV3 ? 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif' : 'plugins/datepicker/icon.gif';
+            $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
 
-            if ($this->dateImageSRC) {
-                if (is_numeric($this->dateImageSRC)) {
-                    if (($objFile = \FilesModel::findByPk($this->dateImageSRC)) !== null) {
-                        $this->dateImageSRC = $objFile->path;
-                    }
-                }
+            if (\Validator::isUuid($this->dateImageSRC)) {
+                $objFile = \FilesModel::findByPk($this->dateImageSRC);
 
-                if (is_file(TL_ROOT . '/' . $this->dateImageSRC)) {
-                    $strIcon = $this->dateImageSRC;
+                if ($objFile !== null && is_file(TL_ROOT . '/' . $objFile->path)) {
+                    $strIcon = $objFile->path;
                 }
             }
 
@@ -179,18 +178,53 @@ window.addEvent('" . $jsEvent . "', function() {
         return $strBuffer;
     }
 
-
     public function validator($varInput)
     {
+        $objToday = new Date();
+
         if (strlen($this->dateFormat)) {
 
             // Disable regular date validation
             $this->rgxp = '';
 
             if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput)) {
-                $objDate = new Date();
-                $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objDate->getInputFormat($this->dateFormat)));
+                $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
             }
+        }
+
+        $intTstamp = 0;
+
+		// Convert timestamps
+		if ($varInput != '') {
+		    try {
+			    $objDate = new \Date($varInput, $this->dateFormat);
+    		    $intTstamp = $objDate->tstamp;
+		    } catch (\Exception $e) {
+    		    $this->addError($e->getMessage());
+		    }
+		}
+
+        $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+
+        // Validate date direction
+        switch ($dateDirection) {
+            case '+0':
+                if ($intTstamp < $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0']);
+                }
+                break;
+
+            case '+1':
+                if ($intTstamp <= $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+                }
+                break;
+
+            case '-1':
+                if ($intTstamp >= $objToday->dayBegin) {
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1']);
+                }
+                break;
         }
 
         return parent::validator($varInput);

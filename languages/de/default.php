@@ -32,3 +32,9 @@
  */
 $GLOBALS['TL_LANG']['FFL']['calendar'] = array('Kalenderfeld', 'ein Feld dass die von TYPOlight bekannte Kalender-Auswahl im Frontend anzeigt.');
 
+/**
+ * Errors
+ */
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0'] = 'Bitte geben Sie ein Datum in der Zukunft (inkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1'] = 'Bitte geben Sie ein Datum in der Zukunft (exkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1'] = 'Bitte geben Sie ein Datum in der Vergangenheit ein.';

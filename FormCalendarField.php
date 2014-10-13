@@ -29,14 +29,14 @@
 
 class FormCalendarField extends FormTextField
 {
-	/**
-	 * Template
-	 *
-	 * @var string
-	 */
-	protected $strTemplate = 'form_widget';
+    /**
+     * Template
+     *
+     * @var string
+     */
+    protected $strTemplate = 'form_widget';
 
-    public function __construct($arrAttributes=false)
+    public function __construct($arrAttributes = null)
     {
         parent::__construct($arrAttributes);
 
@@ -53,12 +53,12 @@ class FormCalendarField extends FormTextField
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js';
 
-        $dateFormat = strlen($this->dateFormat) ? $this->dateFormat : $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
-        $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
-        $jsEvent = $this->jsevent ? $this->jsevent : 'domready';
+        $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
+        $dateDirection = $this->dateDirection ?: '0';
+        $jsEvent = $this->jsevent ?: 'domready';
 
         if ($this->dateParseValue && $this->varValue != '') {
-            $this->varValue = $this->parseDate($dateFormat, strtotime($this->varValue));
+            $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
         }
 
         $strBuffer = parent::generate();
@@ -74,11 +74,11 @@ class FormCalendarField extends FormTextField
 
         // Initialize the default config
         $arrConfig = array(
-            'draggable'            => (($this->draggable) ? "'true'" : "'false'"),
-            'pickerClass'        => (version_compare(VERSION, '3.3', '>=') ? "'datepicker_bootstrap'" : "'datepicker_dashboard'"),
-            'useFadeInOut'        => "'!Browser.ie'",
-            'startDay'            => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
-            'titleFormat'        => "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",
+            'draggable'    => (($this->draggable) ? "'true'" : "'false'"),
+            'pickerClass'  => (version_compare(VERSION, '3.3', '>=') ? "'datepicker_bootstrap'" : "'datepicker_dashboard'"),
+            'useFadeInOut' => "'!Browser.ie'",
+            'startDay'     => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
+            'titleFormat'  => "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",
         );
 
         switch ($this->rgxp) {
@@ -165,9 +165,8 @@ class FormCalendarField extends FormTextField
             $arrCompiledConfig[] = "    '" . $k . "': " . $v;
         }
 
-
-        $strBuffer .= '
-' . $this->getScriptTag() . "
+        $strBuffer .= "
+<script>
 window.addEvent('" . $jsEvent . "', function() {
   new Picker.Date($$('#ctrl_" . $this->strId . "'), {
 " . implode(",\n", $arrCompiledConfig) . "
@@ -233,11 +232,14 @@ window.addEvent('" . $jsEvent . "', function() {
 
     /**
      * Return a regular expression that matches a particular date format
-     * @param  string
-     * @param  string
+     *
+     * @param bool|string $strFormat
+     * @param string      $strRegexpSyntax
+     *
+     * @throws Exception
      * @return string
      */
-    public function getRegexp($strFormat=false, $strRegexpSyntax='perl')
+    public function getRegexp($strFormat = false, $strRegexpSyntax = 'perl')
     {
         if (!$strFormat) {
             $strFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
@@ -314,7 +316,8 @@ window.addEvent('" . $jsEvent . "', function() {
      */
     public function getDateString()
     {
-        return $this->getScriptTag() . '
+        return '
+<script>
 window.addEvent("domready",function(){
   Locale.define("en-US","Date",{
     months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],
@@ -332,18 +335,6 @@ window.addEvent("domready",function(){
   });
 });
 </script>';
-    }
-
-
-    public function getScriptTag()
-    {
-        if (TL_MODE == 'BE') {
-            return '<script>';
-        }
-
-        global $objPage;
-
-        return $objPage->outputFormat == 'html' ? '<script>' : '<script type="text/javascript">';
     }
 }
 

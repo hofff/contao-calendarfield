@@ -181,7 +181,7 @@ window.addEvent('" . $jsEvent . "', function() {
     {
         $objToday = new Date();
 
-        if (strlen($this->dateFormat)) {
+        if ($this->dateFormat) {
 
             // Disable regular date validation
             $this->rgxp = '';
@@ -192,18 +192,18 @@ window.addEvent('" . $jsEvent . "', function() {
         }
 
         $intTstamp = 0;
+        $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
+        $dateDirection = $this->dateDirection ?: '0';
 
-		// Convert timestamps
-		if ($varInput != '') {
-		    try {
-			    $objDate = new \Date($varInput, $this->dateFormat);
-    		    $intTstamp = $objDate->tstamp;
-		    } catch (\Exception $e) {
-    		    $this->addError($e->getMessage());
-		    }
-		}
-
-        $dateDirection = strlen($this->dateDirection) ? $this->dateDirection : '0';
+        // Convert timestamps
+        if ($varInput != '') {
+            try {
+                $objDate = new \Date($varInput, $dateFormat);
+                $intTstamp = $objDate->tstamp;
+            } catch (\Exception $e) {
+                $this->addError($e->getMessage());
+            }
+        }
 
         // Validate date direction
         switch ($dateDirection) {

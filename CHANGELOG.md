@@ -1,6 +1,9 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.6.1 stable (2014-10-13) ###
+- Fixed date validation when no custom date format is set
+
 ### Version 1.6.0 stable (2014-10-10) ###
 - Added Contao 3.3 compatibility
 - Added support for placeholder attribute

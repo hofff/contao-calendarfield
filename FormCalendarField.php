@@ -185,7 +185,6 @@ window.addEvent('" . $jsEvent . "', function() {
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
         $dateDirection = $this->dateDirection ?: '0';
 
-        // Convert timestamps
         if ($varInput != '') {
 
             // Validate date format
@@ -199,6 +198,7 @@ window.addEvent('" . $jsEvent . "', function() {
                 }
             }
 
+            // Convert timestamps
             try {
                 $objDate = new \Date($varInput, $dateFormat);
                 $intTstamp = $objDate->tstamp;

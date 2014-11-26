@@ -181,49 +181,50 @@ window.addEvent('" . $jsEvent . "', function() {
     {
         $objToday = new Date();
 
-        if ($this->dateFormat) {
-
-            // Disable regular date validation
-            $this->rgxp = '';
-
-            if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput)) {
-                $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
-            }
-        }
-
         $intTstamp = 0;
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
         $dateDirection = $this->dateDirection ?: '0';
 
-        // Convert timestamps
         if ($varInput != '') {
+
+            // Validate date format
+            if ($this->dateFormat) {
+
+                // Disable regular date validation
+                $this->rgxp = '';
+
+                if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput)) {
+                    $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
+                }
+            }
+
+            // Convert timestamps
             try {
                 $objDate = new \Date($varInput, $dateFormat);
                 $intTstamp = $objDate->tstamp;
             } catch (\Exception $e) {
                 $this->addError($e->getMessage());
             }
-        }
 
-        // Validate date direction
-        switch ($dateDirection) {
-            case '+0':
-                if ($intTstamp < $objToday->dayBegin) {
-                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0']);
-                }
-                break;
+            switch ($dateDirection) {
+                case '+0':
+                    if ($intTstamp < $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0']);
+                    }
+                    break;
 
-            case '+1':
-                if ($intTstamp <= $objToday->dayBegin) {
-                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
-                }
-                break;
+                case '+1':
+                    if ($intTstamp <= $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+                    }
+                    break;
 
-            case '-1':
-                if ($intTstamp >= $objToday->dayBegin) {
-                    $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1']);
-                }
-                break;
+                case '-1':
+                    if ($intTstamp >= $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1']);
+                    }
+                    break;
+            }
         }
 
         return parent::validator($varInput);

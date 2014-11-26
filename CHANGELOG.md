@@ -1,6 +1,9 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.6.2 stable (2014-11-26) ###
+- Fixed mandatory-check when using custom date format (#17)
+
 ### Version 1.6.1 stable (2014-10-13) ###
 - Fixed date validation when no custom date format is set
 

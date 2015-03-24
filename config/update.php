@@ -10,7 +10,7 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html LGPL
  */
 
-class CalendarfieldRunOnce extends Controller
+class CalendarfieldUpdate extends Controller
 {
 
     /**
@@ -67,5 +67,5 @@ class CalendarfieldRunOnce extends Controller
 /**
  * Instantiate controller
  */
-$objCalendarfieldRunOnce = new CalendarfieldRunOnce();
-$objCalendarfieldRunOnce->run();
+$objCalendarfieldUpdate = new CalendarfieldUpdate();
+$objCalendarfieldUpdate->run();

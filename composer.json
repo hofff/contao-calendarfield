@@ -24,7 +24,7 @@
                 "": "system/modules/calendarfield"
             },
             "runonce": [
-                "runonce/runonce.php"
+                "config/update.php"
             ]
         }
     }

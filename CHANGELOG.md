@@ -4,6 +4,7 @@ Contao Extension "calendarfield"
 ### Version 1.7.0 stable (2015-??-??) ###
 - Added support for dates in the past including today (#18)
 - Fixes problem when selecting option for all dates (#15)
+- Added composer support
 
 ### Version 1.6.2 stable (2014-11-26) ###
 - Fixed mandatory-check when using custom date format (#17)

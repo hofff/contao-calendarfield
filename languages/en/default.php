@@ -35,6 +35,7 @@ $GLOBALS['TL_LANG']['FFL']['calendar'] = array('Calendar field', 'a field that d
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0'] = 'Please enter a date in the future (including today).';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1'] = 'Please enter a date in the future (excluding today).';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1'] = 'Please enter a date in the past.';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday'] = 'Please enter a date in the past (excluding today).';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday'] = 'Please enter a date in the past (including today).';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday'] = 'Please enter a date in the future (including today).';
+$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday'] = 'Please enter a date in the future (excluding today).';

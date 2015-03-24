@@ -1,6 +1,10 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.7.0 stable (2015-??-??) ###
+- Added support for dates in the past including today (#18)
+- Fixes problem when selecting option for all dates (#15)
+
 ### Version 1.6.2 stable (2014-11-26) ###
 - Fixed mandatory-check when using custom date format (#17)
 
@@ -22,7 +26,7 @@ Contao Extension "calendarfield"
 - Fixed custom icon not being considered (#7)
 
 ### Version 1.4.0 stable (2013-09-25) ###
-- Fixed call to method_exists (#6)
+- Fixed call to `method_exists` (#6)
 - Fixed PHP version incompatibility
 
 ### Version 1.4.0 RC1 (2012-10-02) ###

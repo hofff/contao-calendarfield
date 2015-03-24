@@ -51,6 +51,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateFormat'] = array
 	'inputType'               => 'text',
 	'eval'                    => array('helpwizard'=>true, 'tl_class'=>'clr w50'),
 	'explanation'             => 'dateFormat',
+	'sql'                     => "varchar(32) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
@@ -58,9 +59,10 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'				  => array('0', '-1', '+0', '+1'),
-	'reference'				  => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
+	'options'                 => array('all', 'ltToday', 'leToday', 'geToday', 'gtToday'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
 	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "varchar(10) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
@@ -69,6 +71,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50 m12'),
+	'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateExcludeCSS'] = array
@@ -77,15 +80,17 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateExcludeCSS'] = array
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImage'],
 	'exclude'                 => true,
-	'default'				  => '1',
+	'default'                 => '1',
 	'inputType'               => 'checkbox',
 	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr'),
+	'sql'                     => "char(1) NOT NULL default '1'"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
@@ -94,6 +99,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
 	'exclude'                 => true,
 	'inputType'               => 'fileTree',
 	'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
+	'sql'                     => "binary(16) NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageOnly'] = array
@@ -102,6 +108,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageOnly'] = array
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
 	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "char(1) NOT NULL default ''"
 );
 
 

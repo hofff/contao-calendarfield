@@ -93,19 +93,22 @@ class FormCalendarField extends FormTextField
         }
 
         switch ($dateDirection) {
+            case 'ltToday':
+                $time = strtotime('-1 day');
+                $arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
+                break;
 
-            case '+0':
+            case 'leToday':
+                $arrConfig['maxDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+                break;
+
+            case 'geToday':
                 $arrConfig['minDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
                 break;
 
-            case '+1':
+            case 'gtToday':
                 $time = strtotime('+1 day');
                 $arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
-                break;
-
-            case '-1':
-                $time = strtotime('-1 day');
-                $arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
                 break;
         }
 
@@ -207,21 +210,24 @@ window.addEvent('" . $jsEvent . "', function() {
             }
 
             switch ($dateDirection) {
-                case '+0':
-                    if ($intTstamp < $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+0']);
+                case 'ltToday':
+                    if ($intTstamp >= $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday']);
                     }
                     break;
-
-                case '+1':
+                case 'leToday':
+                    if ($intTstamp > $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday']);
+                    }
+                    break;
+                case 'geToday':
+                    if ($intTstamp < $objToday->dayBegin) {
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday']);
+                    }
+                    break;
+                case 'gtToday':
                     if ($intTstamp <= $objToday->dayBegin) {
                         $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
-                    }
-                    break;
-
-                case '-1':
-                    if ($intTstamp >= $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_-1']);
                     }
                     break;
             }

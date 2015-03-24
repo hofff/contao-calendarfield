@@ -22,7 +22,10 @@
         "contao": {
             "sources":{
                 "": "system/modules/calendarfield"
-            }
+            },
+            "runonce": [
+                "runonce/runonce.php"
+            ]
         }
     }
 }

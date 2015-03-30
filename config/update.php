@@ -12,6 +12,7 @@
 
 class CalendarfieldUpdate extends Controller
 {
+    private $db;
 
     /**
      * Initialize the object
@@ -19,7 +20,8 @@ class CalendarfieldUpdate extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->import('Database');
+
+        $this->db = \Database::getInstance();
     }
 
 
@@ -34,32 +36,28 @@ class CalendarfieldUpdate extends Controller
 
     /**
      * Update to version 1.7.0
+     * Migrate old values for date direction
      */
     private function updateTo170()
     {
-        // migrate old values for date direction
+        if (!$this->Database->fieldExists('dateDirection', 'tl_form_field')) {
+            return;
+        }
+
         $strQuery = "UPDATE tl_form_field %s WHERE dateDirection = ? AND type = 'calendar'";
         $arrSet = array();
 
         $arrSet['dateDirection'] = 'all';
-        $this->Database->prepare($strQuery)
-             ->set($arrSet)
-             ->execute("0");
+        $this->db->prepare($strQuery)->set($arrSet)->execute("0");
 
         $arrSet['dateDirection'] = 'geToday';
-        $this->Database->prepare($strQuery)
-             ->set($arrSet)
-             ->execute("+0");
+        $this->db->prepare($strQuery)->set($arrSet)->execute("+0");
 
         $arrSet['dateDirection'] = 'gtToday';
-        $this->Database->prepare($strQuery)
-             ->set($arrSet)
-             ->execute("+1");
+        $this->db->prepare($strQuery)->set($arrSet)->execute("+1");
 
         $arrSet['dateDirection'] = 'ltToday';
-        $this->Database->prepare($strQuery)
-             ->set($arrSet)
-             ->execute("-1");
+        $this->db->prepare($strQuery)->set($arrSet)->execute("-1");
     }
 }
 

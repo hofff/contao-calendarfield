@@ -1,5 +1,5 @@
 {
-    "name":"terminal42/calendarfield",
+    "name":"terminal42/contao-calendarfield",
     "description":"Frontend Text Field with Datepicker for Contao Open Source CMS",
     "keywords":["contao", "Calendar", "Calendar Field", "Datepicker"],
     "type":"contao-module",

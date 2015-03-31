@@ -40,7 +40,7 @@ class CalendarfieldUpdate extends Controller
      */
     private function updateTo170()
     {
-        if (!$this->Database->fieldExists('dateDirection', 'tl_form_field')) {
+        if (!$this->db->fieldExists('dateDirection', 'tl_form_field')) {
             return;
         }
 

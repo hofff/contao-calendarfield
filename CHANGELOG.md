@@ -1,6 +1,9 @@
 Contao Extension "calendarfield"
 --------------------------------
 
+### Version 1.7.0 stable (2015-03-31) ###
+- Fixed bug in update script
+
 ### Version 1.7.0 stable (2015-03-30) ###
 - Added support for dates in the past including today (#18)
 - Fixes problem when selecting option for all dates (#15)

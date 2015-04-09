@@ -1,7 +1,10 @@
 Contao Extension "calendarfield"
 --------------------------------
 
-### Version 1.7.0 stable (2015-03-31) ###
+### Version 1.7.2 stable (2015-04-09) ###
+- Fixed bug in update script
+
+### Version 1.7.1 stable (2015-03-31) ###
 - Fixed bug in update script
 
 ### Version 1.7.0 stable (2015-03-30) ###

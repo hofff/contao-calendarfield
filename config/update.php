@@ -44,6 +44,8 @@ class CalendarfieldUpdate extends Controller
             return;
         }
 
+        $this->db->query("ALTER TABLE tl_form_field CHANGE COLUMN `dateDirection` `dateDirection` varchar(10) NOT NULL default ''");
+
         $strQuery = "UPDATE tl_form_field %s WHERE dateDirection = ? AND type = 'calendar'";
         $arrSet = array();
 

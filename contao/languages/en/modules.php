@@ -30,5 +30,5 @@
 /**
  * Extension folder
  */
-$GLOBALS['TL_LANG']['MOD']['calendarfield'] = array('Calendar field', 'ein Feld dass die von TYPOlight bekannte Kalender-Auswahl im Frontend anzeigt.');
+$GLOBALS['TL_LANG']['MOD']['jcalendarfield'] = array('Calendar field (jQuery)', 'Form field for providing a calendar selection in frontend (jQuery version).');
 

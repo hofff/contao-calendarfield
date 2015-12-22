@@ -30,6 +30,6 @@
 /**
  * Form fields
  */
-$GLOBALS['BE_FFL']['calendar'] = 'TextField';
-$GLOBALS['TL_FFL']['calendar'] = 'FormCalendarField';
+$GLOBALS['BE_FFL']['jcalendar'] = 'TextField';
+$GLOBALS['TL_FFL']['jcalendar'] = 'FormJCalendarField';
 

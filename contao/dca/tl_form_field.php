@@ -30,14 +30,14 @@
 /**
  * Config
  */
-$GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_form_field_calendarfield', 'adjustFields');
+$GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_form_field_jcalendarfield', 'adjustFields');
 
 
 /**
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'][] = 'dateImage';
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendar'] = '{type_legend},type,name,label;{fconfig_legend},rgxp,mandatory,placeholder,maxlength,dateFormat,dateDirection,dateExcludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['jcalendar'] = '{type_legend},type,name,label;{fconfig_legend},rgxp,mandatory,placeholder,maxlength,dateFormat,dateDirection,dateExcludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
 $GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage'] = 'dateImageSRC,dateImageOnly';
 
 
@@ -112,7 +112,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageOnly'] = array
 );
 
 
-class tl_form_field_calendarfield extends Backend
+class tl_form_field_jcalendarfield extends Backend
 {
 
 	public function adjustFields($dc)
@@ -121,7 +121,7 @@ class tl_form_field_calendarfield extends Backend
 		{
 			$objField = $this->Database->execute("SELECT * FROM tl_form_field WHERE id=".$dc->id);
 
-			if ($objField->type == 'calendar')
+			if ($objField->type == 'jcalendar')
 			{
 				$GLOBALS['TL_DCA']['tl_form_field']['fields']['mandatory']['eval']['tl_class'] = 'w50 m12';
 				$GLOBALS['TL_DCA']['tl_form_field']['fields']['value']['eval']['tl_class'] = 'w50';

@@ -30,12 +30,12 @@
 /**
  * Form fields
  */
-$GLOBALS['TL_LANG']['FFL']['calendar'] = array('Calendar field', 'a field that displays the TYPOlight-known calendar picker in frontend.');
+$GLOBALS['TL_LANG']['FFL']['jcalendar'] = array('Calendar field (jQuery)', 'Form field for providing a calendar selection in frontend (jQuery version).');
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday'] = 'Please enter a date in the past (excluding today).';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday'] = 'Please enter a date in the past (including today).';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday'] = 'Please enter a date in the future (including today).';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday'] = 'Please enter a date in the future (excluding today).';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday'] = 'Please enter a date in the past (excluding today).';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_leToday'] = 'Please enter a date in the past (including today).';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_geToday'] = 'Please enter a date in the future (including today).';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_gtToday'] = 'Please enter a date in the future (excluding today).';

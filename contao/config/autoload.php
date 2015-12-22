@@ -2,12 +2,10 @@
 
 /**
  * Contao Open Source CMS
- * 
- * Copyright (C) 2005-2012 Leo Feyer
- * 
- * @package Calendarfield
- * @link    http://contao.org
- * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * Copyright (c) 2005-2015 Leo Feyer
+ *
+ * @license LGPL-3.0+
  */
 
 
@@ -16,5 +14,6 @@
  */
 ClassLoader::addClasses(array
 (
-	'FormCalendarField' => 'system/modules/calendarfield/FormCalendarField.php',
+	// Forms
+	'FormJCalendarField' => 'system/modules/jcalendarfield/forms/FormJCalendarField.php',
 ));

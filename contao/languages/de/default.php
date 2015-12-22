@@ -30,12 +30,12 @@
 /**
  * Form fields
  */
-$GLOBALS['TL_LANG']['FFL']['calendar'] = array('Kalenderfeld', 'ein Feld dass die von TYPOlight bekannte Kalender-Auswahl im Frontend anzeigt.');
+$GLOBALS['TL_LANG']['FFL']['jcalendar'] = array('Kalenderfeld (jQuery)', 'Formularfeld um eine Kalender-Auswahl im Frontend anzuzeigen (jQuery Variante).');
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday'] = 'Bitte geben Sie ein Datum in der Vergangenheit (exkl. heute) ein.';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday'] = 'Bitte geben Sie ein Datum in der Vergangenheit (inkl. heute) ein.';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday'] = 'Bitte geben Sie ein Datum in der Zukunft (inkl. heute) ein.';
-$GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday'] = 'Bitte geben Sie ein Datum in der Zukunft (exkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday'] = 'Bitte geben Sie ein Datum in der Vergangenheit (exkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_leToday'] = 'Bitte geben Sie ein Datum in der Vergangenheit (inkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_geToday'] = 'Bitte geben Sie ein Datum in der Zukunft (inkl. heute) ein.';
+$GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_gtToday'] = 'Bitte geben Sie ein Datum in der Zukunft (exkl. heute) ein.';

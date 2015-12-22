@@ -27,7 +27,7 @@
  */
 
 
-class FormCalendarField extends FormTextField
+class FormJCalendarField extends FormTextField
 {
     /**
      * Template
@@ -133,7 +133,7 @@ class FormCalendarField extends FormTextField
 
             $arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
-            $strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="CalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
+            $strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="JCalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
 
             $arrConfig['toggle'] = "$$('#toggle_" . $this->strId . "')";
 
@@ -155,8 +155,8 @@ class FormCalendarField extends FormTextField
         $arrConfig['format'] = "'" . Date::formatToJs($dateFormat) . "'";
 
         // HOOK: allow to customize the date picker
-        if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
-            foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
+        if (isset($GLOBALS['TL_HOOKS']['formJCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formJCalendarField'])) {
+            foreach ($GLOBALS['TL_HOOKS']['formJCalendarField'] as $callback) {
                 $objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
                 $arrConfig = $objCallback->$callback[1]($arrConfig, $this);
             }
@@ -212,22 +212,22 @@ window.addEvent('" . $jsEvent . "', function() {
             switch ($dateDirection) {
                 case 'ltToday':
                     if ($intTstamp >= $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday']);
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday']);
                     }
                     break;
                 case 'leToday':
                     if ($intTstamp > $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday']);
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_leToday']);
                     }
                     break;
                 case 'geToday':
                     if ($intTstamp < $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday']);
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_geToday']);
                     }
                     break;
                 case 'gtToday':
                     if ($intTstamp <= $objToday->dayBegin) {
-                        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+                        $this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_+1']);
                     }
                     break;
             }

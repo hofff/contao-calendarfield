@@ -103,7 +103,6 @@ class FormJCalendarField extends FormTextField
         // seems to be necessary for the backend but does only hurt in the FE
         $style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
 
-        $strIcon = '';
         if ($this->dateImage) {
             // icon
             $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
@@ -122,6 +121,9 @@ class FormJCalendarField extends FormTextField
             $arrConfig['buttonImage'] = "'" . $strIcon . "'";
             $arrConfig['buttonImageOnly'] = "true";
         }
+        
+        // correctly style the date format
+        $arrConfig['format'] = "'" . $this->dateformat_PHP_to_jQueryUI($dateFormat) . "'";
 
         // HOOK: allow to customize the date picker
         if (isset($GLOBALS['TL_HOOKS']['formJCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formJCalendarField'])) {

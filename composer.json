@@ -28,7 +28,7 @@
         "contao": {
             "sources":{
                 "assets/jquery/ui.datepicker": "assets/jquery/ui.datepicker",
-                "contao": "system/modules/jcalendarfield",
+                "contao": "system/modules/jcalendarfield"
             },
             "runonce": [
                 "runonce/update.php"

@@ -37,8 +37,10 @@ $GLOBALS['TL_DCA']['tl_form_field']['config']['onload_callback'][] = array('tl_f
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'][] = 'dateImage';
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['jcalendar'] = '{type_legend},type,name,label;{fconfig_legend},rgxp,mandatory,placeholder,maxlength,dateFormat,dateDirection,dateExcludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
-$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage'] = 'dateImageSRC,dateImageOnly';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'][] = 'dateIncludeCSS';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['jcalendar'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateIncludeCSS'] = 'dateIncludeCSSTheme';
+$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage'] = 'dateImageSRC';
 
 
 /**
@@ -74,13 +76,25 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
 	'sql'                     => "char(1) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateExcludeCSS'] = array
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateIncludeCSS'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateExcludeCSS'],
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSS'],
 	'exclude'                 => true,
+	'default'                 => '1',
 	'inputType'               => 'checkbox',
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "char(1) NOT NULL default ''"
+	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50 m12'),
+	'sql'                     => "char(1) NOT NULL default '1'"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateIncludeCSSTheme'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSSTheme'],
+	'exclude'                 => true,
+	'default'                 => 'smoothness',
+	'inputType'               => 'select',
+	'options'                 => array("black-tie", "blitzer", "cupertino", "dark-hive", "dot-luv", "eggplant", "excite-bike", "flick", "hot-sneaks", "humanity", "le-frog", "mint-choc", "overcast", "pepper-grinder", "redmond", "smoothness", "south-street", "start", "sunny", "swanky-purse", "trontastic", "ui-darkness", "ui-lightness", "vader"),
+	'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true),
+	'sql'                     => "varchar(64) NOT NULL default 'smoothness'"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
@@ -101,16 +115,6 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
 	'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
 	'sql'                     => "binary(16) NULL"
 );
-
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageOnly'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImageOnly'],
-	'exclude'                 => true,
-	'inputType'               => 'checkbox',
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "char(1) NOT NULL default ''"
-);
-
 
 class tl_form_field_jcalendarfield extends Backend
 {

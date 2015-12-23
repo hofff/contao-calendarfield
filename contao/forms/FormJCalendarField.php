@@ -40,22 +40,26 @@ class FormJCalendarField extends FormTextField
     {
         parent::__construct($arrAttributes);
 
-        if ($this->rgxp != 'datim' && $this->rgxp != 'time') {
-            $this->rgxp = 'date';
-        }
+        $this->rgxp = 'date';
     }
 
     public function generate()
     {
-        if (!$this->dateExcludeCSS) {
-            $GLOBALS['TL_CSS'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/' . (version_compare(VERSION, '3.3', '>=') ? 'datepicker.css' : 'dashboard.css');
+        global $objPage;
+        
+       if ($this->dateIncludeCSS) {
+            if (strlen($this->dateIncludeCSSTheme) > 0) {
+                $GLOBALS['TL_CSS'][] = '//code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
+            } else {
+                $GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
+            }
         }
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'assets/mootools/datepicker/'.DATEPICKER.'/datepicker.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui/'.JQUERY_UI.'/jquery-ui.min.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
 
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
-        $dateDirection = $this->dateDirection ?: '0';
-        $jsEvent = $this->jsevent ?: 'domready';
 
         if ($this->dateParseValue && $this->varValue != '') {
             $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
@@ -67,32 +71,16 @@ class FormJCalendarField extends FormTextField
             return $strBuffer;
         }
 
-        // in the back end this is inlcuded automatically
-        if (TL_MODE == 'FE') {
-            $GLOBALS['TL_HEAD'][] = $this->getDateString();
-        }
-
         // Initialize the default config
         $arrConfig = array(
-            'draggable'    => (($this->draggable) ? "'true'" : "'false'"),
-            'pickerClass'  => (version_compare(VERSION, '3.3', '>=') ? "'datepicker_bootstrap'" : "'datepicker_dashboard'"),
-            'useFadeInOut' => "'!Browser.ie'",
-            'startDay'     => $GLOBALS['TL_LANG']['MSC']['weekOffset'],
-            'titleFormat'  => "'{$GLOBALS['TL_LANG']['MSC']['titleFormat']}'",
+            'showAnim'          => "'fadeIn'",
+            'showOtherMonths'   => "true",
+            'selectOtherMonths' => "true",
+            'changeMonth'       => "true",
+            'changeYear'        => "true"
         );
 
-        switch ($this->rgxp) {
-
-            case 'datim':
-                $arrConfig['timePicker'] = 'true';
-                break;
-
-            case 'time':
-                $arrConfig['pickOnly'] = 'time';
-                break;
-        }
-
-        switch ($dateDirection) {
+        switch ($this->dateDirection) {
             case 'ltToday':
                 $time = strtotime('-1 day');
                 $arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
@@ -112,13 +100,10 @@ class FormJCalendarField extends FormTextField
                 break;
         }
 
-        // default Offset
-        $intOffsetX = 0;
-        $intOffsetY = 0;
-
         // seems to be necessary for the backend but does only hurt in the FE
         $style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
 
+        $strIcon = '';
         if ($this->dateImage) {
             // icon
             $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
@@ -133,26 +118,10 @@ class FormJCalendarField extends FormTextField
 
             $arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
-            $strBuffer .= '<img src="' . $strIcon . '" width="' . $arrSize[0] . '" height="' . $arrSize[1] . '" alt="" class="JCalendarFieldIcon" id="toggle_' . $this->strId . '"' . $style . '>';
-
-            $arrConfig['toggle'] = "$$('#toggle_" . $this->strId . "')";
-
-            if ($this->dateImageOnly) {
-                $arrConfig['togglesOnly'] = 'false';
-            }
-
-            // make offsets configurable (useful for the front end but can be used in the back end as well)
-            $intOffsetX = -197;
-            $intOffsetY = -182;
+            $arrConfig['showOn'] = "'both'";
+            $arrConfig['buttonImage'] = "'" . $strIcon . "'";
+            $arrConfig['buttonImageOnly'] = "true";
         }
-
-        // make offsets configurable (useful for the front end but can be used in the back end as well)
-        $intOffsetX = (is_numeric($this->offsetX)) ? $this->offsetX : $intOffsetX;
-        $intOffsetY = (is_numeric($this->offsetY)) ? $this->offsetY : $intOffsetY;
-        $arrConfig['positionOffset'] = '{x:' . $intOffsetX . ',y:' . $intOffsetY . '}';
-
-        // correctly style the date format
-        $arrConfig['format'] = "'" . Date::formatToJs($dateFormat) . "'";
 
         // HOOK: allow to customize the date picker
         if (isset($GLOBALS['TL_HOOKS']['formJCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formJCalendarField'])) {
@@ -170,8 +139,9 @@ class FormJCalendarField extends FormTextField
 
         $strBuffer .= "
 <script>
-window.addEvent('" . $jsEvent . "', function() {
-  new Picker.Date($$('#ctrl_" . $this->strId . "'), {
+$(function() {
+  $.datepicker.regional['" . $objPage->language . "'];
+  $('#ctrl_" . $this->strId . "').datepicker({
 " . implode(",\n", $arrCompiledConfig) . "
   });
 });
@@ -186,7 +156,6 @@ window.addEvent('" . $jsEvent . "', function() {
 
         $intTstamp = 0;
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
-        $dateDirection = $this->dateDirection ?: '0';
 
         if ($varInput != '') {
 
@@ -209,7 +178,7 @@ window.addEvent('" . $jsEvent . "', function() {
                 $this->addError($e->getMessage());
             }
 
-            switch ($dateDirection) {
+            switch ($this->dateDirection) {
                 case 'ltToday':
                     if ($intTstamp >= $objToday->dayBegin) {
                         $this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday']);
@@ -314,34 +283,69 @@ window.addEvent('" . $jsEvent . "', function() {
     }
 
 
-    /**
-     * Return the datepicker string
-     *
-     * Fix the MooTools more parsers which incorrectly parse ISO-8601 and do
-     * not handle German date formats at all.
-     * @return string
+    /*
+     * Matches each symbol of PHP date format standard
+     * with jQuery equivalent codeword
+     * @author Tristan Jahier
      */
-    public function getDateString()
+    private function dateformat_PHP_to_jQueryUI($php_format)
     {
-        return '
-<script>
-window.addEvent("domready",function(){
-  Locale.define("en-US","Date",{
-    months:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS']) . '"],
-    days:["' . implode('","', $GLOBALS['TL_LANG']['DAYS']) . '"],
-    months_abbr:["' . implode('","', $GLOBALS['TL_LANG']['MONTHS_SHORT']) . '"],
-    days_abbr:["' . implode('","', $GLOBALS['TL_LANG']['DAYS_SHORT']) . '"]
-  });
-  Locale.define("en-US","DatePicker",{
-    select_a_time:"' . $GLOBALS['TL_LANG']['DP']['select_a_time'] . '",
-    use_mouse_wheel:"' . $GLOBALS['TL_LANG']['DP']['use_mouse_wheel'] . '",
-    time_confirm_button:"' . $GLOBALS['TL_LANG']['DP']['time_confirm_button'] . '",
-    apply_range:"' . $GLOBALS['TL_LANG']['DP']['apply_range'] . '",
-    cancel:"' . $GLOBALS['TL_LANG']['DP']['cancel'] . '",
-    week:"' . $GLOBALS['TL_LANG']['DP']['week'] . '"
-  });
-});
-</script>';
+        $SYMBOLS_MATCHING = array(
+            // Day
+            'd' => 'dd',
+            'D' => 'D',
+            'j' => 'd',
+            'l' => 'DD',
+            'N' => '',
+            'S' => '',
+            'w' => '',
+            'z' => 'o',
+            // Week
+            'W' => '',
+            // Month
+            'F' => 'MM',
+            'm' => 'mm',
+            'M' => 'M',
+            'n' => 'm',
+            't' => '',
+            // Year
+            'L' => '',
+            'o' => '',
+            'Y' => 'yy',
+            'y' => 'y',
+            // Time
+            'a' => '',
+            'A' => '',
+            'B' => '',
+            'g' => '',
+            'G' => '',
+            'h' => '',
+            'H' => '',
+            'i' => '',
+            's' => '',
+            'u' => ''
+        );
+        $jqueryui_format = "";
+        $escaping = false;
+        for($i = 0; $i < strlen($php_format); $i++)
+        {
+            $char = $php_format[$i];
+            if($char === '\\') // PHP date format escaping character
+            {
+                $i++;
+                if($escaping) $jqueryui_format .= $php_format[$i];
+                else $jqueryui_format .= '\'' . $php_format[$i];
+                $escaping = true;
+            }
+            else
+            {
+                if($escaping) { $jqueryui_format .= "'"; $escaping = false; }
+                if(isset($SYMBOLS_MATCHING[$char]))
+                    $jqueryui_format .= $SYMBOLS_MATCHING[$char];
+                else
+                    $jqueryui_format .= $char;
+            }
+        }
+        return $jqueryui_format;
     }
 }
-

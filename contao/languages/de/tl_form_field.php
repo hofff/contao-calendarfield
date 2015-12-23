@@ -30,13 +30,13 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']     = array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateDirection']  = array('Datumsrichtung', 'Wählen Sie ob die Datumsauswahl eingeschränkt werden soll.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateParseValue'] = array('Standard-Wert konvertieren', 'Den Standard-Wert mittels PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a> analysieren.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateExcludeCSS'] = array('CSS-Datei nicht einbinden', 'Aktivieren Sie diese Option wenn Sie ein eigenes Stylesheet für das Popup einbinden wollen.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateImage']      = array('Kalender-Icon anzeigen', 'Klicken Sie hier um das Kalender-Icons anzuzeigen.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']   = array('Eigenes Icons', 'Wählen Sie ein Icons, welches anstelle dem Standardbild verwendet werden soll.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateImageOnly']  = array('Nur Datumsauswahl erlauben', 'Klicken Sie hier wenn das Datum nicht von Hand im Feld eingegeben werden darf.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateFormat']          = array('Datumsformat', 'Der Datumsformat-String wird mit der PHP-Funktion date() geparst.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateDirection']       = array('Datumsrichtung', 'Wählen Sie ob die Datumsauswahl eingeschränkt werden soll.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']      = array('Standard-Wert konvertieren', 'Den Standard-Wert mittels PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a> analysieren.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSS']      = array('CSS-Datei einbinden', 'Aktivieren Sie diese Option wenn Sie die jQuery UI CSS-Datei für das Popup einbinden wollen.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSSTheme'] = array('jQuery UI Theme', 'Wählen Sie das zu verwendende jQuery UI Theme aus. Weiter Informationen dazu gibt es auf der jQuery UI Webseite: <a hre="http://jqueryui.com/themeroller">http://jqueryui.com/themeroller</a>');
+$GLOBALS['TL_LANG']['tl_form_field']['dateImage']           = array('Kalender-Icon anzeigen', 'Klicken Sie hier um das Kalender-Icons anzuzeigen.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']        = array('Eigenes Icons', 'Wählen Sie ein Icons, welches anstelle dem Standardbild verwendet werden soll.');
 
 /**
  * References

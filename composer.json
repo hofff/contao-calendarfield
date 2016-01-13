@@ -4,16 +4,24 @@
     "keywords":["contao", "Calendar", "Calendar Field", "Datepicker", "jQuery"],
     "type":"contao-module",
     "license":"LGPL-3.0+",
+    "homepage" : "https://hofff.com",
     "authors":[
         {
             "name":"terminal42 gmbh",
-            "homepage":"http://terminal42.ch"
+            "homepage":"http://terminal42.ch",
+            "role": "Developer"
         },
         {
             "name": "Cliff Parnitzky",
-            "homepage": "https://contao.cliff-parnitzky.de",
-            "email": "contao@cliff-parnitzky.de",
+            "homepage": "https://hofff.com",
+            "email": "cliff@hofff.com",
             "role": "Developer"
+        },
+        {
+            "name": "Nicky Hoff",
+            "homepage": "https://hofff.com",
+            "email": "nicky@hofff.com",
+            "role": "Manager"
         }
     ],
     "require":{

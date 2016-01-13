@@ -1,5 +1,5 @@
 {
-    "name":"friends-of-contao/contao-jcalendarfield",
+    "name":"hofff/contao-jcalendarfield",
     "description":"Frontend Text Field with Datepicker for Contao Open Source CMS (uses jQuery)",
     "keywords":["contao", "Calendar", "Calendar Field", "Datepicker", "jQuery"],
     "type":"contao-module",

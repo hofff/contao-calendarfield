@@ -2,32 +2,21 @@
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
  *
- * Formerly known as TYPOlight Open Source CMS.
+ * Copyright (c) 2005-2016 Leo Feyer
  *
- * This program is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, please visit the Free
- * Software Foundation website at <http://www.gnu.org/licenses/>.
- *
- * PHP version 5
- * @copyright  Andreas Schempp 2009-2012
- * @author     Andreas Schempp <andreas@schempp.ch>
- * @license    http://opensource.org/licenses/lgpl-3.0.html
+ * @package Hofff_jcalendarfield
+ * @link    https://contao.org
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
 
-class FormJCalendarField extends FormTextField
+/**
+ * Run in a custom namespace, so the class can be replaced
+ */
+namespace Hofff\Contao\JCalendarfield; 
+
+class FormJCalendarField extends \Contao\FormTextField
 {
     /**
      * Template
@@ -51,13 +40,13 @@ class FormJCalendarField extends FormTextField
             if (strlen($this->dateIncludeCSSTheme) > 0) {
                 $GLOBALS['TL_CSS'][] = '//code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
             } else {
-                $GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
+                $GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
             }
         }
 
         $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui/'.JQUERY_UI.'/jquery-ui.min.js';
-        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
-        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
 
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 
@@ -100,9 +89,6 @@ class FormJCalendarField extends FormTextField
                 break;
         }
 
-        // seems to be necessary for the backend but does only hurt in the FE
-        $style = (TL_MODE == 'BE') ? ' style="vertical-align:-6px;"' : '';
-
         if ($this->dateImage) {
             // icon
             $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
@@ -133,7 +119,6 @@ class FormJCalendarField extends FormTextField
             }
         }
 
-
         $arrCompiledConfig = array();
         foreach ($arrConfig as $k => $v) {
             $arrCompiledConfig[] = "    '" . $k . "': " . $v;
@@ -154,7 +139,7 @@ $(function() {
 
     public function validator($varInput)
     {
-        $objToday = new Date();
+        $objToday = new \Date();
 
         $intTstamp = 0;
         $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
@@ -207,7 +192,6 @@ $(function() {
         return parent::validator($varInput);
     }
 
-
     /**
      * Return a regular expression that matches a particular date format
      *
@@ -224,7 +208,7 @@ $(function() {
         }
 
         if (preg_match('/[BbCcDEeFfIJKkLlMNOoPpQqRrSTtUuVvWwXxZz]+/', $strFormat)) {
-            throw new Exception(sprintf('Invalid date format "%s"', $strFormat));
+            throw new \Exception(sprintf('Invalid date format "%s"', $strFormat));
         }
 
         $arrRegexp = array();
@@ -283,7 +267,6 @@ $(function() {
 
         return $arrRegexp[$strFormat][$strRegexpSyntax];
     }
-
 
     /*
      * Matches each symbol of PHP date format standard

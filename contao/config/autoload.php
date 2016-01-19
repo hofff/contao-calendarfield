@@ -3,10 +3,19 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @license LGPL-3.0+
  */
+
+
+/**
+ * Register the namespaces
+ */
+ClassLoader::addNamespaces(array
+(
+	'Hofff',
+));
 
 
 /**
@@ -15,5 +24,5 @@
 ClassLoader::addClasses(array
 (
 	// Forms
-	'FormJCalendarField' => 'system/modules/jcalendarfield/forms/FormJCalendarField.php',
+	'Hofff\Contao\JCalendarfield\FormJCalendarField' => 'system/modules/hofff_jcalendarfield/forms/FormJCalendarField.php',
 ));

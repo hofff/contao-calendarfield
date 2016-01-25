@@ -38,7 +38,7 @@ class FormJCalendarField extends \Contao\FormTextField
         
        if ($this->dateIncludeCSS) {
             if (strlen($this->dateIncludeCSSTheme) > 0) {
-                $GLOBALS['TL_CSS'][] = '//code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
+                $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
             } else {
                 $GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
             }

@@ -77,11 +77,11 @@ class FormJCalendarField extends \FormTextField
 
 			// Initialize the default config
 			$arrConfig = array(
-				'showAnim'		  => "'fadeIn'",
+				'showAnim'          => "'fadeIn'",
 				'showOtherMonths'   => "true",
 				'selectOtherMonths' => "true",
-				'changeMonth'	   => "true",
-				'changeYear'		=> "true"
+				'changeMonth'       => "true",
+				'changeYear'        => "true"
 			);
 
 			switch ($this->dateDirection) {
@@ -121,6 +121,7 @@ class FormJCalendarField extends \FormTextField
 				$arrConfig['showOn']          = "'both'";
 				$arrConfig['buttonImage']     = "'" . $strIcon . "'";
 				$arrConfig['buttonImageOnly'] = "true";
+				$arrConfig['buttonText']      = "'" . $GLOBALS['TL_LANG']['MSC']['jcalendarfield_tooltip'] . "'";
 			}
 
 			// correctly style the date format

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Misc
+ */
+$GLOBALS['TL_LANG']['MSC']['jcalendarfield_tooltip'] = 'Select date';
+
+/**
  * Errors
  */
 $GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday'] = 'Please enter a date in the past (excluding today).';

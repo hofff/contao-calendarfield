@@ -4,7 +4,7 @@
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'] = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateImage', 'dateIncludeCSS'));
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['jcalendar']    = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['jcalendar']    = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{template_legend:hide},customTpl;{submit_legend},addSubmit';
 
 /**
  * Subpalettes

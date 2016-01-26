@@ -26,3 +26,12 @@ ClassLoader::addClasses(array
 	// Forms
 	'Hofff\Contao\JCalendarfield\FormJCalendarField' => 'system/modules/hofff_jcalendarfield/forms/FormJCalendarField.php',
 ));
+
+
+/**
+ * Register the templates
+ */
+TemplateLoader::addFiles(array
+(
+	'form_jcalendarfield' => 'system/modules/hofff_jcalendarfield/templates/forms',
+));

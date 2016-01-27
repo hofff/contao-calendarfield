@@ -1,7 +1,7 @@
 Contao Extension "jcalendarfield"
 ---------------------------------
 
-### Version 2.0.0-beta4 (2016-0x-xx) ###
+### Version 2.0.0-beta4 (2016-01-26) ###
 - Adding correct template usage
 - Restricting minimum Contao version do `3.3.x`
 - Adding tooltip to calendar icon

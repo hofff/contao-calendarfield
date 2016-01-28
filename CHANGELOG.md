@@ -1,6 +1,10 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
+### Version 2.0.1 (2016-01-28) ###
+- Adding default CSS (see #28)
+- Removing jquery ui for Contao 3.2.x
+
 ### Version 2.0.0 (2016-01-28) ###
 - Reordering folder structure
 

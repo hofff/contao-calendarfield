@@ -39,15 +39,12 @@
     "extra":{
         "contao": {
             "sources":{
-                "assets/jcalendarfield": "assets/jcalendarfield",
-                "contao": "system/modules/hofff_jcalendarfield"
-            },
-            "runonce": [
-                "runonce/update.php"
-            ]
+                "CT_ROOT/assets/hofff/calendarfield": "assets/hofff/calendarfield",
+                "CT_ROOT/system/modules/hofff_calendarfield": "system/modules/hofff_calendarfield"
+            }
         },
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     },
     "prefer-stable": true,

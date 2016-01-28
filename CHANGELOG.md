@@ -1,5 +1,8 @@
-Contao Extension "jcalendarfield"
----------------------------------
+Contao Extension "hofff/contao-calendarfield"
+---------------------------------------------
+
+### Version 2.0.0 (2016-01-28) ###
+- Reordering folder structure
 
 ### Version 2.0.0-beta4 (2016-01-26) ###
 - Adding correct template usage

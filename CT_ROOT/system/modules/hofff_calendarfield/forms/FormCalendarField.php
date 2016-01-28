@@ -5,7 +5,7 @@
  *
  * Copyright (c) 2005-2016 Leo Feyer
  *
- * @package Hofff_jcalendarfield
+ * @package Hofff_calendarfield
  * @link    https://hofff.com
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
@@ -14,23 +14,23 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
-namespace Hofff\Contao\JCalendarfield;
+namespace Hofff\Contao\Calendarfield;
 
-class FormJCalendarField extends \FormTextField
+class FormCalendarField extends \FormTextField
 {
 	/**
 	 * Template
 	 *
 	 * @var string
 	 */
-	protected $strTemplate = 'form_jcalendarfield';
+	protected $strTemplate = 'form_calendarfield';
 
 	/**
 	 * The CSS class prefix
 	 *
 	 * @var string
 	 */
-	protected $strPrefix = 'widget widget-text widget-jcalendar';
+	protected $strPrefix = 'widget widget-text widget-calendar';
 
 	/**
 	 * Always set rgxp to `date`
@@ -59,13 +59,13 @@ class FormJCalendarField extends \FormTextField
 			if (strlen($this->dateIncludeCSSTheme) > 0) {
 				$GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
 			} else {
-				$GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
+				$GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
 			}
 		}
 
 		$GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui/'.JQUERY_UI.'/jquery-ui.min.js';
-		$GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
-		$GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jcalendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
+		$GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
+		$GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
 
 		$dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 
@@ -121,15 +121,15 @@ class FormJCalendarField extends \FormTextField
 				$arrConfig['showOn']          = "'both'";
 				$arrConfig['buttonImage']     = "'" . $strIcon . "'";
 				$arrConfig['buttonImageOnly'] = "true";
-				$arrConfig['buttonText']      = "'" . $GLOBALS['TL_LANG']['MSC']['jcalendarfield_tooltip'] . "'";
+				$arrConfig['buttonText']      = "'" . $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'] . "'";
 			}
 
 			// correctly style the date format
 			$arrConfig['format'] = "'" . $this->dateformat_PHP_to_jQueryUI($dateFormat) . "'";
 
 			// HOOK: allow to customize the date picker
-			if (isset($GLOBALS['TL_HOOKS']['formJCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formJCalendarField'])) {
-				foreach ($GLOBALS['TL_HOOKS']['formJCalendarField'] as $callback) {
+			if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
+				foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
 					$objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
 					$arrConfig = $objCallback->$callback[1]($arrConfig, $this);
 				}
@@ -140,7 +140,7 @@ class FormJCalendarField extends \FormTextField
 				$arrCompiledConfig[] = "	'" . $k . "': " . $v;
 			}
 
-			$this->jcalendarScript .= "
+			$this->calendarfieldScript .= "
 <script>
 $(function() {
   $.datepicker.regional['" . $objPage->language . "'];
@@ -195,22 +195,22 @@ $(function() {
 			switch ($this->dateDirection) {
 				case 'ltToday':
 					if ($intTstamp >= $objToday->dayBegin) {
-						$this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_ltToday']);
+						$this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday']);
 					}
 					break;
 				case 'leToday':
 					if ($intTstamp > $objToday->dayBegin) {
-						$this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_leToday']);
+						$this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday']);
 					}
 					break;
 				case 'geToday':
 					if ($intTstamp < $objToday->dayBegin) {
-						$this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_geToday']);
+						$this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday']);
 					}
 					break;
 				case 'gtToday':
 					if ($intTstamp <= $objToday->dayBegin) {
-						$this->addError($GLOBALS['TL_LANG']['ERR']['jcalendarfield_direction_+1']);
+						$this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
 					}
 					break;
 			}

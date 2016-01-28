@@ -3,7 +3,7 @@
 /**
  * Form fields
  */
-$GLOBALS['TL_LANG']['FFL']['jcalendar'] = array('Kalenderfeld (jQuery)', 'Formularfeld um eine Kalender-Auswahl im Frontend anzuzeigen (jQuery Variante).');
+$GLOBALS['TL_LANG']['FFL']['calendarfield'] = array('Kalenderfeld (jQuery)', 'Formularfeld um eine Kalender-Auswahl im Frontend anzuzeigen (jQuery Variante).');
 
 /**
  * Fields

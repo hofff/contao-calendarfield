@@ -24,7 +24,7 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Forms
-	'Hofff\Contao\JCalendarfield\FormJCalendarField' => 'system/modules/hofff_jcalendarfield/forms/FormJCalendarField.php',
+	'Hofff\Contao\Calendarfield\FormCalendarField' => 'system/modules/hofff_calendarfield/forms/FormCalendarField.php',
 ));
 
 
@@ -33,5 +33,5 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'form_jcalendarfield' => 'system/modules/hofff_jcalendarfield/templates/forms',
+	'form_calendarfield' => 'system/modules/hofff_calendarfield/templates/forms',
 ));

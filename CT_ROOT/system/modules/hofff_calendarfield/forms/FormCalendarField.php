@@ -36,7 +36,7 @@ class FormCalendarField extends \FormTextField
 	 * Always set rgxp to `date`
 	 *
 	 * @param array $arrAttributes An optional attributes array
-	 */ 
+	 */
 	public function __construct($arrAttributes = null)
 	{
 		parent::__construct($arrAttributes);
@@ -127,6 +127,10 @@ class FormCalendarField extends \FormTextField
 			// correctly style the date format
 			$arrConfig['format'] = "'" . $this->dateformat_PHP_to_jQueryUI($dateFormat) . "'";
 
+			if (is_array($this->dateConfig)) {
+				$arrConfig = array_replace($arrConfig, $this->dateConfig);
+			}
+
 			// HOOK: allow to customize the date picker
 			if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
 				foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
@@ -153,7 +157,7 @@ $(function() {
 
 		return parent::parse($arrAttributes);
 	}
-		
+
 	/**
 	 * Generate the widget and return it as string
 	 *

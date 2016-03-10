@@ -73,78 +73,76 @@ class FormCalendarField extends \FormTextField
 			$this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
 		}
 
-		if (!$this->readonly && !$this->disabled) {
+    // Initialize the default config
+    $arrConfig = array(
+      'showAnim'          => "'fadeIn'",
+      'showOtherMonths'   => "true",
+      'selectOtherMonths' => "true",
+      'changeMonth'       => "true",
+      'changeYear'        => "true"
+    );
 
-			// Initialize the default config
-			$arrConfig = array(
-				'showAnim'          => "'fadeIn'",
-				'showOtherMonths'   => "true",
-				'selectOtherMonths' => "true",
-				'changeMonth'       => "true",
-				'changeYear'        => "true"
-			);
+    switch ($this->dateDirection) {
+      case 'ltToday':
+        $time = strtotime('-1 day');
+        $arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
+        break;
 
-			switch ($this->dateDirection) {
-				case 'ltToday':
-					$time = strtotime('-1 day');
-					$arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
-					break;
+      case 'leToday':
+        $arrConfig['maxDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+        break;
 
-				case 'leToday':
-					$arrConfig['maxDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
-					break;
+      case 'geToday':
+        $arrConfig['minDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+        break;
 
-				case 'geToday':
-					$arrConfig['minDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
-					break;
+      case 'gtToday':
+        $time = strtotime('+1 day');
+        $arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
+        break;
+    }
 
-				case 'gtToday':
-					$time = strtotime('+1 day');
-					$arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
-					break;
-			}
+    if ($this->dateImage) {
+      // icon
+      $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
 
-			if ($this->dateImage) {
-				// icon
-				$strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
+      if (\Validator::isUuid($this->dateImageSRC)) {
+        $objFile = \FilesModel::findByPk($this->dateImageSRC);
 
-				if (\Validator::isUuid($this->dateImageSRC)) {
-					$objFile = \FilesModel::findByPk($this->dateImageSRC);
+        if ($objFile !== null && is_file(TL_ROOT . '/' . $objFile->path)) {
+          $strIcon = $objFile->path;
+        }
+      }
 
-					if ($objFile !== null && is_file(TL_ROOT . '/' . $objFile->path)) {
-						$strIcon = $objFile->path;
-					}
-				}
+      $arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
 
-				$arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
+      $arrConfig['showOn']          = "'both'";
+      $arrConfig['buttonImage']     = "'" . $strIcon . "'";
+      $arrConfig['buttonImageOnly'] = "true";
+      $arrConfig['buttonText']      = "'" . $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'] . "'";
+    }
 
-				$arrConfig['showOn']          = "'both'";
-				$arrConfig['buttonImage']     = "'" . $strIcon . "'";
-				$arrConfig['buttonImageOnly'] = "true";
-				$arrConfig['buttonText']      = "'" . $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'] . "'";
-			}
+    // correctly style the date format
+    $arrConfig['format'] = "'" . $this->dateformat_PHP_to_jQueryUI($dateFormat) . "'";
 
-			// correctly style the date format
-			$arrConfig['format'] = "'" . $this->dateformat_PHP_to_jQueryUI($dateFormat) . "'";
+    if (is_array($this->dateConfig)) {
+      $arrConfig = array_replace($arrConfig, $this->dateConfig);
+    }
 
-			if (is_array($this->dateConfig)) {
-				$arrConfig = array_replace($arrConfig, $this->dateConfig);
-			}
+    // HOOK: allow to customize the date picker
+    if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
+      foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
+        $objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
+        $arrConfig = $objCallback->$callback[1]($arrConfig, $this);
+      }
+    }
 
-			// HOOK: allow to customize the date picker
-			if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
-				foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
-					$objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
-					$arrConfig = $objCallback->$callback[1]($arrConfig, $this);
-				}
-			}
+    $arrCompiledConfig = array();
+    foreach ($arrConfig as $k => $v) {
+      $arrCompiledConfig[] = "	'" . $k . "': " . $v;
+    }
 
-			$arrCompiledConfig = array();
-			foreach ($arrConfig as $k => $v) {
-				$arrCompiledConfig[] = "	'" . $k . "': " . $v;
-			}
-
-			$this->calendarfieldScript .= "
+    $this->calendarfieldScript .= "
 <script>
 $(function() {
   $.datepicker.regional['" . $objPage->language . "'];
@@ -153,7 +151,6 @@ $(function() {
   });
 });
 </script>";
-		}
 
 		return parent::parse($arrAttributes);
 	}

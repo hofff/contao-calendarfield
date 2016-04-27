@@ -144,12 +144,12 @@ class FormCalendarField extends \FormTextField
 
     $this->calendarfieldScript .= "
 <script>
-$(function() {
+!(function($) {
   $.datepicker.regional['" . $objPage->language . "'];
   $('#ctrl_" . $this->strId . "').datepicker({
 " . implode(",\n", $arrCompiledConfig) . "
   });
-});
+})(jQuery);
 </script>";
 
 		return parent::parse($arrAttributes);

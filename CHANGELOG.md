@@ -1,6 +1,15 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
+### Version 2.1.2 (2016-04-28) ###
+- Fixed: Using jQuery and MooTools Together (see #30)
+
+### Version 2.1.1 (2016-03-10) ###
+- Removed checking attributes `disable` and `readonly`.
+
+### Version 2.1.0 (2016-01-29) ###
+- allow individual js config via `dateConfig` param
+
 ### Version 2.0.1 (2016-01-28) ###
 - Adding default CSS (see #28)
 - Removing jquery ui for Contao 3.2.x

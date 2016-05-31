@@ -1,11 +1,14 @@
-# OS
-.DS_Store
-Thumbs.db
-
-# IDEs
-.buildpath
-.project
-.settings/
-.build/
-.idea/
-nbproject/
+/*
+!/.gitignore
+!/.gitattributes
+!/assets/
+!/CT_ROOT/
+!/dev/
+!/ext/
+!/publish/
+!/src/
+!/build.xml
+!/CHANGELOG.md
+!/README.md
+!/composer.json
+!/screenshot*.png

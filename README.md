@@ -2,7 +2,7 @@
 [![Installations via composer per month](http://img.shields.io/packagist/dm/hofff/contao-calendarfield.svg?style=flat)](https://packagist.org/packages/hofff/contao-calendarfield)
 [![Installations via composer total](http://img.shields.io/packagist/dt/hofff/contao-calendarfield.svg?style=flat)](https://packagist.org/packages/hofff/contao-calendarfield)
 
-# Contao Extension: hofff.com - Leads encryption
+# Contao Extension: hofff.com - jQuery calendar field
 
 Frontend text field with datepicker for Contao Open Source CMS (uses jQuery).
 

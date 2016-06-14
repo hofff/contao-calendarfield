@@ -146,7 +146,7 @@ jQuery(function($) {
 </script>
 JS;
     
-    $GLOBALS['TL_JQUERY'][] = sprintf($calendarfieldScript, $this->strId, json_encode($arrConfig), $this->strId, $objPage->language);
+    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, json_encode($arrConfig), $this->strId, $objPage->language);
 
     return parent::parse($arrAttributes);
   }

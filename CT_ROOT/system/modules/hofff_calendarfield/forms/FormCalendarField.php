@@ -84,21 +84,19 @@ class FormCalendarField extends \FormTextField
 
     switch ($this->dateDirection) {
       case 'ltToday':
-        $time = strtotime('-1 day');
-        $arrConfig['maxDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
+        $arrConfig['maxDate'] = -1;
         break;
 
       case 'leToday':
-        $arrConfig['maxDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+        $arrConfig['maxDate'] = 0;
         break;
 
       case 'geToday':
-        $arrConfig['minDate'] = 'new Date(' . date('Y') . ', ' . (date('n')-1) . ', ' . date('j') . ')';
+        $arrConfig['minDate'] = 0;
         break;
 
       case 'gtToday':
-        $time = strtotime('+1 day');
-        $arrConfig['minDate'] = 'new Date(' . date('Y', $time) . ', ' . (date('n', $time)-1) . ', ' . date('j', $time) . ')';
+        $arrConfig['minDate'] = 1;
         break;
     }
 

@@ -1,6 +1,12 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
+### Version 2.1.4 (2016-08-xx) ###
+- Fixes probleme with wrong JS config when using date limitations.
+
+### Version 2.1.3 (2016-06-16) ###
+- Fixing bug with correct integration of initialization script.
+
 ### Version 2.1.2 (2016-04-28) ###
 - Fixed: Using jQuery and MooTools Together (see #30)
 

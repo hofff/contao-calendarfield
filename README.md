@@ -13,6 +13,7 @@ Frontend text field with datepicker for Contao Open Source CMS (uses jQuery).
 - define date format and which dates are allowed (e.g. only date in the future)
 - optional usage of jQuery UI
 - optional selection of custom icon
+- optional definition of dates, that should be disabled
 
 
 ## Compatibility

@@ -18,6 +18,8 @@ namespace Hofff\Contao\Calendarfield;
 
 class FormCalendarField extends \FormTextField
 {
+  const DATE_FORMAT_PHP = "d-m-Y";
+  
   /**
    * Template
    *
@@ -145,12 +147,11 @@ class FormCalendarField extends \FormTextField
     
     $beforeShowDayFunction .= <<<JS
 function(date){
-	var weekday = date.getDay().toString();
-	var stringDate = jQuery.datepicker.formatDate('dd-mm-yy', date);
-  console.log(stringDate);
-	var isWeekdayDisabled = ($.inArray(weekday, disabledWeekdays) != -1);
-	var isDayDisabled = ($.inArray(stringDate, disabledDays) != -1);
-	return [!isWeekdayDisabled && !isDayDisabled];
+  var weekday = date.getDay().toString();
+  var stringDate = jQuery.datepicker.formatDate('dd-mm-yy', date);
+  var isWeekdayDisabled = ($.inArray(weekday, disabledWeekdays) != -1);
+  var isDayDisabled = ($.inArray(stringDate, disabledDays) != -1);
+  return [!isWeekdayDisabled && !isDayDisabled];
 }
 JS;
     
@@ -160,16 +161,7 @@ JS;
     $disabledWeekdays = json_encode(deserialize($this->dateDisabledWeekdays, true));
     
     // extract disallowed days
-    $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
-    $arrDateDisabledDaysActive = array();
-    foreach ($arrDateDisabledDays as $config)
-    {
-      if (!empty($config['date']) && $config['active'])
-      {
-        $arrDateDisabledDaysActive[] = date('d-m-Y', $config['date']);
-      }
-    }
-    $disabledDays = json_encode($arrDateDisabledDaysActive);
+    $disabledDays = json_encode($this->getActiveDisabledDays());
     
     $calendarfieldScript .= <<<JS
 <script>
@@ -243,14 +235,23 @@ JS;
           break;
         case 'gtToday':
           if ($intTstamp <= $objToday->dayBegin) {
-            $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+            $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday']);
           }
           break;
       }
       
-      //validate disallowed dates
-      // TODO
+      //validate disallowed weekdays
+      $disabledWeekdays = deserialize($this->dateDisabledWeekdays, true);
+      if (in_array(date("w", $intTstamp), $disabledWeekdays))
+      {
+        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_weekday']);
+      }
       
+      //validate disallowed days
+      if (in_array(date(static::DATE_FORMAT_PHP, $intTstamp), $this->getActiveDisabledDays()))
+      {
+        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_day']);
+      }
     }
 
     return parent::validator($varInput);
@@ -396,5 +397,19 @@ JS;
       }
     }
     return $jqueryui_format;
+  }
+  
+  private function getActiveDisabledDays()
+  {
+    $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
+    $arrDateDisabledDaysActive = array();
+    foreach ($arrDateDisabledDays as $config)
+    {
+      if (!empty($config['date']) && $config['active'])
+      {
+        $arrDateDisabledDaysActive[] = date(static::DATE_FORMAT_PHP, $config['date']);
+      }
+    }
+    return $arrDateDisabledDaysActive;
   }
 }

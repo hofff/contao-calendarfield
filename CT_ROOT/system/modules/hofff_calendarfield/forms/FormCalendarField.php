@@ -53,6 +53,12 @@ class FormCalendarField extends \FormTextField
    */
   public function parse($arrAttributes=null)
   {
+    // do not add in back end
+    if (TL_MODE == 'BE')
+    {
+      return parent::parse($arrAttributes);
+    }
+    
     global $objPage;
 
      if ($this->dateIncludeCSS) {

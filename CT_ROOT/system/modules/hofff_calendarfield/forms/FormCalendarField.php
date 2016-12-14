@@ -108,7 +108,7 @@ class FormCalendarField extends \FormTextField
 
     if ($this->dateImage) {
       // icon
-      $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
+      $strIcon = 'system/modules/hofff_calendarfield/assets/datepicker.png';
 
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objFile = \FilesModel::findByPk($this->dateImageSRC);

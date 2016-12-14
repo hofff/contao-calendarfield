@@ -4,7 +4,7 @@
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateImage', 'dateIncludeCSS'));
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage;{expert_legend:hide},value,dateParseValue,class,accesskey;{template_legend:hide},customTpl;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},value,dateParseValue,class,accesskey;{template_legend:hide},customTpl;{submit_legend},addSubmit';
 
 /**
  * Subpalettes
@@ -84,3 +84,45 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
 	'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
 	'sql'                     => "binary(16) NULL"
 );
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledWeekdays'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDisabledWeekdays'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'options'                 => array("1", "2", "3", "4", "5", "6", "0"),
+	'reference'               => &$GLOBALS['TL_LANG']['DAYS'],  
+	'eval'                    => array('tl_class'=>'w50 clr', 'multiple'=>true),
+	'sql'                     => "blob NULL"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledDays'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDisabledDays'],
+	'inputType'               => 'multiColumnWizard',
+	'eval'                    => array
+	(
+		'style'        => 'min-width: 100%;',
+		'tl_class'     =>'clr',
+    'minCount'        => 0,
+
+		'columnFields' => array
+		(
+			'date' => array
+			(
+				'label'            => &$GLOBALS['TL_LANG']['tl_form_field']['dateDisabledDaysDate'],
+				'exclude'          => true,
+				'inputType'        => 'text',
+				'eval'             => array('rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'wizard'),
+			),
+			'active' => array
+			(
+				'label'            => &$GLOBALS['TL_LANG']['tl_form_field']['dateDisabledDaysActive'],
+				'exclude'          => true,
+				'inputType'        => 'checkbox'
+			)
+		)
+	),
+	'sql'            => "blob NOT NULL"
+); 
+

@@ -31,7 +31,7 @@ class FormCalendarField extends \FormTextField
    * @var string
    */
   protected $strPrefix = 'widget widget-text widget-calendar';
-
+  
   /**
    * Always set rgxp to `date`
    *
@@ -141,16 +141,48 @@ class FormCalendarField extends \FormTextField
       }
     }
 
+    $strConfig = json_encode($arrConfig);
+    
+    $beforeShowDayFunction .= <<<JS
+function(date){
+	var weekday = date.getDay().toString();
+	var stringDate = jQuery.datepicker.formatDate('dd-mm-yy', date);
+  console.log(stringDate);
+	var isWeekdayDisabled = ($.inArray(weekday, disabledWeekdays) != -1);
+	var isDayDisabled = ($.inArray(stringDate, disabledDays) != -1);
+	return [!isWeekdayDisabled && !isDayDisabled];
+}
+JS;
+    
+    $strConfig = substr($strConfig, 0, strlen($strConfig) - 1) . ',"beforeShowDay":' . sprintf($beforeShowDayFunction) . '}';
+    
+    // extract disallowed weekdays
+    $disabledWeekdays = json_encode(deserialize($this->dateDisabledWeekdays, true));
+    
+    // extract disallowed days
+    $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
+    $arrDateDisabledDaysActive = array();
+    foreach ($arrDateDisabledDays as $config)
+    {
+      if (!empty($config['date']) && $config['active'])
+      {
+        $arrDateDisabledDaysActive[] = date('d-m-Y', $config['date']);
+      }
+    }
+    $disabledDays = json_encode($arrDateDisabledDaysActive);
+    
     $calendarfieldScript .= <<<JS
 <script>
 jQuery(function($) {
+  var disabledWeekdays = $disabledWeekdays;
+  var disabledDays = $disabledDays;
   $("#ctrl_%s").datepicker(%s);
   $("#ctrl_%s").datepicker( $.datepicker.regional["%s"] );
 });
 </script>
 JS;
     
-    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, json_encode($arrConfig), $this->strId, $objPage->language);
+    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, $strConfig, $this->strId, $objPage->language);
 
     return parent::parse($arrAttributes);
   }
@@ -215,6 +247,10 @@ JS;
           }
           break;
       }
+      
+      //validate disallowed dates
+      // TODO
+      
     }
 
     return parent::validator($varInput);

@@ -27,7 +27,8 @@
     "require":{
         "php": ">=5.3",
         "contao/core": ">=3.3.0,<3.6",
-        "contao-community-alliance/composer-plugin": "~2.0"
+        "contao-community-alliance/composer-plugin": "~2.0",
+        "menatwork/contao-multicolumnwizard":"~3.3"
     },
     "replace": {
         "contao-legacy/calendarfield": "self.version",

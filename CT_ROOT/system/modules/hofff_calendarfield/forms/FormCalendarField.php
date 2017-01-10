@@ -18,6 +18,8 @@ namespace Hofff\Contao\Calendarfield;
 
 class FormCalendarField extends \FormTextField
 {
+  const DATE_FORMAT_PHP = "d-m-Y";
+  
   /**
    * Template
    *
@@ -31,7 +33,7 @@ class FormCalendarField extends \FormTextField
    * @var string
    */
   protected $strPrefix = 'widget widget-text widget-calendar';
-
+  
   /**
    * Always set rgxp to `date`
    *
@@ -53,6 +55,12 @@ class FormCalendarField extends \FormTextField
    */
   public function parse($arrAttributes=null)
   {
+    // do not add in back end
+    if (TL_MODE == 'BE')
+    {
+      return parent::parse($arrAttributes);
+    }
+    
     global $objPage;
 
      if ($this->dateIncludeCSS) {
@@ -102,7 +110,7 @@ class FormCalendarField extends \FormTextField
 
     if ($this->dateImage) {
       // icon
-      $strIcon = 'assets/mootools/datepicker/'.DATEPICKER.'/icon.gif';
+      $strIcon = 'system/modules/hofff_calendarfield/assets/datepicker.png';
 
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objFile = \FilesModel::findByPk($this->dateImageSRC);
@@ -135,16 +143,38 @@ class FormCalendarField extends \FormTextField
       }
     }
 
+    $strConfig = json_encode($arrConfig);
+    
+    $beforeShowDayFunction .= <<<JS
+function(date){
+  var weekday = date.getDay().toString();
+  var stringDate = jQuery.datepicker.formatDate('dd-mm-yy', date);
+  var isWeekdayDisabled = ($.inArray(weekday, disabledWeekdays) != -1);
+  var isDayDisabled = ($.inArray(stringDate, disabledDays) != -1);
+  return [!isWeekdayDisabled && !isDayDisabled];
+}
+JS;
+    
+    $strConfig = substr($strConfig, 0, strlen($strConfig) - 1) . ',"beforeShowDay":' . sprintf($beforeShowDayFunction) . '}';
+    
+    // extract disallowed weekdays
+    $disabledWeekdays = json_encode(deserialize($this->dateDisabledWeekdays, true));
+    
+    // extract disallowed days
+    $disabledDays = json_encode($this->getActiveDisabledDays());
+    
     $calendarfieldScript .= <<<JS
 <script>
 jQuery(function($) {
+  var disabledWeekdays = $disabledWeekdays;
+  var disabledDays = $disabledDays;
   $("#ctrl_%s").datepicker(%s);
   $("#ctrl_%s").datepicker( $.datepicker.regional["%s"] );
 });
 </script>
 JS;
     
-    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, json_encode($arrConfig), $this->strId, $objPage->language);
+    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, $strConfig, $this->strId, $objPage->language);
 
     return parent::parse($arrAttributes);
   }
@@ -205,9 +235,22 @@ JS;
           break;
         case 'gtToday':
           if ($intTstamp <= $objToday->dayBegin) {
-            $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_+1']);
+            $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday']);
           }
           break;
+      }
+      
+      //validate disallowed weekdays
+      $disabledWeekdays = deserialize($this->dateDisabledWeekdays, true);
+      if (in_array(date("w", $intTstamp), $disabledWeekdays))
+      {
+        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_weekday']);
+      }
+      
+      //validate disallowed days
+      if (in_array(date(static::DATE_FORMAT_PHP, $intTstamp), $this->getActiveDisabledDays()))
+      {
+        $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_day']);
       }
     }
 
@@ -354,5 +397,19 @@ JS;
       }
     }
     return $jqueryui_format;
+  }
+  
+  private function getActiveDisabledDays()
+  {
+    $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
+    $arrDateDisabledDaysActive = array();
+    foreach ($arrDateDisabledDays as $config)
+    {
+      if (!empty($config['date']) && $config['active'])
+      {
+        $arrDateDisabledDaysActive[] = date(static::DATE_FORMAT_PHP, $config['date']);
+      }
+    }
+    return $arrDateDisabledDaysActive;
   }
 }

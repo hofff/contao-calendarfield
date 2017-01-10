@@ -1,7 +1,10 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
-### Version 2.1.4 (2016-08-xx) ###
+### Version 2.2.0 (2016-12-xx) ###
+- Adding optional definition of dates, that should be disabled
+
+### Version 2.1.4 (2016-08-05) ###
 - Fixes probleme with wrong JS config when using date limitations.
 
 ### Version 2.1.3 (2016-06-16) ###

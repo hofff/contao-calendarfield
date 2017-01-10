@@ -1,8 +1,11 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
-### Version 2.2.0 (2016-12-xx) ###
-- Adding optional definition of dates, that should be disabled
+### Version 2.2.0 (2017-01-10) ###
+- Adding optional definition of dates/weekdays, that should be disabled/not allowed
+- Fixing console bugs in backend view
+- Adding an individual default datepicker icon to remove dependeny to mootools
+- Adding missing `tabindex` to DCA (see #34)
 
 ### Version 2.1.4 (2016-08-05) ###
 - Fixes probleme with wrong JS config when using date limitations.

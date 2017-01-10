@@ -13,7 +13,7 @@ Frontend text field with datepicker for Contao Open Source CMS (uses jQuery).
 - define date format and which dates are allowed (e.g. only date in the future)
 - optional usage of jQuery UI
 - optional selection of custom icon
-- optional definition of dates, that should be disabled
+- optional definition of dates/weekdays, that should be disabled/not allowed
 
 
 ## Compatibility
@@ -31,7 +31,9 @@ If you prefer to install it manually, download the latest release here: https://
 
 ## Dependency
 
-There are no dependencies to other extensions, that have to be installed.
+This extension is dependent on the following extensions:
+
+- [[menatwork/contao-multicolumnwizard]](https://packagist.org/packages/menatwork/contao-multicolumnwizard)
 
 
 ## Screenshots

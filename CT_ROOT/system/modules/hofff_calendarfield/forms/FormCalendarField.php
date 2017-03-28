@@ -74,8 +74,8 @@ class FormCalendarField extends \FormTextField
     $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery/ui/'.JQUERY_UI.'/jquery-ui.min.js';
     $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
     $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
-
-    $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
+    
+    $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 
     if ($this->dateParseValue && $this->varValue != '') {
       $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
@@ -129,7 +129,7 @@ class FormCalendarField extends \FormTextField
     }
 
     // correctly style the date format
-    $arrConfig['format'] = $this->dateformat_PHP_to_jQueryUI($dateFormat);
+    $arrConfig['dateFormat'] = $this->dateformat_PHP_to_jQueryUI($dateFormat);
 
     if (is_array($this->dateConfig)) {
       $arrConfig = array_replace($arrConfig, $this->dateConfig);

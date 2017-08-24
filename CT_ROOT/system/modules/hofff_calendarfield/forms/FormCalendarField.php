@@ -69,13 +69,13 @@ class FormCalendarField extends \FormTextField
       if (strlen($this->dateIncludeCSSTheme) > 0) {
         $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.$jQueryUI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
       } else {
-        $GLOBALS['TL_CSS'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery-ui.datepicker/css/datepicker.min.css';
+        $GLOBALS['TL_CSS'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/css/datepicker.min.css';
       }
     }
 
-    $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/jquery-ui/js/jquery-ui.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery-ui.datepicker/js/widgets/datepicker.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = TL_ASSETS_URL . 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $objPage->language . '.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery-ui/js/jquery-ui.min.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/widgets/datepicker.min.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $objPage->language . '.js';
     
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 

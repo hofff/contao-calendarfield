@@ -1,6 +1,10 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
+### Version 2.3.0 (2017-08-xx) ###
+- Adding Contao 4.4 compatibilty
+- Adding PHP 7 compatibilty
+
 ### Version 2.2.0 (2017-01-10) ###
 - Adding optional definition of dates/weekdays, that should be disabled/not allowed
 - Fixing console bugs in backend view

@@ -139,7 +139,7 @@ class FormCalendarField extends \FormTextField
     if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
       foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
         $objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
-        $arrConfig = $objCallback->$callback[1]($arrConfig, $this);
+        $arrConfig = $objCallback->{$callback[1]}($arrConfig, $this);
       }
     }
 

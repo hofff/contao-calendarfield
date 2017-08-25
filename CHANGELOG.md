@@ -1,8 +1,11 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
+### Version 2.2.3 (2017-08-25) ###
+- Fix probleme with duplicate assets url (see #37)
+
 ### Version 2.2.2 (2017-08-25) ###
-- Fix probleme with duplicate assets url (see #33 )
+- Fix probleme with duplicate assets url (see #33)
 
 ### Version 2.2.1 (2017-03-28) ###
 - Fixing probleme with parameter `dateFormat` (see #36)

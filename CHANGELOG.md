@@ -2,7 +2,7 @@ Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 
 ### Version 2.2.3 (2017-08-25) ###
-- Fix probleme with duplicate assets url (see #37)
+- Adjust the code to be compatible with PHP7 (see #37)
 
 ### Version 2.2.2 (2017-08-25) ###
 - Fix probleme with duplicate assets url (see #33)

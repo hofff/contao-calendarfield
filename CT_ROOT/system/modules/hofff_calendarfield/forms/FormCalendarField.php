@@ -62,18 +62,20 @@ class FormCalendarField extends \FormTextField
     }
     
     global $objPage;
+    
+    $jQueryUI = \System::getContainer()->getParameter('kernel.packages')['contao-components/jquery-ui'];
 
-     if ($this->dateIncludeCSS) {
+    if ($this->dateIncludeCSS) {
       if (strlen($this->dateIncludeCSSTheme) > 0) {
-        $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.JQUERY_UI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
+        $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.$jQueryUI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
       } else {
-        $GLOBALS['TL_CSS'][] = 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.css';
+        $GLOBALS['TL_CSS'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/css/datepicker.min.css';
       }
     }
 
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery/ui/'.JQUERY_UI.'/jquery-ui.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/jquery.ui.datepicker.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery.ui.datepicker/'.JQUERY_UI.'/i18n/jquery.ui.datepicker-' . $objPage->language . '.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery-ui/js/jquery-ui.min.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/widgets/datepicker.min.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $objPage->language . '.js';
     
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 

@@ -18,8 +18,7 @@ Frontend text field with datepicker for Contao Open Source CMS (uses jQuery).
 
 ## Compatibility
 
-- min. Contao version: >= 3.3.0
-- max. Contao version: <  3.6.0
+- Contao version >= 4.4.0
 
 
 ## Installation

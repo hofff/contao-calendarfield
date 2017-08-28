@@ -26,16 +26,13 @@
     ],
     "require":{
         "php": ">=5.3",
-        "contao/core": ">=3.3.0,<3.6",
-        "contao-community-alliance/composer-plugin": "~2.0",
+        "contao/core-bundle":"~4.4",
+        "contao-community-alliance/composer-plugin":"~3.0",
         "menatwork/contao-multicolumnwizard":"~3.3"
     },
     "replace": {
         "contao-legacy/calendarfield": "self.version",
         "terminal42/contao-calendarfield": "self.version"
-    },
-    "conflict": {
-        "contao/core":"3.4.0,3.4.1,3.4.2" 
     },
     "extra":{
         "contao": {
@@ -45,7 +42,7 @@
             }
         },
         "branch-alias": {
-            "dev-master": "2.2.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     },
     "prefer-stable": true,

@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateIncludeCSS'] = array
 	'exclude'                 => true,
 	'default'                 => '1',
 	'inputType'               => 'checkbox',
-	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50 m12'),
+	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr w50 m12'),
 	'sql'                     => "char(1) NOT NULL default '1'"
 );
 

@@ -63,7 +63,9 @@ class FormCalendarField extends \FormTextField
     
     global $objPage;
     
-    $jQueryUI = \System::getContainer()->getParameter('kernel.packages')['contao-components/jquery-ui'];
+    $arrJQueryUI = explode(".", \System::getContainer()->getParameter('kernel.packages')['contao-components/jquery-ui']);
+    // hopefully we have a correct jQuery UI version number now
+    $jQueryUI = $arrJQueryUI[0] . "." . $arrJQueryUI[1] . "." . $arrJQueryUI[2];
 
     if ($this->dateIncludeCSS) {
       if (strlen($this->dateIncludeCSSTheme) > 0) {

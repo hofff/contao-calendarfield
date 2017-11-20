@@ -74,10 +74,16 @@ class FormCalendarField extends \FormTextField
         $GLOBALS['TL_CSS'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/css/datepicker.min.css';
       }
     }
+    
+    $lang = $objPage->language;
+    // in some cases we have to trnsform the languge to a locale
+    switch ($lang) {
+      case "en": $lang = "en-GB"; break;
+    }
 
     $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery-ui/js/jquery-ui.min.js';
     $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/widgets/datepicker.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $objPage->language . '.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $lang . '.js';
     
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 

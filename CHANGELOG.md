@@ -1,5 +1,11 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
+### Version 3.0.2 (2018-02-07) ###
+- Fixes probleme with `BLOB NOT NULL` field in Contao 4.5
+
+### Version 3.0.1 (2017-11-20) ###
+- Fixes determining the jQuery UI version (see #40)
+- Fixes determining the translations for `en`
 
 ### Version 3.0.0 (2017-08-28) ###
 - Adding Contao 4.4 compatibilty

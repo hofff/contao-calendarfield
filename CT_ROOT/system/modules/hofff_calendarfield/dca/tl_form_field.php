@@ -123,6 +123,6 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledDays'] = array
 			)
 		)
 	),
-	'sql'            => "blob NOT NULL"
+	'sql'            => "blob NULL"
 ); 
 

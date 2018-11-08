@@ -28,3 +28,4 @@ $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['ltToday'] = 'Only dat
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['leToday'] = 'Only dates in the past (including today)';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['geToday'] = 'Only dates in the future (including today)';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['gtToday'] = 'Only dates in the future (excluding today)';
+$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['gtTodayTo'] = 'Only dates in the future (excluding today and tomorrow)';

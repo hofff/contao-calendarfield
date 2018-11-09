@@ -30,7 +30,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'                 => array('all', 'ltToday', 'leToday', 'geToday', 'gtToday'),
+	'options'                 => array('all', 'ltToday', 'leToday', 'geToday', 'gtToday', 'gtTodayTo'),
 	'reference'               => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "varchar(10) NOT NULL default ''"

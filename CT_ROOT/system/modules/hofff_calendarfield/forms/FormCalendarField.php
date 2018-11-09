@@ -116,6 +116,10 @@ class FormCalendarField extends \FormTextField
       case 'gtToday':
         $arrConfig['minDate'] = 1;
         break;
+        
+      case 'gtTodayTo':
+        $arrConfig['minDate'] = 2;
+        break;  
     }
 
     if ($this->dateImage) {
@@ -248,6 +252,11 @@ JS;
             $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday']);
           }
           break;
+        case 'gtTodayTo':
+          if ($intTstamp <= $objToday->dayBegin) {
+            $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtTodayTo']);
+          }
+          break;  
       }
       
       //validate disallowed weekdays

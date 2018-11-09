@@ -28,3 +28,4 @@ $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['ltToday'] = 'Nur Datu
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['leToday'] = 'Nur Datum in der Vergangenheit (inkl. Heute)';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['geToday'] = 'Nur Datum in der Zukunft (inkl. Heute)';
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['gtToday'] = 'Nur Datum in der Zukunft (exkl. Heute)';
+$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref']['gtTodayTo'] = 'Nur Datum in der Zukunft (exkl. Heute und Morgen)';

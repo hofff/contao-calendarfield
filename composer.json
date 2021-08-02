@@ -1,7 +1,7 @@
 {
     "name":"hofff/contao-calendarfield",
     "description":"Frontend text field with datepicker for Contao Open Source CMS",
-    "keywords":["contao", "Calendar", "Calendar Field", "Datepicker"],
+    "keywords":["contao", "calendar", "calendar field", "datepicker", "forms"],
     "type":"contao-module",
     "license":"LGPL-3.0-or-later",
     "homepage" : "https://hofff.com",

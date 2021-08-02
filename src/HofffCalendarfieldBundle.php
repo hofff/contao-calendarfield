@@ -1,6 +1,6 @@
 <?php
 
-namespace Hofff\Contao\Calendarfield;
+namespace Hofff\CalendarfieldBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

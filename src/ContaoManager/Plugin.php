@@ -1,6 +1,6 @@
 <?php
 
-namespace Hofff\Contao\Calendarfield\ContaoManager;
+namespace Hofff\CalendarfieldBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
@@ -18,7 +18,7 @@ class Plugin implements BundlePluginInterface
     public function getBundles( ParserInterface $parser )
     {
         return [
-            BundleConfig::create( 'Hofff\Contao\Calendarfield\HofffCalendarfieldBundle' )
+            BundleConfig::create( 'Hofff\CalendarfieldBundle\HofffCalendarfieldBundle' )
                 ->setLoadAfter( ['Contao\CoreBundle\ContaoCoreBundle'] ),
         ];
     }

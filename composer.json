@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hofff\\Contao\\Calendarfield\\HofffCalendarfieldBundle\\": "src/"
+            "Hofff\\HofffCalendarfieldBundle\\": "src/"
         },
         "classmap": [
             "src/Resources/contao/"
@@ -47,7 +47,7 @@
         "terminal42/contao-calendarfield": "self.version"
     },
     "extra":{
-        "contao-manager-plugin": "Hofff\\Contao\\Calendarfield\\ContaoManager\\Plugin",
+        "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }

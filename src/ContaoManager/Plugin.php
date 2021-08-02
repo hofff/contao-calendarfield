@@ -1,16 +1,6 @@
 <?php
 
-/**
- * Extension for Contao 4
- *
- * @copyright  Softleister 2019
- * @author     Softleister <info@softleister.de>
- * @package    contao-signature-formfield-bundle
- *             based on jSignature (https://github.com/brinley/jSignature)
- * @licence    MIT License
- */
-
-namespace Softleister\SignatureformfieldBundle\ContaoManager;
+namespace Hofff\CalendarfieldBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
@@ -19,8 +9,6 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 
 /**
  * Plugin for the Contao Manager.
- *
- * @author Softleister
  */
 class Plugin implements BundlePluginInterface
 {
@@ -30,7 +18,7 @@ class Plugin implements BundlePluginInterface
     public function getBundles( ParserInterface $parser )
     {
         return [
-            BundleConfig::create( 'Softleister\SignatureformfieldBundle\SoftleisterSignatureformfieldBundle' )
+            BundleConfig::create( 'Hofff\CalendarfieldBundle\HofffCalendarfieldBundle' )
                 ->setLoadAfter( ['Contao\CoreBundle\ContaoCoreBundle'] ),
         ];
     }

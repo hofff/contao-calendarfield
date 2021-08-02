@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Softleister\\SignatureformfieldBundle\\": "src/"
+            "Hofff\\HofffCalendarfieldBundle\\": "src/"
         },
         "classmap": [
             "src/Resources/contao/"

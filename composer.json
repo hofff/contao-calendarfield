@@ -31,7 +31,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hofff\\HofffCalendarfieldBundle\\": "src/"
+            "Hofff\\CalendarfieldBundle\\": "src/"
         },
         "classmap": [
             "src/Resources/contao/"
@@ -42,8 +42,15 @@
             "src/Resources/contao/languages/"
         ]
     },
+    "replace": {
+        "contao-legacy/calendarfield": "self.version",
+        "terminal42/contao-calendarfield": "self.version"
+    },
     "extra":{
-        "contao-manager-plugin": "Softleister\\SignatureformfieldBundle\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
+        }
     },
     "prefer-stable": true,
     "minimum-stability": "dev"

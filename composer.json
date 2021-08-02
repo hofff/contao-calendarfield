@@ -47,7 +47,7 @@
         "terminal42/contao-calendarfield": "self.version"
     },
     "extra":{
-        "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
+        "contao-manager-plugin": "Softleister\\SignatureformfieldBundle\\ContaoManager\\Plugin",
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }

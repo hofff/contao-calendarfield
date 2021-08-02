@@ -29,17 +29,25 @@
         "contao/core-bundle":"~4.9",
         "menatwork/contao-multicolumnwizard-bundle":"~3.4"
     },
+    "autoload": {
+        "psr-4": {
+            "Hofff\\Contao\\Calendarfield\\HofffCalendarfieldBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/"
+        ]
+    },
     "replace": {
         "contao-legacy/calendarfield": "self.version",
         "terminal42/contao-calendarfield": "self.version"
     },
     "extra":{
-        "contao": {
-            "sources":{
-                "CT_ROOT/assets/hofff/calendarfield": "assets/hofff/calendarfield",
-                "CT_ROOT/system/modules/hofff_calendarfield": "system/modules/hofff_calendarfield"
-            }
-        },
+        "contao-manager-plugin": "Hofff\\Contao\\Calendarfield\\ContaoManager\\Plugin",
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }

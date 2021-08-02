@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (c) 2005-2016 Leo Feyer
- *
- * @package Hofff_calendarfield
- * @link    https://hofff.com
- * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
- */
-
-
-/**
  * Run in a custom namespace, so the class can be replaced
  */
 namespace Hofff\Contao\Calendarfield;

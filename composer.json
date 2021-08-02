@@ -1,9 +1,9 @@
 {
     "name":"hofff/contao-calendarfield",
-    "description":"Frontend text field with datepicker for Contao Open Source CMS (uses jQuery)",
-    "keywords":["contao", "Calendar", "Calendar Field", "Datepicker", "jQuery"],
+    "description":"Frontend text field with datepicker for Contao Open Source CMS",
+    "keywords":["contao", "Calendar", "Calendar Field", "Datepicker"],
     "type":"contao-module",
-    "license":"LGPL-3.0+",
+    "license":"LGPL-3.0-or-later",
     "homepage" : "https://hofff.com",
     "authors":[
         {
@@ -25,10 +25,9 @@
         }
     ],
     "require":{
-        "php": ">=5.3",
-        "contao/core-bundle":"~4.4",
-        "contao-community-alliance/composer-plugin":"~3.0",
-        "menatwork/contao-multicolumnwizard":"~3.3"
+        "php": ">=7.4",
+        "contao/core-bundle":"~4.9",
+        "menatwork/contao-multicolumnwizard-bundle":"~3.4"
     },
     "replace": {
         "contao-legacy/calendarfield": "self.version",
@@ -42,7 +41,7 @@
             }
         },
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     },
     "prefer-stable": true,

@@ -42,15 +42,8 @@
             "src/Resources/contao/languages/"
         ]
     },
-    "replace": {
-        "contao-legacy/calendarfield": "self.version",
-        "terminal42/contao-calendarfield": "self.version"
-    },
     "extra":{
-        "contao-manager-plugin": "Softleister\\SignatureformfieldBundle\\ContaoManager\\Plugin",
-        "branch-alias": {
-            "dev-master": "4.0.x-dev"
-        }
+        "contao-manager-plugin": "Softleister\\SignatureformfieldBundle\\ContaoManager\\Plugin"
     },
     "prefer-stable": true,
     "minimum-stability": "dev"

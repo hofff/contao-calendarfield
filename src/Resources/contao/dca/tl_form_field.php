@@ -113,7 +113,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledDays'] = array
 				'label'            => &$GLOBALS['TL_LANG']['tl_form_field']['dateDisabledDaysDate'],
 				'exclude'          => true,
 				'inputType'        => 'text',
-				'eval'             => array('rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'wizard'),
+				'eval'             => array('rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'wizard', 'style'=>'width: 300px;'),
 			),
 			'active' => array
 			(

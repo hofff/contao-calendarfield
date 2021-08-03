@@ -60,7 +60,7 @@ class FormCalendarField extends \FormTextField
       if (strlen($this->dateIncludeCSSTheme) > 0) {
         $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.$jQueryUI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
       } else {
-        $GLOBALS['TL_CSS'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/css/datepicker.min.css';
+        $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/css/datepicker.min.css';
       }
     }
     
@@ -71,8 +71,8 @@ class FormCalendarField extends \FormTextField
     }
 
     $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery-ui/js/jquery-ui.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/widgets/datepicker.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/hofff/calendarfield/jquery-ui.datepicker/js/i18n/datepicker-' . $lang . '.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/js/widgets/datepicker.min.js';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/js/i18n/datepicker-' . $lang . '.js';
     
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 
@@ -109,7 +109,7 @@ class FormCalendarField extends \FormTextField
 
     if ($this->dateImage) {
       // icon
-      $strIcon = 'system/modules/hofff_calendarfield/assets/datepicker.png';
+      $strIcon = 'bundles/hofffcalendarfield/datepicker.png';
 
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objFile = \FilesModel::findByPk($this->dateImageSRC);

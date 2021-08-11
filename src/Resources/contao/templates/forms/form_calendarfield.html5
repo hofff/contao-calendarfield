@@ -1,3 +1,15 @@
+<?php
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.js';
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/l10n/' . $this->language . '.js';
+
+if ($this->dateIncludeCSS) {
+  $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.css';
+  if (strlen($this->dateIncludeCSSTheme) > 0) {
+    $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/themes/' . $this->dateIncludeCSSTheme . '.css';
+  }
+}
+?>
+
 <?php $this->extend('form_row'); ?>
 
 <?php $this->block('label'); ?>

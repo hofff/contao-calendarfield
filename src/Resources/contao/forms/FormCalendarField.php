@@ -52,28 +52,10 @@ class FormCalendarField extends \FormTextField
     
     global $objPage;
     
-    $arrJQueryUI = explode(".", \System::getContainer()->getParameter('kernel.packages')['contao-components/jquery-ui']);
-    // hopefully we have a correct jQuery UI version number now
-    $jQueryUI = $arrJQueryUI[0] . "." . $arrJQueryUI[1] . "." . $arrJQueryUI[2];
-
-    if ($this->dateIncludeCSS) {
-      if (strlen($this->dateIncludeCSSTheme) > 0) {
-        $GLOBALS['TL_CSS'][] = 'https://code.jquery.com/ui/'.$jQueryUI.'/themes/' . $this->dateIncludeCSSTheme . '/jquery-ui.css';
-      } else {
-        $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/css/datepicker.min.css';
-      }
-    }
+    $this->language = substr($objPage->language, 0, 2);
     
-    $lang = $objPage->language;
-    // in some cases we have to trnsform the languge to a locale
-    switch ($lang) {
-      case "en": $lang = "en-GB"; break;
-    }
+    // fin
 
-    $GLOBALS['TL_JAVASCRIPT'][] = 'assets/jquery-ui/js/jquery-ui.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/js/widgets/datepicker.min.js';
-    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/js/i18n/datepicker-' . $lang . '.js';
-    
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
 
     if ($this->dateParseValue && $this->varValue != '') {

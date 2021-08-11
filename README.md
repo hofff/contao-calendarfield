@@ -15,6 +15,10 @@ Frontend text field with datepicker for Contao Open Source CMS.
 - optional selection of custom icon
 - optional definition of dates/weekdays, that should be disabled/not allowed
 
+### Flatpickr version
+
+Using flatpickr version 4.6.9 (downloaded from https://www.jsdelivr.com/package/npm/flatpickr).
+
 
 ## Compatibility
 

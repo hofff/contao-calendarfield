@@ -35,7 +35,9 @@ if (!empty($this->dateCssTheme)) {
   <script>
     flatpickr("#ctrl_<?= $this->id ?>", {
       "locale": "<?= $this->language ?>",
-      "dateFormat": "<?= $this->dateFormat ?>"
+      "dateFormat": "<?= $this->dateFormat ?>",
+      <?php if (!empty($this->minDate)): ?>"minDate": <?= $this->minDate ?>,<?php endif; ?>
+      <?php if (!empty($this->maxDate)): ?>"maxDate": <?= $this->maxDate ?>,<?php endif; ?>
     });
   </script>
 <?php $this->endblock(); ?>

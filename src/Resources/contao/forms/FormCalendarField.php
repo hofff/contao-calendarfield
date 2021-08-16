@@ -49,48 +49,29 @@ class FormCalendarField extends \FormTextField
     {
       return parent::parse($arrAttributes);
     }
-    
+
     global $objPage;
-    
-    // add the parameters to the template
+
+    // add the language to the template
     $this->language = substr($objPage->language, 0, 2);
-    
-    // fin
 
+    // get the date format und add it to the template
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
-
-    if ($this->dateParseValue && $this->varValue != '') {
+    if ($this->dateParseValue && $this->varValue != '')
+    {
       $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
     }
-    
     $this->dateFormat = $dateFormat;
 
-    // Initialize the default config
-    $arrConfig = array(
-      'showAnim'          => "fadeIn",
-      'showOtherMonths'   => true,
-      'selectOtherMonths' => true,
-      'changeMonth'       => true,
-      'changeYear'        => true
-    );
-
-    switch ($this->dateDirection) {
-      case 'ltToday':
-        $arrConfig['maxDate'] = -1;
-        break;
-
-      case 'leToday':
-        $arrConfig['maxDate'] = 0;
-        break;
-
-      case 'geToday':
-        $arrConfig['minDate'] = 0;
-        break;
-
-      case 'gtToday':
-        $arrConfig['minDate'] = 1;
-        break;
+    // add the min/max date to the template
+    switch ($this->dateDirection)
+    {
+      case 'ltToday': $this->maxDate = "new Date().fp_incr(-1)"; break;
+      case 'leToday': $this->maxDate = "new Date().fp_incr(0)"; break;
+      case 'geToday': $this->minDate = "new Date().fp_incr(0)"; break;
+      case 'gtToday': $this->minDate = "new Date().fp_incr(1)"; break;
     }
+    // <<<<< FIN >>>>>
 
     if ($this->dateImage) {
       // icon

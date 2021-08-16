@@ -27,17 +27,27 @@ if (!empty($this->dateCssTheme)) {
     <p class="error"><?= $this->getErrorAsString() ?></p>
   <?php endif; ?>
 
-  <input type="<?= $this->type ?>" name="<?= $this->name ?>" id="ctrl_<?= $this->id ?>" class="text<?php if ($this->hideInput) echo ' password'; ?><?php if ($this->class) echo ' ' . $this->class; ?>" value="<?= specialchars($this->value) ?>"<?= $this->getAttributes() ?>>
-
-  <?php if ($this->addSubmit): ?>
-    <input type="submit" id="ctrl_<?= $this->id ?>_submit" class="submit" value="<?= $this->slabel ?>">
+  <div id="ctrl_<?= $this->id ?>_wrapper">
+    <input type="<?= $this->type ?>" name="<?= $this->name ?>" id="ctrl_<?= $this->id ?>" class="text<?php if ($this->class): ?> <?= $this->class ?><?php endif; ?>" value="<?= specialchars($this->value) ?>"<?= $this->getAttributes() ?> data-input>
+    
+  <?php if($this->dateImage): ?>
+    <a class="input-button" style="cursor: pointer;" title="<?= $this->buttonText ?>" data-toggle="">
+    <?php if(!empty($this->buttonImage)): ?>
+      <img src="<?= $this->buttonImage ?>" alt="<?= $this->buttonText ?>">
+    <?php else: ?>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 17 17" style="width: 16px; height: 16px;"><g></g><path d="M14 2V1h-3v1H6V1H3v1H0v15h17V2h-3zM12 2h1v2h-1V2zM4 2h1v2H4V2zM16 16H1v-8.921h15V16zM1 6.079v-3.079h2v2h3V3h5v2h3V3h2v3.079H1z" fill="#000"></path></svg>
+    <?php endif; ?>
+    </a>
   <?php endif; ?>
+  </div>
+
   <script>
-    flatpickr("#ctrl_<?= $this->id ?>", {
+    flatpickr("#ctrl_<?= $this->id ?><?php if($this->dateImage): ?>_wrapper<?php endif; ?>", {
       "locale": "<?= $this->language ?>",
       "dateFormat": "<?= $this->dateFormat ?>",
       <?php if (!empty($this->minDate)): ?>"minDate": <?= $this->minDate ?>,<?php endif; ?>
       <?php if (!empty($this->maxDate)): ?>"maxDate": <?= $this->maxDate ?>,<?php endif; ?>
+      <?php if ($this->dateImage): ?>"wrap": true,<?php endif; ?>
     });
   </script>
 <?php $this->endblock(); ?>

@@ -52,6 +52,9 @@ class FormCalendarField extends \FormTextField
 
     global $objPage;
 
+    // add the selector to the template
+    $this->selector = "ctrl_" . $this->id;
+    
     // add the language to the template
     $this->language = substr($objPage->language, 0, 2);
 
@@ -71,12 +74,8 @@ class FormCalendarField extends \FormTextField
       case 'geToday': $this->minDate = "new Date().fp_incr(0)"; break;
       case 'gtToday': $this->minDate = "new Date().fp_incr(1)"; break;
     }
-    // <<<<< FIN >>>>>
 
     if ($this->dateImage) {
-      // icon
-      $strIcon = 'bundles/hofffcalendarfield/datepicker.png';
-
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objFile = \FilesModel::findByPk($this->dateImageSRC);
 
@@ -85,28 +84,19 @@ class FormCalendarField extends \FormTextField
         }
       }
 
-      $arrSize = @getimagesize(TL_ROOT . '/' . $strIcon);
-
-      $arrConfig['showOn']          = "both";
-      $arrConfig['buttonImage']     = $strIcon;
-      $arrConfig['buttonImageOnly'] = true;
-      $arrConfig['buttonText']      = $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'];
+      $this->buttonImage = $strIcon;
+      $this->buttonText = $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'];
     }
+
+    // <<<<< FIN >>>>>
 
     // correctly style the date format
-    $arrConfig['dateFormat'] = $this->dateformat_PHP_to_jQueryUI($dateFormat);
+    //$arrConfig['dateFormat'] = $this->dateformat_PHP_to_jQueryUI($dateFormat);
 
-    if (is_array($this->dateConfig)) {
-      $arrConfig = array_replace($arrConfig, $this->dateConfig);
-    }
+    //if (is_array($this->dateConfig)) {
+    //  $arrConfig = array_replace($arrConfig, $this->dateConfig);
+    //}
 
-    // HOOK: allow to customize the date picker
-    if (isset($GLOBALS['TL_HOOKS']['formCalendarField']) && is_array($GLOBALS['TL_HOOKS']['formCalendarField'])) {
-      foreach ($GLOBALS['TL_HOOKS']['formCalendarField'] as $callback) {
-        $objCallback = (method_exists($callback[0], 'getInstance') ? call_user_func(array($callback[0], 'getInstance')) : new $callback[0]());
-        $arrConfig = $objCallback->{$callback[1]}($arrConfig, $this);
-      }
-    }
 
     $strConfig = json_encode($arrConfig);
     

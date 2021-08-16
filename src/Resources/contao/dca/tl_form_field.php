@@ -3,8 +3,8 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateImage', 'dateIncludeCSS'));
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateIncludeCSS,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},value,dateParseValue,class,accesskey,tabindex;{template_legend:hide},customTpl;{submit_legend},addSubmit';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateImage'));
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateCssTheme,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},value,dateParseValue,class,accesskey,tabindex;{template_legend:hide},customTpl;{submit_legend},addSubmit';
 
 /**
  * Subpalettes
@@ -45,19 +45,9 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
   'sql'                     => "char(1) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateIncludeCSS'] = array
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateCssTheme'] = array
 (
-  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSS'],
-  'exclude'                 => true,
-  'default'                 => '1',
-  'inputType'               => 'checkbox',
-  'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr w50 m12'),
-  'sql'                     => "char(1) NOT NULL default '1'"
-);
-
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateIncludeCSSTheme'] = array
-(
-  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSSTheme'],
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateCssTheme'],
   'exclude'                 => true,
   'default'                 => '',
   'inputType'               => 'select',

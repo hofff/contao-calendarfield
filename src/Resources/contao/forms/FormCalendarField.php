@@ -52,6 +52,7 @@ class FormCalendarField extends \FormTextField
     
     global $objPage;
     
+    // add the parameters to the template
     $this->language = substr($objPage->language, 0, 2);
     
     // fin
@@ -61,6 +62,8 @@ class FormCalendarField extends \FormTextField
     if ($this->dateParseValue && $this->varValue != '') {
       $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
     }
+    
+    $this->dateFormat = $dateFormat;
 
     // Initialize the default config
     $arrConfig = array(
@@ -154,8 +157,6 @@ jQuery(function($) {
 });
 </script>
 JS;
-    
-    $GLOBALS['TL_BODY'][] = sprintf($calendarfieldScript, $this->strId, $strConfig, $this->strId, $objPage->language);
 
     return parent::parse($arrAttributes);
   }

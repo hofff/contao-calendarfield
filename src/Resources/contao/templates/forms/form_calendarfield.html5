@@ -2,11 +2,9 @@
 $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.js';
 $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/l10n/' . $this->language . '.js';
 
-if ($this->dateIncludeCSS) {
-  $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.css';
-  if (strlen($this->dateIncludeCSSTheme) > 0) {
-    $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/themes/' . $this->dateIncludeCSSTheme . '.css';
-  }
+$GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.css';
+if (!empty($this->dateCssTheme)) {
+  $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/themes/' . $this->dateCssTheme . '.css';
 }
 ?>
 
@@ -34,4 +32,10 @@ if ($this->dateIncludeCSS) {
   <?php if ($this->addSubmit): ?>
     <input type="submit" id="ctrl_<?= $this->id ?>_submit" class="submit" value="<?= $this->slabel ?>">
   <?php endif; ?>
+  <script>
+    flatpickr("#ctrl_<?= $this->id ?>", {
+      "locale": "<?= $this->language ?>",
+      "dateFormat": "<?= $this->dateFormat ?>"
+    });
+  </script>
 <?php $this->endblock(); ?>

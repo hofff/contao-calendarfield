@@ -11,8 +11,7 @@ $GLOBALS['TL_LANG']['FFL']['calendarfield'] = array('Calendar field', 'Form fiel
 $GLOBALS['TL_LANG']['tl_form_field']['dateFormat']             = array('Date format', 'The date format string will be parsed with the PHP date() function.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateDirection']          = array('Date direction', 'Select if date selection is restricted.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateParseValue']         = array('Parse default value', 'Parse default value using PHP <a href="http://php.net/strtotime" onclick="window.open(this.href); return false">strtotime()</a>.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSS']         = array('Include CSS file', 'Check here if you want to include the CSS files to style the popup.');
-$GLOBALS['TL_LANG']['tl_form_field']['dateIncludeCSSTheme']    = array('Theme', 'Please select the theme.');
+$GLOBALS['TL_LANG']['tl_form_field']['dateCssTheme']           = array('Theme', 'Please select the theme.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateImage']              = array('Show calendar icon', 'Click here to show a calendar picker icon.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateImageSRC']           = array('Custom icon', 'Select a custom image to replace the default calendar icon.');
 $GLOBALS['TL_LANG']['tl_form_field']['dateDisabledWeekdays']   = array('Disallowed weekdays', 'Select the weekdays that are not allowed and therefore should not be selectable.');

@@ -45,9 +45,25 @@ if (!empty($this->dateCssTheme)) {
     flatpickr("#ctrl_<?= $this->id ?><?php if($this->dateImage): ?>_wrapper<?php endif; ?>", {
       "locale": "<?= $this->language ?>",
       "dateFormat": "<?= $this->dateFormat ?>",
-      <?php if (!empty($this->minDate)): ?>"minDate": <?= $this->minDate ?>,<?php endif; ?>
-      <?php if (!empty($this->maxDate)): ?>"maxDate": <?= $this->maxDate ?>,<?php endif; ?>
-      <?php if ($this->dateImage): ?>"wrap": true,<?php endif; ?>
+    <?php if (!empty($this->minDate)): ?>
+      "minDate": <?= $this->minDate ?>,
+    <?php endif; ?>
+    <?php if (!empty($this->maxDate)): ?>
+      "maxDate": <?= $this->maxDate ?>,
+    <?php endif; ?>
+    <?php if ($this->dateImage): ?>
+      "wrap": true,
+    <?php endif; ?>
+    <?php if (!empty($this->disabledWeekdays) || !empty($this->disabledDays)): ?>
+      "disable": [<?php if (!empty($this->disabledDays)): ?><?= implode(',', $this->disabledDays) ?>,<?php endif; ?>
+      <?php if (!empty($this->disabledWeekdays)): ?>
+        function(date) {
+            return ([<?= implode(',', $this->disabledWeekdays) ?>].indexOf(date.getDay()) > 0);
+
+        }
+      <?php endif; ?>
+      ],
+    <?php endif; ?>
     });
   </script>
 <?php $this->endblock(); ?>

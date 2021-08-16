@@ -52,9 +52,6 @@ class FormCalendarField extends \FormTextField
 
     global $objPage;
 
-    // add the selector to the template
-    $this->selector = "ctrl_" . $this->id;
-    
     // add the language to the template
     $this->language = substr($objPage->language, 0, 2);
 
@@ -88,46 +85,11 @@ class FormCalendarField extends \FormTextField
       $this->buttonText = $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'];
     }
 
-    // <<<<< FIN >>>>>
+    // add the disallowed weekdays to the template
+    $this->disabledWeekdays = deserialize($this->dateDisabledWeekdays, true);
 
-    // correctly style the date format
-    //$arrConfig['dateFormat'] = $this->dateformat_PHP_to_jQueryUI($dateFormat);
-
-    //if (is_array($this->dateConfig)) {
-    //  $arrConfig = array_replace($arrConfig, $this->dateConfig);
-    //}
-
-
-    $strConfig = json_encode($arrConfig);
-    
-    $beforeShowDayFunction .= <<<JS
-function(date){
-  var weekday = date.getDay().toString();
-  var stringDate = jQuery.datepicker.formatDate('dd-mm-yy', date);
-  var isWeekdayDisabled = ($.inArray(weekday, disabledWeekdays) != -1);
-  var isDayDisabled = ($.inArray(stringDate, disabledDays) != -1);
-  return [!isWeekdayDisabled && !isDayDisabled];
-}
-JS;
-    
-    $strConfig = substr($strConfig, 0, strlen($strConfig) - 1) . ',"beforeShowDay":' . sprintf($beforeShowDayFunction) . '}';
-    
-    // extract disallowed weekdays
-    $disabledWeekdays = json_encode(deserialize($this->dateDisabledWeekdays, true));
-    
-    // extract disallowed days
-    $disabledDays = json_encode($this->getActiveDisabledDays());
-    
-    $calendarfieldScript .= <<<JS
-<script>
-jQuery(function($) {
-  var disabledWeekdays = $disabledWeekdays;
-  var disabledDays = $disabledDays;
-  $("#ctrl_%s").datepicker(%s);
-  $("#ctrl_%s").datepicker( $.datepicker.regional["%s"] );
-});
-</script>
-JS;
+    // add the disallowed days to the template
+    $this->disabledDays = $this->getActiveDisabledDays($dateFormat);
 
     return parent::parse($arrAttributes);
   }
@@ -149,45 +111,54 @@ JS;
     $intTstamp = 0;
     $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
 
-    if ($varInput != '') {
-
+    if ($varInput != '')
+    {
       // Validate date format
-      if ($this->dateFormat) {
-
+      if ($this->dateFormat)
+      {
         // Disable regular date validation
         $this->rgxp = '';
 
-        if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput)) {
+        if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput))
+        {
           $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
         }
       }
 
       // Convert timestamps
-      try {
+      try
+      {
         $objDate = new \Date($varInput, $dateFormat);
         $intTstamp = $objDate->tstamp;
-      } catch (\Exception $e) {
+      }
+      catch (\Exception $e)
+      {
         $this->addError($e->getMessage());
       }
 
-      switch ($this->dateDirection) {
+      switch ($this->dateDirection)
+      {
         case 'ltToday':
-          if ($intTstamp >= $objToday->dayBegin) {
+          if ($intTstamp >= $objToday->dayBegin)
+          {
             $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_ltToday']);
           }
           break;
         case 'leToday':
-          if ($intTstamp > $objToday->dayBegin) {
+          if ($intTstamp > $objToday->dayBegin)
+          {
             $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_leToday']);
           }
           break;
         case 'geToday':
-          if ($intTstamp < $objToday->dayBegin) {
+          if ($intTstamp < $objToday->dayBegin)
+          {
             $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_geToday']);
           }
           break;
         case 'gtToday':
-          if ($intTstamp <= $objToday->dayBegin) {
+          if ($intTstamp <= $objToday->dayBegin)
+          {
             $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_direction_gtToday']);
           }
           break;
@@ -201,7 +172,7 @@ JS;
       }
       
       //validate disallowed days
-      if (in_array(date(static::DATE_FORMAT_PHP, $intTstamp), $this->getActiveDisabledDays()))
+      if (in_array(date(static::DATE_FORMAT_PHP, $intTstamp), $this->getActiveDisabledDays(static::DATE_FORMAT_PHP)))
       {
         $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_day']);
       }
@@ -221,20 +192,23 @@ JS;
    */
   public function getRegexp($strFormat = false, $strRegexpSyntax = 'perl')
   {
-    if (!$strFormat) {
+    if (!$strFormat)
+    {
       $strFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
     }
 
-    if (preg_match('/[BbCcDEeFfIJKkLlMNOoPpQqRrSTtUuVvWwXxZz]+/', $strFormat)) {
+    if (preg_match('/[BbCcDEeFfIJKkLlMNOoPpQqRrSTtUuVvWwXxZz]+/', $strFormat))
+    {
       throw new \Exception(sprintf('Invalid date format "%s"', $strFormat));
     }
 
     $arrRegexp = array();
     $arrCharacters = str_split($strFormat);
 
-    foreach ($arrCharacters as $strCharacter) {
-      switch ($strCharacter) {
-
+    foreach ($arrCharacters as $strCharacter)
+    {
+      switch ($strCharacter) 
+      {
         // Patch day: allow 01 - 31
         case 'd':
           $arrRegexp[$strFormat]['perl']  .= '(0[1-9]|[12][0-9]|3[01])';
@@ -352,7 +326,7 @@ JS;
     return $jqueryui_format;
   }
   
-  private function getActiveDisabledDays()
+  private function getActiveDisabledDays($dateFormat)
   {
     $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
     $arrDateDisabledDaysActive = array();
@@ -360,7 +334,7 @@ JS;
     {
       if (!empty($config['date']) && $config['active'])
       {
-        $arrDateDisabledDaysActive[] = date(static::DATE_FORMAT_PHP, $config['date']);
+        $arrDateDisabledDaysActive[] = date($dateFormat, $config['date']);
       }
     }
     return $arrDateDisabledDaysActive;

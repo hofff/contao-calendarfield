@@ -55,10 +55,10 @@ if (!empty($this->dateCssTheme)) {
       "wrap": true,
     <?php endif; ?>
     <?php if (!empty($this->disabledWeekdays) || !empty($this->disabledDays)): ?>
-      "disable": [<?php if (!empty($this->disabledDays)): ?><?= implode(',', $this->disabledDays) ?>,<?php endif; ?>
+      "disable": [<?php if (!empty($this->disabledDays)): ?>"<?= implode('","', $this->disabledDays) ?>",<?php endif; ?>
       <?php if (!empty($this->disabledWeekdays)): ?>
         function(date) {
-            return ([<?= implode(',', $this->disabledWeekdays) ?>].indexOf(date.getDay()) > 0);
+            return ([<?= implode(',', $this->disabledWeekdays) ?>].indexOf(date.getDay()) != -1);
 
         }
       <?php endif; ?>

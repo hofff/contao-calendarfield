@@ -66,10 +66,24 @@ class FormCalendarField extends \FormTextField
     // add the min/max date to the template
     switch ($this->dateDirection)
     {
-      case 'ltToday': $this->maxDate = "new Date().fp_incr(-1)"; break;
-      case 'leToday': $this->maxDate = "new Date().fp_incr(0)"; break;
-      case 'geToday': $this->minDate = "new Date().fp_incr(0)"; break;
-      case 'gtToday': $this->minDate = "new Date().fp_incr(1)"; break;
+      case 'ltToday'  : $this->maxDate = "new Date().fp_incr(-1)";
+                        break;
+      case 'leToday'  : $this->maxDate = "new Date().fp_incr(0)";
+                        break;
+      case 'geToday'  : $this->minDate = "new Date().fp_incr(0)";
+                        break;
+      case 'gtToday'  : $this->minDate = "new Date().fp_incr(1)";
+                        break;
+      case 'ownMinMax': $arrMinMax = deserialize($this->dateDirectionMinMax, true);
+                        if (!empty($arrMinMax[0]))
+                        {
+                          $this->minDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[0]);
+                        }
+                        if (!empty($arrMinMax[1]))
+                        {
+                          $this->maxDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[1]);
+                        }
+                        break;
     }
 
     if ($this->dateImage) {

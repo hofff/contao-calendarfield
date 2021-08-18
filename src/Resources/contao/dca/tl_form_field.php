@@ -3,14 +3,14 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateImage'));
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateDirection,dateCssTheme,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},class,value,dateParseValue,accesskey,tabindex;{template_legend:hide},customTpl;{invisible_legend:hide},invisible';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateDirection', 'dateImage'));
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateCssTheme,dateDirection,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},class,value,dateParseValue,accesskey,tabindex;{template_legend:hide},customTpl;{invisible_legend:hide},invisible';
 
 /**
  * Subpalettes
  */
-$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateIncludeCSS'] = 'dateIncludeCSSTheme';
-$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage']      = 'dateImageSRC';
+$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateDirection_ownMinMax'] = 'dateDirectionMinMax';
+$GLOBALS['TL_DCA']['tl_form_field']['subpalettes']['dateImage']               = 'dateImageSRC,dateImageSize';
 
 /**
  * Fields
@@ -25,26 +25,6 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateFormat'] = array
   'sql'                     => "varchar(32) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
-(
-  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
-  'exclude'                 => true,
-  'inputType'               => 'select',
-  'options'                 => array('all', 'ltToday', 'leToday', 'geToday', 'gtToday'),
-  'reference'               => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection_ref'],
-  'eval'                    => array('tl_class'=>'w50'),
-  'sql'                     => "varchar(10) NOT NULL default ''"
-);
-
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
-(
-  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateParseValue'],
-  'exclude'                 => true,
-  'inputType'               => 'checkbox',
-  'eval'                    => array('tl_class'=>'w50 m12'),
-  'sql'                     => "char(1) NOT NULL default ''"
-);
-
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateCssTheme'] = array
 (
   'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateCssTheme'],
@@ -54,6 +34,26 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateCssTheme'] = array
   'options'                 => array("airbnb", "confetti", "dark", "light", "material_blue", "material_green", "material_orange", "material_red"),
   'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true),
   'sql'                     => "varchar(64) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirection'] = array
+(
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirection'],
+  'exclude'                 => true,
+  'inputType'               => 'select',
+  'options'                 => array('all', 'ltToday', 'leToday', 'geToday', 'gtToday', 'ownMinMax'),
+  'reference'               => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirectionOptions'],
+  'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50'),
+  'sql'                     => "varchar(10) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDirectionMinMax'] = array
+(
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateDirectionMinMax'],
+  'exclude'                 => true,
+  'inputType'               => 'text',
+  'eval'                    => array('rgxp'=>'digit', 'multiple'=>true, 'size'=>2, 'tl_class'=>'clr w50'),
+  'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImage'] = array
@@ -73,6 +73,20 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSRC'] = array
   'inputType'               => 'fileTree',
   'eval'                    => array('files'=>true,'fieldType'=>'radio','filesOnly'=>true,'tl_class'=>'clr'),
   'sql'                     => "binary(16) NULL"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateImageSize'] = array
+(
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateImageSize'],
+  'exclude'                 => true,
+  'inputType'               => 'imageSize',
+  'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+  'eval'                    => array('rgxp'=>'natural', 'includeBlankOption'=>true, 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
+  'options_callback' => static function ()
+  {
+    return Contao\System::getContainer()->get('contao.image.image_sizes')->getOptionsForUser(Contao\BackendUser::getInstance());
+  },
+  'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledWeekdays'] = array
@@ -114,5 +128,13 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledDays'] = array
     )
   ),
   'sql'            => "blob NULL"
-); 
+);
 
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array
+(
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateParseValue'],
+  'exclude'                 => true,
+  'inputType'               => 'checkbox',
+  'eval'                    => array('tl_class'=>'w50 m12'),
+  'sql'                     => "char(1) NOT NULL default ''"
+);

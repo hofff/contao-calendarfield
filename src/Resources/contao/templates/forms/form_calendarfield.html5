@@ -1,0 +1,69 @@
+<?php
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.js';
+$GLOBALS['TL_JAVASCRIPT'][] = 'bundles/hofffcalendarfield/flatpickr/l10n/' . $this->language . '.js';
+
+$GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/flatpickr.min.css';
+if (!empty($this->dateCssTheme)) {
+  $GLOBALS['TL_CSS'][] = 'bundles/hofffcalendarfield/flatpickr/themes/' . $this->dateCssTheme . '.css';
+}
+?>
+
+<?php $this->extend('form_row'); ?>
+
+<?php $this->block('label'); ?>
+  <?php if ($this->label): ?>
+    <label for="ctrl_<?= $this->id ?>"<?php if ($this->class): ?> class="<?= $this->class ?>"<?php endif; ?>>
+      <?php if ($this->mandatory): ?>
+        <span class="invisible"><?= $this->mandatoryField ?> </span><?= $this->label ?><span class="mandatory">*</span>
+      <?php else: ?>
+        <?= $this->label ?>
+      <?php endif; ?>
+    </label>
+  <?php endif; ?>
+<?php $this->endblock(); ?>
+
+<?php $this->block('field'); ?>
+  <?php if ($this->hasErrors()): ?>
+    <p class="error"><?= $this->getErrorAsString() ?></p>
+  <?php endif; ?>
+
+  <div id="ctrl_<?= $this->id ?>_wrapper">
+    <input type="<?= $this->type ?>" name="<?= $this->name ?>" id="ctrl_<?= $this->id ?>" class="text<?php if ($this->class): ?> <?= $this->class ?><?php endif; ?>" value="<?= specialchars($this->value) ?>"<?= $this->getAttributes() ?> data-input>
+    
+  <?php if($this->dateImage): ?>
+    <a class="input-button" style="cursor: pointer;" title="<?= $this->buttonText ?>" data-toggle="">
+    <?php if(!empty($this->buttonImage)): ?>
+      <?php $this->insert('picture_default', $this->picture); ?>
+    <?php else: ?>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 17 17" style="width: 16px; height: 16px;"><g></g><path d="M14 2V1h-3v1H6V1H3v1H0v15h17V2h-3zM12 2h1v2h-1V2zM4 2h1v2H4V2zM16 16H1v-8.921h15V16zM1 6.079v-3.079h2v2h3V3h5v2h3V3h2v3.079H1z" fill="#000"></path></svg>
+    <?php endif; ?>
+    </a>
+  <?php endif; ?>
+  </div>
+
+  <script>
+    flatpickr("#ctrl_<?= $this->id ?><?php if($this->dateImage): ?>_wrapper<?php endif; ?>", {
+      "locale": "<?= $this->language ?>",
+      "dateFormat": "<?= $this->dateFormat ?>",
+    <?php if (!empty($this->minDate)): ?>
+      "minDate": <?= $this->minDate ?>,
+    <?php endif; ?>
+    <?php if (!empty($this->maxDate)): ?>
+      "maxDate": <?= $this->maxDate ?>,
+    <?php endif; ?>
+    <?php if ($this->dateImage): ?>
+      "wrap": true,
+    <?php endif; ?>
+    <?php if (!empty($this->disabledWeekdays) || !empty($this->disabledDays)): ?>
+      "disable": [<?php if (!empty($this->disabledDays)): ?>"<?= implode('","', $this->disabledDays) ?>",<?php endif; ?>
+      <?php if (!empty($this->disabledWeekdays)): ?>
+        function(date) {
+            return ([<?= implode(',', $this->disabledWeekdays) ?>].indexOf(date.getDay()) != -1);
+
+        }
+      <?php endif; ?>
+      ],
+    <?php endif; ?>
+    });
+  </script>
+<?php $this->endblock(); ?>

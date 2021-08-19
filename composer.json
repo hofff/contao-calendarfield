@@ -1,9 +1,9 @@
 {
     "name":"hofff/contao-calendarfield",
-    "description":"Frontend text field with datepicker for Contao Open Source CMS (uses jQuery)",
-    "keywords":["contao", "Calendar", "Calendar Field", "Datepicker", "jQuery"],
-    "type":"contao-module",
-    "license":"LGPL-3.0+",
+    "description":"Frontend text field with datepicker for Contao Open Source CMS",
+    "keywords":["contao", "calendar", "calendar field", "datepicker", "forms"],
+    "type":"contao-bundle",
+    "license":"LGPL-3.0-or-later",
     "homepage" : "https://hofff.com",
     "authors":[
         {
@@ -25,24 +25,31 @@
         }
     ],
     "require":{
-        "php": ">=5.3",
-        "contao/core-bundle":"~4.4",
-        "contao-community-alliance/composer-plugin":"~3.0",
-        "menatwork/contao-multicolumnwizard":"~3.3"
+        "php": ">=7.3",
+        "contao/core-bundle":"~4.9",
+        "menatwork/contao-multicolumnwizard-bundle":"~3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hofff\\CalendarfieldBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/"
+        ]
     },
     "replace": {
         "contao-legacy/calendarfield": "self.version",
         "terminal42/contao-calendarfield": "self.version"
     },
     "extra":{
-        "contao": {
-            "sources":{
-                "CT_ROOT/assets/hofff/calendarfield": "assets/hofff/calendarfield",
-                "CT_ROOT/system/modules/hofff_calendarfield": "system/modules/hofff_calendarfield"
-            }
-        },
+        "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     },
     "prefer-stable": true,

@@ -33,7 +33,7 @@ if (!empty($this->dateCssTheme)) {
   <?php if($this->dateImage): ?>
     <a class="input-button" style="cursor: pointer;" title="<?= $this->buttonText ?>" data-toggle="">
     <?php if(!empty($this->buttonImage)): ?>
-      <img src="<?= $this->buttonImage ?>" alt="<?= $this->buttonText ?>">
+      <?php $this->insert('picture_default', $this->picture); ?>
     <?php else: ?>
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 17 17" style="width: 16px; height: 16px;"><g></g><path d="M14 2V1h-3v1H6V1H3v1H0v15h17V2h-3zM12 2h1v2h-1V2zM4 2h1v2H4V2zM16 16H1v-8.921h15V16zM1 6.079v-3.079h2v2h3V3h5v2h3V3h2v3.079H1z" fill="#000"></path></svg>
     <?php endif; ?>

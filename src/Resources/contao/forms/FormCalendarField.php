@@ -74,7 +74,7 @@ class FormCalendarField extends \FormTextField
                         break;
       case 'gtToday'  : $this->minDate = "new Date().fp_incr(1)";
                         break;
-      case 'ownMinMax': $arrMinMax = deserialize($this->dateDirectionMinMax, true);
+      case 'ownMinMax': $arrMinMax = \StringUtil::deserialize($this->dateDirectionMinMax, true);
                         if (!empty($arrMinMax[0]))
                         {
                           $this->minDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[0]);
@@ -88,10 +88,18 @@ class FormCalendarField extends \FormTextField
 
     if ($this->dateImage) {
       if (\Validator::isUuid($this->dateImageSRC)) {
-        $objFile = \FilesModel::findByPk($this->dateImageSRC);
+        $objModel = \FilesModel::findByUuid($this->dateImageSRC);
 
-        if ($objFile !== null && is_file(TL_ROOT . '/' . $objFile->path)) {
-          $strIcon = $objFile->path;
+        if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
+        {
+          $strIcon = $objModel->path;
+          $arrData = array(
+            'singleSRC'   => $objModel->path,
+            'size'        => $this->dateImageSize,
+            'alt'         => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'],
+            'imageTitle'  => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip']
+          );
+          $this->addImageToTemplate($this, $arrData, null, null, $objModel);
         }
       }
 
@@ -100,7 +108,7 @@ class FormCalendarField extends \FormTextField
     }
 
     // add the disallowed weekdays to the template
-    $this->disabledWeekdays = deserialize($this->dateDisabledWeekdays, true);
+    $this->disabledWeekdays = \StringUtil::deserialize($this->dateDisabledWeekdays, true);
 
     // add the disallowed days to the template
     $this->disabledDays = $this->getActiveDisabledDays($dateFormat);
@@ -179,7 +187,7 @@ class FormCalendarField extends \FormTextField
       }
       
       //validate disallowed weekdays
-      $disabledWeekdays = deserialize($this->dateDisabledWeekdays, true);
+      $disabledWeekdays = \StringUtil::deserialize($this->dateDisabledWeekdays, true);
       if (in_array(date("w", $intTstamp), $disabledWeekdays))
       {
         $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_weekday']);
@@ -342,7 +350,7 @@ class FormCalendarField extends \FormTextField
   
   private function getActiveDisabledDays($dateFormat)
   {
-    $arrDateDisabledDays = deserialize($this->dateDisabledDays, true);
+    $arrDateDisabledDays = \StringUtil::deserialize($this->dateDisabledDays, true);
     $arrDateDisabledDaysActive = array();
     foreach ($arrDateDisabledDays as $config)
     {

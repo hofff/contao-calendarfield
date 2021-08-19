@@ -90,7 +90,7 @@ class FormCalendarField extends \FormTextField
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objModel = \FilesModel::findByUuid($this->dateImageSRC);
 
-        if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
+        if ($objModel !== null && is_file(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
         {
           $strIcon = $objModel->path;
           $arrData = array(

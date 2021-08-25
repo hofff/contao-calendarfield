@@ -1,11 +1,13 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
 ### Version 4.0.0 (2021-08-xx) ###
-- Replaces jQuery with flatpickr (https://flatpickr.js.org/)
+- Replaces jQuery with flatpickr (https://flatpickr.js.org/)  (see #50)
 - Moved all options to the template (everything is customizable there and nothing hidden in PHP classes)
 - Removed hook `formCalendarField` due to it is not longer necessary (everything could be modified in the template)
 - Removed field `dateIncludeCSS` from configuration because at least a minimum CSS is needed
 - Renamed field `dateIncludeCSSTheme` to `dateCssTheme` and added the new available theme names
+- Added option to configure own min. and max. date dates (see #48)
+- Added option to configure the image size for the icon (see #35)
 
 ### Version 3.0.2 (2018-02-07) ###
 - Fixes probleme with `BLOB NOT NULL` field in Contao 4.5

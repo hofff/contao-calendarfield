@@ -135,7 +135,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateCustomConfiguration'] = array
   'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateCustomConfiguration'],
   'exclude'                 => true,
   'inputType'               => 'textarea',
-  'eval'                    => array('decodeEntities' => true, 'allowHtml' => true, 'class'=>'monospace', 'rte'=>'ace|yaml'),
+  'eval'                    => array('decodeEntities' => true, 'allowHtml' => false, 'class'=>'monospace', 'rte'=>'ace|yaml'),
   'sql'                     => "text NULL"
 );
 

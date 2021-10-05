@@ -46,6 +46,7 @@ if (!empty($this->dateCssTheme)) {
       "locale": "<?= $this->language ?>",
       "dateFormat": "<?= $this->dateFormat ?>",
       "allowInput": true,
+      "weekNumbers": true,
     <?php if (!empty($this->minDate)): ?>
       "minDate": <?= $this->minDate ?>,
     <?php endif; ?>

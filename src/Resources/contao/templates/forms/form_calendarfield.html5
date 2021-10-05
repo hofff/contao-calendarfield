@@ -45,6 +45,8 @@ if (!empty($this->dateCssTheme)) {
     flatpickr("#ctrl_<?= $this->id ?><?php if($this->dateImage): ?>_wrapper<?php endif; ?>", {
       "locale": "<?= $this->language ?>",
       "dateFormat": "<?= $this->dateFormat ?>",
+      "allowInput": true,
+      "weekNumbers": true,
     <?php if (!empty($this->minDate)): ?>
       "minDate": <?= $this->minDate ?>,
     <?php endif; ?>
@@ -63,6 +65,9 @@ if (!empty($this->dateCssTheme)) {
         }
       <?php endif; ?>
       ],
+    <?php endif; ?>
+    <?php if (!empty($this->customConfiguration)): ?>
+      <?= $this->customConfiguration ?>
     <?php endif; ?>
     });
   </script>

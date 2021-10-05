@@ -4,7 +4,7 @@
  * Palettes
  */
 $GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__']  = array_merge($GLOBALS['TL_DCA']['tl_form_field']['palettes']['__selector__'], array('dateDirection', 'dateImage'));
-$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateCssTheme,dateDirection,dateImage,dateDisabledWeekdays,dateDisabledDays;{expert_legend:hide},class,value,dateParseValue,accesskey,tabindex;{template_legend:hide},customTpl;{invisible_legend:hide},invisible';
+$GLOBALS['TL_DCA']['tl_form_field']['palettes']['calendarfield'] = '{type_legend},type,name,label;{fconfig_legend},mandatory,placeholder,dateFormat,dateCssTheme,dateDirection,dateImage,dateDisabledWeekdays,dateDisabledDays,dateCustomConfiguration;{expert_legend:hide},class,value,dateParseValue,accesskey,tabindex;{template_legend:hide},customTpl;{invisible_legend:hide},invisible';
 
 /**
  * Subpalettes
@@ -128,6 +128,15 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateDisabledDays'] = array
     )
   ),
   'sql'            => "blob NULL"
+);
+
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['dateCustomConfiguration'] = array
+(
+  'label'                   => &$GLOBALS['TL_LANG']['tl_form_field']['dateCustomConfiguration'],
+  'exclude'                 => true,
+  'inputType'               => 'textarea',
+  'eval'                    => array('decodeEntities' => true, 'allowHtml' => true, 'class'=>'monospace', 'rte'=>'ace|yaml'),
+  'sql'                     => "text NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_form_field']['fields']['dateParseValue'] = array

@@ -114,7 +114,7 @@ class FormCalendarField extends \FormTextField
     $this->disabledDays = $this->getActiveDisabledDays($dateFormat);
 
     // add the custom configuration
-    $this->customConfiguration = $this->dateCustomConfiguration;
+    $this->customConfiguration = htmlspecialchars_decode($this->dateCustomConfiguration);
 
     return parent::parse($arrAttributes);
   }

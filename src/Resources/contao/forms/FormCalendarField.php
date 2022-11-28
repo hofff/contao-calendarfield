@@ -87,6 +87,9 @@ class FormCalendarField extends \FormTextField
     }
 
     if ($this->dateImage) {
+      
+      $strIcon = '';
+      
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objModel = \FilesModel::findByUuid($this->dateImageSRC);
 

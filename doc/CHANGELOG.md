@@ -1,5 +1,10 @@
 Contao Extension "hofff/contao-calendarfield"
 ---------------------------------------------
+### Version 4.0.1 (2023-01-15) ###
+- Added a missing variable for each flatpicker
+- Added a missing `autocomplete="off"` to the input field to prevent suggesting previously selected dates
+- Fixed undefined variable problems with PHP 8 (see #56)
+
 ### Version 4.0.0 (2021-10-06) ###
 - Replaces jQuery with flatpickr (https://flatpickr.js.org/)  (see #50)
 - Moved all options to the template (everything is customizable there and nothing hidden in PHP classes)

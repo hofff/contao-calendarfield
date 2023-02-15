@@ -28,7 +28,7 @@ if (!empty($this->dateCssTheme)) {
   <?php endif; ?>
 
   <div id="ctrl_<?= $this->id ?>_wrapper">
-    <input type="<?= $this->type ?>" name="<?= $this->name ?>" id="ctrl_<?= $this->id ?>" class="text<?php if ($this->class): ?> <?= $this->class ?><?php endif; ?>" value="<?= specialchars($this->value) ?>"<?= $this->getAttributes() ?> data-input>
+    <input type="<?= $this->type ?>" name="<?= $this->name ?>" id="ctrl_<?= $this->id ?>" class="text<?php if ($this->class): ?> <?= $this->class ?><?php endif; ?>" value="<?= specialchars($this->value) ?>"<?= $this->getAttributes() ?> data-input autocomplete="off">
     
   <?php if($this->dateImage): ?>
     <a class="input-button" style="cursor: pointer;" title="<?= $this->buttonText ?>" data-toggle="">

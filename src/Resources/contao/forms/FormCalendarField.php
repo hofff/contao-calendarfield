@@ -87,6 +87,7 @@ class FormCalendarField extends \FormTextField
     }
 
     if ($this->dateImage) {
+      $strIcon = '';
       if (\Validator::isUuid($this->dateImageSRC)) {
         $objModel = \FilesModel::findByUuid($this->dateImageSRC);
 
@@ -215,7 +216,7 @@ class FormCalendarField extends \FormTextField
    * @throws Exception
    * @return string
    */
-  public function getRegexp($strFormat = false, $strRegexpSyntax = 'perl')
+  public function getRegexp($strFormat = false)
   {
     if (!$strFormat)
     {
@@ -227,35 +228,31 @@ class FormCalendarField extends \FormTextField
       throw new \Exception(sprintf('Invalid date format "%s"', $strFormat));
     }
 
-    $arrRegexp = array();
+    $strRegexp = '';
     $arrCharacters = str_split($strFormat);
 
     foreach ($arrCharacters as $strCharacter)
     {
-      switch ($strCharacter) 
+      switch ($strCharacter)
       {
-        // Patch day: allow 01 - 31
+          // Patch day: allow 01 - 31
         case 'd':
-          $arrRegexp[$strFormat]['perl']  .= '(0[1-9]|[12][0-9]|3[01])';
-          $arrRegexp[$strFormat]['posix'] .= '(0[1-9]|[12][0-9]|3[01])';
+          $strRegexp  .= '(0[1-9]|[12][0-9]|3[01])';
           break;
 
-        // Patch month: allow 01 - 12
+          // Patch month: allow 01 - 12
         case 'm':
-          $arrRegexp[$strFormat]['perl']  .= '(0[1-9]|1[012])';
-          $arrRegexp[$strFormat]['posix'] .= '(0[1-9]|1[012])';
+          $strRegexp  .= '(0[1-9]|1[012])';
           break;
 
-        // Patch year: allow 1900 - 2099
+          // Patch year: allow 1900 - 2099
         case 'Y':
-          $arrRegexp[$strFormat]['perl']  .= '(19|20)[0-9]{2,2}';
-          $arrRegexp[$strFormat]['posix'] .= '(19|20)[[:digit:]]{2}';
+          $strRegexp  .= '(19|20)[0-9]{2,2}';
           break;
 
         case 'a':
         case 'A':
-          $arrRegexp[$strFormat]['perl']  .= '[apmAPM]{2,2}';
-          $arrRegexp[$strFormat]['posix'] .= '[apmAPM]{2}';
+          $strRegexp  .= '[apmAPM]{2,2}';
           break;
 
         case 'y':
@@ -263,26 +260,23 @@ class FormCalendarField extends \FormTextField
         case 'H':
         case 'i':
         case 's':
-          $arrRegexp[$strFormat]['perl']  .= '[0-9]{2,2}';
-          $arrRegexp[$strFormat]['posix'] .= '[[:digit:]]{2}';
+          $strRegexp  .= '[0-9]{2,2}';
           break;
 
         case 'j':
         case 'n':
         case 'g':
         case 'G':
-          $arrRegexp[$strFormat]['perl']  .= '[0-9]{1,2}';
-          $arrRegexp[$strFormat]['posix'] .= '[[:digit:]]{1,2}';
+          $strRegexp  .= '[0-9]{1,2}';
           break;
 
         default:
-          $arrRegexp[$strFormat]['perl']  .= preg_quote($strCharacter, '/');
-          $arrRegexp[$strFormat]['posix'] .= preg_quote($strCharacter, '/');
+          $strRegexp  .= preg_quote($strCharacter, '/');
           break;
       }
     }
 
-    return $arrRegexp[$strFormat][$strRegexpSyntax];
+    return $strRegexp;
   }
 
   /*

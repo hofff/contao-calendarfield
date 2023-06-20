@@ -1,14 +1,20 @@
 {
-    "name":"hofff/contao-calendarfield",
-    "description":"Frontend text field with datepicker for Contao Open Source CMS",
-    "keywords":["contao", "calendar", "calendar field", "datepicker", "forms"],
-    "type":"contao-bundle",
-    "license":"LGPL-3.0-or-later",
-    "homepage" : "https://hofff.com",
-    "authors":[
+    "name": "hofff/contao-calendarfield",
+    "description": "Frontend text field with datepicker for Contao Open Source CMS",
+    "keywords": [
+        "contao",
+        "calendar",
+        "calendar field",
+        "datepicker",
+        "forms"
+    ],
+    "type": "contao-bundle",
+    "license": "LGPL-3.0-or-later",
+    "homepage": "https://hofff.com",
+    "authors": [
         {
-            "name":"terminal42 gmbh",
-            "homepage":"http://terminal42.ch",
+            "name": "terminal42 gmbh",
+            "homepage": "http://terminal42.ch",
             "role": "Developer"
         },
         {
@@ -24,10 +30,10 @@
             "role": "Manager"
         }
     ],
-    "require":{
-        "php": ">=7.3",
-        "contao/core-bundle":"~4.9",
-        "menatwork/contao-multicolumnwizard-bundle":"~3.4"
+    "require": {
+        "php": "^7.3 || ^8.1",
+        "contao/core-bundle": "^4.9.0 || ^5.1",
+        "menatwork/contao-multicolumnwizard-bundle": "~3.4"
     },
     "autoload": {
         "psr-4": {
@@ -46,7 +52,7 @@
         "contao-legacy/calendarfield": "self.version",
         "terminal42/contao-calendarfield": "self.version"
     },
-    "extra":{
+    "extra": {
         "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
         "branch-alias": {
             "dev-master": "4.0.x-dev"

@@ -5,7 +5,15 @@
  */
 namespace Hofff\Contao\Calendarfield;
 
-class FormCalendarField extends \FormTextField
+use Contao\CoreBundle\Exception\InternalServerErrorException;
+use Contao\Date;
+use Contao\FilesModel;
+use Contao\FormTextField;
+use Contao\StringUtil;
+use Contao\System;
+use Contao\Validator;
+
+class FormCalendarField extends FormTextField
 {
   const DATE_FORMAT_PHP = "d-m-Y";
   
@@ -59,7 +67,7 @@ class FormCalendarField extends \FormTextField
     $dateFormat = $this->dateFormat ? $this->dateFormat : $objPage->dateFormat;
     if ($this->dateParseValue && $this->varValue != '')
     {
-      $this->varValue = \Date::parse($dateFormat, strtotime($this->varValue));
+      $this->varValue = Date::parse($dateFormat, strtotime($this->varValue));
     }
     $this->dateFormat = $dateFormat;
 
@@ -74,7 +82,7 @@ class FormCalendarField extends \FormTextField
                         break;
       case 'gtToday'  : $this->minDate = "new Date().fp_incr(1)";
                         break;
-      case 'ownMinMax': $arrMinMax = \StringUtil::deserialize($this->dateDirectionMinMax, true);
+      case 'ownMinMax': $arrMinMax = StringUtil::deserialize($this->dateDirectionMinMax, true);
                         if (!empty($arrMinMax[0]))
                         {
                           $this->minDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[0]);
@@ -88,10 +96,10 @@ class FormCalendarField extends \FormTextField
 
     if ($this->dateImage) {
       $strIcon = '';
-      if (\Validator::isUuid($this->dateImageSRC)) {
-        $objModel = \FilesModel::findByUuid($this->dateImageSRC);
+      if (Validator::isUuid($this->dateImageSRC)) {
+        $objModel = FilesModel::findByUuid($this->dateImageSRC);
 
-        if ($objModel !== null && is_file(\System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
+        if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
         {
           $strIcon = $objModel->path;
           $arrData = array(
@@ -109,7 +117,7 @@ class FormCalendarField extends \FormTextField
     }
 
     // add the disallowed weekdays to the template
-    $this->disabledWeekdays = \StringUtil::deserialize($this->dateDisabledWeekdays, true);
+    $this->disabledWeekdays = StringUtil::deserialize($this->dateDisabledWeekdays, true);
 
     // add the disallowed days to the template
     $this->disabledDays = $this->getActiveDisabledDays($dateFormat);
@@ -132,7 +140,7 @@ class FormCalendarField extends \FormTextField
 
   public function validator($varInput)
   {
-    $objToday = new \Date();
+    $objToday = new Date();
 
     $intTstamp = 0;
     $dateFormat = $this->dateFormat ?: $GLOBALS['TL_CONFIG'][$this->rgxp . 'Format'];
@@ -154,7 +162,7 @@ class FormCalendarField extends \FormTextField
       // Convert timestamps
       try
       {
-        $objDate = new \Date($varInput, $dateFormat);
+        $objDate = new Date($varInput, $dateFormat);
         $intTstamp = $objDate->tstamp;
       }
       catch (\Exception $e)
@@ -191,7 +199,7 @@ class FormCalendarField extends \FormTextField
       }
       
       //validate disallowed weekdays
-      $disabledWeekdays = \StringUtil::deserialize($this->dateDisabledWeekdays, true);
+      $disabledWeekdays = StringUtil::deserialize($this->dateDisabledWeekdays, true);
       if (in_array(date("w", $intTstamp), $disabledWeekdays))
       {
         $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_weekday']);
@@ -225,7 +233,7 @@ class FormCalendarField extends \FormTextField
 
     if (preg_match('/[BbCcDEeFfIJKkLlMNOoPpQqRrSTtUuVvWwXxZz]+/', $strFormat))
     {
-      throw new \Exception(sprintf('Invalid date format "%s"', $strFormat));
+      throw new InternalServerErrorException(sprintf('Invalid date format "%s"', $strFormat));
     }
 
     $strRegexp = '';
@@ -347,7 +355,7 @@ class FormCalendarField extends \FormTextField
   
   private function getActiveDisabledDays($dateFormat)
   {
-    $arrDateDisabledDays = \StringUtil::deserialize($this->dateDisabledDays, true);
+    $arrDateDisabledDays = StringUtil::deserialize($this->dateDisabledDays, true);
     $arrDateDisabledDaysActive = array();
     foreach ($arrDateDisabledDays as $config)
     {

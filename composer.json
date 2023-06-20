@@ -31,8 +31,8 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.1",
-        "contao/core-bundle": "^4.9.0 || ^5.1",
+        "php": "^7.4 || ^8.1",
+        "contao/core-bundle": "^4.13 || ^5.1",
         "menatwork/contao-multicolumnwizard-bundle": "~3.4"
     },
     "autoload": {

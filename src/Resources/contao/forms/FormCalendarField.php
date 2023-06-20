@@ -3,20 +3,21 @@
 /**
  * Run in a custom namespace, so the class can be replaced
  */
+
 namespace Hofff\Contao\Calendarfield;
 
 use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\Date;
 use Contao\FilesModel;
-use Contao\FormTextField;
+use Contao\FormText;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 
-class FormCalendarField extends FormTextField
+class FormCalendarField extends FormText
 {
   const DATE_FORMAT_PHP = "d-m-Y";
-  
+
   /**
    * Template
    *
@@ -30,7 +31,7 @@ class FormCalendarField extends FormTextField
    * @var string
    */
   protected $strPrefix = 'widget widget-text widget-calendar';
-  
+
   /**
    * Always set rgxp to `date`
    *
@@ -50,10 +51,12 @@ class FormCalendarField extends FormTextField
    *
    * @return string The template markup
    */
-  public function parse($arrAttributes=null)
+  public function parse($arrAttributes = null)
   {
     // do not add in back end
-    if (TL_MODE == 'BE')
+    $request = System::getContainer()->get('request_stack')->getCurrentRequest();
+
+    if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
     {
       return parent::parse($arrAttributes);
     }
@@ -74,29 +77,36 @@ class FormCalendarField extends FormTextField
     // add the min/max date to the template
     switch ($this->dateDirection)
     {
-      case 'ltToday'  : $this->maxDate = "new Date().fp_incr(-1)";
-                        break;
-      case 'leToday'  : $this->maxDate = "new Date().fp_incr(0)";
-                        break;
-      case 'geToday'  : $this->minDate = "new Date().fp_incr(0)";
-                        break;
-      case 'gtToday'  : $this->minDate = "new Date().fp_incr(1)";
-                        break;
-      case 'ownMinMax': $arrMinMax = StringUtil::deserialize($this->dateDirectionMinMax, true);
-                        if (!empty($arrMinMax[0]))
-                        {
-                          $this->minDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[0]);
-                        }
-                        if (!empty($arrMinMax[1]))
-                        {
-                          $this->maxDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[1]);
-                        }
-                        break;
+      case 'ltToday':
+        $this->maxDate = "new Date().fp_incr(-1)";
+        break;
+      case 'leToday':
+        $this->maxDate = "new Date().fp_incr(0)";
+        break;
+      case 'geToday':
+        $this->minDate = "new Date().fp_incr(0)";
+        break;
+      case 'gtToday':
+        $this->minDate = "new Date().fp_incr(1)";
+        break;
+      case 'ownMinMax':
+        $arrMinMax = StringUtil::deserialize($this->dateDirectionMinMax, true);
+        if (!empty($arrMinMax[0]))
+        {
+          $this->minDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[0]);
+        }
+        if (!empty($arrMinMax[1]))
+        {
+          $this->maxDate = sprintf("new Date().fp_incr(%s)", $arrMinMax[1]);
+        }
+        break;
     }
 
-    if ($this->dateImage) {
+    if ($this->dateImage)
+    {
       $strIcon = '';
-      if (Validator::isUuid($this->dateImageSRC)) {
+      if (Validator::isUuid($this->dateImageSRC))
+      {
         $objModel = FilesModel::findByUuid($this->dateImageSRC);
 
         if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
@@ -153,7 +163,7 @@ class FormCalendarField extends FormTextField
         // Disable regular date validation
         $this->rgxp = '';
 
-        if (strlen($varInput) && !preg_match('/'. $this->getRegexp($this->dateFormat) .'/i', $varInput))
+        if (strlen($varInput) && !preg_match('/' . $this->getRegexp($this->dateFormat) . '/i', $varInput))
         {
           $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['date'], $objToday->getInputFormat($this->dateFormat)));
         }
@@ -197,14 +207,14 @@ class FormCalendarField extends FormTextField
           }
           break;
       }
-      
+
       //validate disallowed weekdays
       $disabledWeekdays = StringUtil::deserialize($this->dateDisabledWeekdays, true);
       if (in_array(date("w", $intTstamp), $disabledWeekdays))
       {
         $this->addError($GLOBALS['TL_LANG']['ERR']['calendarfield_disabled_weekday']);
       }
-      
+
       //validate disallowed days
       if (in_array(date(static::DATE_FORMAT_PHP, $intTstamp), $this->getActiveDisabledDays(static::DATE_FORMAT_PHP)))
       {
@@ -331,20 +341,24 @@ class FormCalendarField extends FormTextField
     );
     $jqueryui_format = "";
     $escaping = false;
-    for($i = 0; $i < strlen($php_format); $i++)
+    for ($i = 0; $i < strlen($php_format); $i++)
     {
       $char = $php_format[$i];
-      if($char === '\\') // PHP date format escaping character
+      if ($char === '\\') // PHP date format escaping character
       {
         $i++;
-        if($escaping) $jqueryui_format .= $php_format[$i];
+        if ($escaping) $jqueryui_format .= $php_format[$i];
         else $jqueryui_format .= '\'' . $php_format[$i];
         $escaping = true;
       }
       else
       {
-        if($escaping) { $jqueryui_format .= "'"; $escaping = false; }
-        if(isset($SYMBOLS_MATCHING[$char]))
+        if ($escaping)
+        {
+          $jqueryui_format .= "'";
+          $escaping = false;
+        }
+        if (isset($SYMBOLS_MATCHING[$char]))
           $jqueryui_format .= $SYMBOLS_MATCHING[$char];
         else
           $jqueryui_format .= $char;
@@ -352,7 +366,7 @@ class FormCalendarField extends FormTextField
     }
     return $jqueryui_format;
   }
-  
+
   private function getActiveDisabledDays($dateFormat)
   {
     $arrDateDisabledDays = StringUtil::deserialize($this->dateDisabledDays, true);

@@ -7,6 +7,8 @@
 namespace Hofff\Contao\Calendarfield;
 
 use Contao\CoreBundle\Exception\InternalServerErrorException;
+use Contao\CoreBundle\File\Metadata;
+use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\Date;
 use Contao\FilesModel;
 use Contao\FormText;
@@ -111,14 +113,22 @@ class FormCalendarField extends FormText
 
         if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
         {
-          $strIcon = $objModel->path;
-          $arrData = array(
-            'singleSRC'   => $objModel->path,
-            'size'        => $this->dateImageSize,
-            'alt'         => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'],
-            'imageTitle'  => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip']
-          );
-          $this->addImageToTemplate($this, $arrData, null, null, $objModel);
+          $strIcon  = $objModel->path;
+          System::getContainer()
+            ->get(Studio::class)
+            ->createFigureBuilder()
+            ->fromFilesModel($objModel)
+            ->setSize($this->dataImageSize)
+            ->setMetadata(
+                new Metadata(
+                    [
+                        Metadata::VALUE_ALT => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'],
+                        Metadata::VALUE_TITLE => $GLOBALS['TL_LANG']['MSC']['calendarfield_tooltip'],
+                    ]
+                ),
+            )
+          ->build()
+          ->applyLegacyTemplateData($this);
         }
       }
 

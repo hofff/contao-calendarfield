@@ -63,7 +63,9 @@ class FormCalendarField extends FormText
      *
      * @param array<string, mixed>|null $arrAttributes An optional attributes array
      */
-    public function parse(array|null $arrAttributes = null): string
+    // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
+    public function parse($arrAttributes = null): string
     {
         // do not add in back end
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
@@ -152,7 +154,9 @@ class FormCalendarField extends FormText
         return parent::parse($arrAttributes);
     }
 
-    public function validator(mixed $varInput): mixed
+    // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
+    public function validator($varInput): mixed
     {
         $today      = new Date();
         $timestamp  = 0;

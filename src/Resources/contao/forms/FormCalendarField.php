@@ -115,7 +115,7 @@ class FormCalendarField extends FormText
         {
           $strIcon  = $objModel->path;
           System::getContainer()
-            ->get(Studio::class)
+            ->get('contao.image.studio')
             ->createFigureBuilder()
             ->fromFilesModel($objModel)
             ->setSize($this->dataImageSize)

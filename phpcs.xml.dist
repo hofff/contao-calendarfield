@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<ruleset>
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+
+    <!-- Required for the SlevomatCodingStandard which utilizes composer dependencies -->
+    <autoload>vendor/autoload.php</autoload>
+
+    <!-- Ignore warnings, show progress of the run and show sniff names -->
+    <arg value="nps"/>
+
+    <!-- Directories to be checked -->
+    <file>src</file>
+    <exclude-pattern>src/Resources/public/</exclude-pattern>
+
+    <!-- Include full Doctrine Coding Standard -->
+    <rule ref="Doctrine">
+        <exclude name="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming.SuperfluousPrefix"/>
+        <exclude name="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+        <exclude-pattern>src/Resources/contao/languages/*</exclude-pattern>
+    </rule>
+
+    <!-- Require specific order of phpDoc annotations with empty newline between specific groups -->
+    <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing">
+        <properties>
+            <property name="linesCountBeforeFirstContent" value="0"/>
+            <property name="linesCountAfterLastContent" value="0"/>
+            <property name="linesCountBetweenDescriptionAndAnnotations" value="1"/>
+            <property name="linesCountBetweenAnnotationsGroups" value="1"/>
+            <property name="annotationsGroups" type="array">
+                <element value="
+                    @internal,
+                    @deprecated,
+                "/>
+                <element value="
+                    @template,
+                    @psalm-template,
+                    @template-implements,
+                    @template-extends,
+                    @implements,
+                    @extends
+                "/>
+                <element value="
+                    @link,
+                    @see,
+                    @uses,
+                "/>
+                <element value="
+                    @ORM\,
+                    @ODM\,
+                    @PHPCR\,
+                "/>
+                <element value="
+                    @param,
+                    @psalm-param,
+                    @phpstan-param,
+                "/>
+                <element value="
+                    @return,
+                    @psalm-return,
+                    @phpstan-return,
+                "/>
+                <element value="@throws"/>
+            </property>
+        </properties>
+    </rule>
+</ruleset>

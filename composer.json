@@ -1,69 +1,69 @@
 {
-    "name": "hofff/contao-calendarfield",
-    "description": "Frontend text field with datepicker for Contao Open Source CMS",
-    "keywords": [
-        "contao",
-        "calendar",
-        "calendar field",
-        "datepicker",
-        "forms"
-    ],
-    "type": "contao-bundle",
-    "license": "LGPL-3.0-or-later",
-    "homepage": "https://hofff.com",
-    "authors": [
-        {
-            "name": "terminal42 gmbh",
-            "homepage": "http://terminal42.ch",
-            "role": "Developer"
-        },
-        {
-            "name": "Cliff Parnitzky",
-            "homepage": "https://hofff.com",
-            "email": "cliff@hofff.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Nicky Hoff",
-            "homepage": "https://hofff.com",
-            "email": "nick@hofff.com",
-            "role": "Manager"
-        }
-    ],
-    "require": {
-        "php": "^8.1",
-        "contao/core-bundle": "^5.1",
-        "menatwork/contao-multicolumnwizard-bundle": "~3.4"
+  "name": "hofff/contao-calendarfield",
+  "description": "Frontend text field with datepicker for Contao Open Source CMS",
+  "license": "LGPL-3.0-or-later",
+  "type": "contao-bundle",
+  "keywords": [
+    "contao",
+    "calendar",
+    "calendar field",
+    "datepicker",
+    "forms"
+  ],
+  "authors": [
+    {
+      "name": "terminal42 gmbh",
+      "homepage": "http://terminal42.ch",
+      "role": "Developer"
     },
-    "autoload": {
-        "psr-4": {
-            "Hofff\\CalendarfieldBundle\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/"
-        ]
+    {
+      "name": "Cliff Parnitzky",
+      "email": "cliff@hofff.com",
+      "homepage": "https://hofff.com",
+      "role": "Developer"
     },
-    "replace": {
-        "contao-legacy/calendarfield": "self.version",
-        "terminal42/contao-calendarfield": "self.version"
-    },
-    "extra": {
-        "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin",
-        "branch-alias": {
-            "dev-master": "5.0.x-dev"
-        }
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev",
-    "config": {
-        "allow-plugins": {
-            "contao-components/installer": true,
-            "php-http/discovery": true
-        }
+    {
+      "name": "Nicky Hoff",
+      "email": "nick@hofff.com",
+      "homepage": "https://hofff.com",
+      "role": "Manager"
     }
+  ],
+  "homepage": "https://hofff.com",
+  "require": {
+    "php": "^8.1",
+    "contao/core-bundle": "^5.3",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.6",
+    "symfony/http-kernel": "^6.4 || ^7.0"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.0",
+    "doctrine/coding-standard": "^11.0",
+    "phpcq/runner-bootstrap": "1.x-dev"
+  },
+  "replace": {
+    "contao-legacy/calendarfield": "self.version",
+    "terminal42/contao-calendarfield": "self.version"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Hofff\\CalendarfieldBundle\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "contao-components/installer": true,
+      "contao/manager-plugin": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": true
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "5.0.x-dev"
+    },
+    "contao-manager-plugin": "Hofff\\CalendarfieldBundle\\ContaoManager\\Plugin"
+  }
 }

@@ -1650,6 +1650,15 @@
                 : eventTarget === self._input;
             var allowInput = self.config.allowInput;
             var allowKeydown = self.isOpen && (!allowInput || !isInput);
+            // Patch https://github.com/flatpickr/flatpickr/issues/1329#issuecomment-2180302946
+            if (
+                self.isOpen
+                && !allowKeydown
+                && (e.keyCode === 40 || e.keyCode === 38)
+                && document.activeElement === self._input
+            ) {
+                allowKeydown = true;
+            }
             var allowInlineKeydown = self.config.inline && isInput && !allowInput;
             if (e.keyCode === 13 && isInput) {
                 if (allowInput) {

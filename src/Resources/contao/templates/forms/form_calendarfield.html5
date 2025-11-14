@@ -47,6 +47,11 @@ if (!empty($this->dateCssTheme)) {
       "dateFormat": "<?= $this->dateFormat ?>",
       "allowInput": true,
       "weekNumbers": true,
+    <?php foreach(['G', 'g', 'H', 'h', 'i'] as $foematPattern): ?>
+        <?php if (str_contains($this->dateFormat, $foematPattern)): ?>
+     "enableTime": true,
+        <?php continue; endif; ?>
+    <?php endforeach; ?>    
     <?php if (!empty($this->minDate)): ?>
       "minDate": <?= $this->minDate ?>,
     <?php endif; ?>
